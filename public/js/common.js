@@ -48,4 +48,61 @@ $(document).ready(function(){
 
   // header select script start 
 
+
+  $('#sec2-carousel').owlCarousel({
+    loop:true,
+    margin:10,
+    nav:true,
+    dots:false,
+    responsive:{
+        280:{
+            items:1
+        },
+        500:{
+            items:2
+        },
+        768:{
+          items:2
+        },
+        992:{
+          items:3
+        },
+        1200:{
+            items:4
+        },
+        1900:{
+          items:5
+        }
+    }
+})
+
+
+$('#sec5-carousel').owlCarousel({     
+  nav: false,
+  loop:false,
+  dots: true,
+  pagination: false,
+  margin: 15,
+  autoHeight: false,
+  stagePadding: 50,
+  responsive:{
+    0:{
+      items: 1,
+      stagePadding: 0,
+      margin: 30,
+    },
+    500:{
+      items: 2,
+      stagePadding: 30,
+    },
+    768:{
+      items: 3,
+      stagePadding: 25,
+    },
+    1000:{
+      items: 3,
+    }
+  }
+})
+
 });
