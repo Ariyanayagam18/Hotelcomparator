@@ -23,7 +23,7 @@
                         <option>2</option>
                         <option>3</option>
                         <option>4</option>
-                    </select>
+                    </select>                    
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6 col-12 form-group">
                     <label>Popular Filters</label>
@@ -45,7 +45,7 @@
             <div class="row m-0">   
                 <div class="col-xl-2 col-lg-4 col-md-4 col-12">
                     <!-- Nav pills -->
-                    <ul class="nav nav-pills" role="tablist">
+                    <ul class="nav nav-pills tabs-home" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="pill" href="#home">Edinburgh</a>
                         </li>

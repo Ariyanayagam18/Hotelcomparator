@@ -18,8 +18,13 @@ Route::get('/', function () {
 });
 
 
-// Route::get('/hotelcompartor', function () {
+Route::get('/home', function () {
+    //return ('asdfasdf');
+    return view('pages/afterlogin');
+});
 
-//     //return ('asdfasdf');
-//     return view('homepage');
-// });
+
+Route::get('/login', function () {
+    //return ('asdfasdf');
+    return view('login');
+});

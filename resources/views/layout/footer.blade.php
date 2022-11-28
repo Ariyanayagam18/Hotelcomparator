@@ -50,3 +50,14 @@
         <p class="m-0">© Skyscanner Ltd 2002-2022</p>
     </div>
 </div>
+<!-- Bootstrap script -->
+<script src="{{asset('jquery/jquery.slim.min.js')}}"></script>
+<script src="{{asset('popper/popper.min.js')}}"></script>
+<script src="{{asset('bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('js/common.js')}}"></script>
+<!-- select script -->
+<script src="{{asset('select/js/select2.js')}}"></script>
+<!-- owl script-->
+<script src="{{asset('owl/js/owl.carousel.min.js')}}"></script>
+<!-- Pagination script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.js"></script>
