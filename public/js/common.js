@@ -127,105 +127,13 @@ var items = $(".list-wrapper .list-item");
 
 // pagination scritp end 
 
-// $('body').on('click',function(){
-//   console.log('sfasdfadfa',$(this).val())
-// });
-
-$('.nav-link').click(function()
-{
-  console.log('click!!')
-})
-
-getCities('6227804');
-
-getHotels('New York')
-
-// hotelsList('')
-// ajax 
-
-
-
-$.ajaxSetup({
-  headers: {
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-  }
 });
-
-// function  
-
-
-
-function getCities(regionId)
-{
-$.ajax({
-  type:'GET',
-  url:"/cities",
-  data:{regionId:regionId},
-  success:function(data){
-       if($.isEmptyObject(data.error)){
-        // console.log('data :   ',data)
-        let cities = '';
-        if(data)
-        {
-          data.map(function(item){
-            cities += '<li class="nav-item"><a class="nav-link active" value="'+item.CityName+'"data-toggle="pill" href="#home">'+item.CityName+'</a></li>'
-          });
-          $('#staycation_cities').append(cities);
-          
-        }
-       }else{
-           printErrorMsg(data.error);
-       }
-  }
-});
-// ajax
-}
-
-
-function getHotels(city)
-{
-$.ajax({
-  type:'GET',
-  url:"/hotels",
-  data:{city:city},
-  success:function(data){
-       if($.isEmptyObject(data.error)){
-        
-        console.log('data :   ',data)
-        let hotels = '';
-
-        data.map(function(item){
-          hotels += '<div class="main-img"><img src='+item.heroImage+'></div><div class="star-per"><div class="place-star mb-3"><div class="place-left">'+item.propertyName+'</div><div class="star-right"><img src="images/Star.svg"><div>'+item.rating+'</div></div></div><div class="place-per"><div class="loc-left"><img src="images/location.svg"><div><p class="mb-1">'+item.CityName+',</p><p class="m-0">'+item.CountryName+'</p></div></div><div class="per-right"><div>'+item.referencePrice_value+' '+item.referencePrice_currency+'</div><p>Per Night</p></div></div></div>'
-        })
-        console.log('hotels : ',hotels)
-        $('.test').append(hotels);
-        // '<div class="item"><div class="inner-carousel"><div class="main-img"><img src='+item+'></div><div class="star-per"><div class="place-star mb-3"><div class="place-left">Ten Hill Place</div><div class="star-right"><img src="{{asset('images/Star.svg')}}"><div>4.8</div></div></div><div class="place-per"><div class="loc-left"><img src="{{asset('images/location.svg')}}"><div><p class="mb-1">Edinburgh,</p><p class="m-0">United Kingdom</p></div></div><div class="per-right"><div>$85</div><p>Per Night</p></div></div></div></div></div>'
-       }else{
-           printErrorMsg(data.error);
-       }
-  }
-});
-// ajax
-}
-
-
-
-
-
-
-
-
-$("#hotel").click(function() {  
-    console.log('new')
-});
-
 //login page hide and show
 $("#loginbutton").click(function() {  
   $(".login-section").toggle(); 
 });
 //Guestroomstoggle
 $(".guestrooms").click(function() {
-  console.log('sdadfdfsafa');
   $(".members").toggle();
   $(".guestrooms").addClass('arrowcheck'); 
 });
@@ -252,6 +160,20 @@ $('#reset').click(function(){
   Children[0].dataset.value = $('.Children').val();
   Rooms[0].dataset.value = $('.Rooms').val();
 })
+
+$('#guests_ok').click(function() 
+{
+  
+ var adults = $('.adults').val();
+ var Children = $('.Children').val();
+ var Rooms = $('.Rooms').val();
+
+  $('.guest-input').val(adults +' '+"adults" +','+ Rooms +' ' +"Rooms")
+  
+  var getinput = $('.guest-input').val();
+  console.log(getinput);
+
+});
 //end guestroom
 
 
@@ -276,9 +198,22 @@ $(".calender-sec").click(function() {
 });
 //datapicker end
 
+$('body').click(function(e){
+    // console.log('target',e.target.id)
+    //  var senderElement=e.target.id;
+    //   if((senderElement== ''))
+    //   {
+    //      $(".login-section").css('display','none');
+    //   }
+
+      //  if(!$(e.target).is(".guest-input"))
+      //  {
+      //     $(".members").css('display','none');
+      //  }
+});
   
 // datapicker scritp start 
-
+$(function () {
 
   $('input[name="datefilter"]').daterangepicker({
     autoUpdateInput: false,
@@ -358,12 +293,13 @@ $(".calender-sec").click(function() {
   }
 
   console.log('get Location =======> ', getLocation().then(data => {
-    console.log('data =======> ', data)
+    console.log('country code =======> ', data.geoplugin_countryCode)
   }))
 
   async function getUsers(locale, language) {
     let response = await fetch(`https://www.skyscanner.net/g/autosuggest-search/api/v1/search-hotel/${locale}/${language}/?rf=map&vrows=10`);
     let data = await response.json()
+    console.log('dfd'+data);
     return data;
   }
 
@@ -377,6 +313,7 @@ $(".calender-sec").click(function() {
     response.map(function (item) {
       element = element + '<li class="d-flex align-items-center"><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="PopularDestination_PopularDestination__icon__Y2IyM BpkIcon_bpk-icon--rtl-support__NjAzZ" style="width: 1.5rem; height: 1.5rem;"><path d="' + svg_image + '"></path></svg></div><div class="city-place"><p class="city">' + item.entity_name + '</p>' + '<p class="cityplace">' + item.hierarchy.replaceAll('|', ',') + '</p></div>' + '</li>';
     })
+    console.log('element : ', element)
     $('#list_show').append(element);
   }
 
@@ -400,28 +337,33 @@ $(".calender-sec").click(function() {
   });
   //  auto suggest API code
 
-
+});
 
 // datapicker script end 
 
 
 //Search intregration
 
-// $checks = $(":checkbox");
-//     $checks.on('change', function() {
-//         var string = $checks.filter(":checked").map(function(i,v){
-//             return this.value;
-//         }).get().join(" ");
-//         $('.pop-input').val(string);
-//     });
+$checks = $(":checkbox");
+    $checks.on('change', function() {
+        var string = $checks.filter(":checked").map(function(i,v){
+            return this.value;
+        }).get();
+        
+        $('.pop-input').val(string);
+    });
 
-$("input:checkbox").click(function() {
-      var output = "";
-      $("input:checked").each(function() {
-        output = $(this).val();
-      });
-      $(".pop-input").val(output.trim());
-});
+// $("input:checkbox").click(function() {
+//       var output = "";
+//       $("input:checked").each(function() {
+//         output = $(this).val();
+//       });
+      
+//       $(".pop-input").val(output.trim());
+// });
+
+
+
 //get all search value
   //   $('.getVal').click(function(){
   //     var value = $("[name='properties[wallpaper_size_width]']").val();
@@ -451,7 +393,7 @@ $('#loginformid').validate({ // initialize the plugin
       }
   },
   
-
-})
-
 });
+
+var country=$('.city-place').val();
+    console.log(country);

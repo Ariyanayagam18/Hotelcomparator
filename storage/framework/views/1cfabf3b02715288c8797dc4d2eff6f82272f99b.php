@@ -67,13 +67,18 @@
       <li class="nav-item login-after">
         <div class="dropdown">
           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            <?php if($avatar_cond==true){?> <img src="<?php echo e($user->avatar); ?>"> <?php } else { ?>
             <img src="<?php echo e(asset('images/profile.svg')); ?>">   
+           <?php } ?>
           </button>
           <div class="dropdown-menu">
             <div class="logout-sec">
               <div class="email-logout">
-                <img src="<?php echo e(asset('images/profile.svg')); ?>">   
+              <?php if($avatar_cond==true){?> <img src="<?php echo e($user->avatar); ?>"><p><?php echo $user->email; ?></p> 
+              <?php }else{?>
+                <img src="<?php echo e(asset('images/profile.svg')); ?>">  
                 <p>Scarlet@yopmail.com</p>
+                <?php } ?>
               </div>
             </div>
             <div class="logout-sec">

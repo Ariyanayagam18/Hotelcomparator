@@ -52,7 +52,6 @@
 </div>
 <!-- Bootstrap script -->
 <script src="{{asset('jquery/jquery.slim.min.js')}}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="{{asset('jquery/jquery.validate.js')}}"></script>
 
 <script src="{{asset('popper/popper.min.js')}}"></script>

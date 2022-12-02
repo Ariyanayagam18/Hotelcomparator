@@ -8,8 +8,7 @@ use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\FaceBookController;
 use App\Http\Controllers\Auth\LoginController;
 
-use App\Http\Controllers\AjaxController;
-
+use App\Http\Controllers\PostController;
 
 
 
@@ -32,11 +31,6 @@ use App\Http\Controllers\AjaxController;
 Route::get('/', function () {
     return view('welcome')->with('login',1);
 });
-
-
-
-
-
 
 Auth::routes();
 
@@ -81,7 +75,7 @@ Route::controller(FacebookController::class)->group(function(){
 
 Route::any('/loginuser', 'App\Http\Controllers\Auth\LoginController@select')->name('userlogin');
 
-Route::any('/login', 'App\Http\Controllers\Auth\LoginController@index')->name('login');
+Route::any('/login', 'App\Http\Controllers\Auth\LoginController@index')->name('login');;
 
 //Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 //Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
@@ -89,17 +83,15 @@ Route::any('/login', 'App\Http\Controllers\Auth\LoginController@index')->name('l
 
 Route::get('/afterlogin', function () {
     //return view('pages.afterlogin');
-    return view('pages.afterlogin')->with('login',2);
+    return view('pages.afterlogin')->with('login',2)->with('avatar_cond',false);
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
+// Route::get('/hotels', '\App\Http\Controllers\Auth\LoginController@hotels');
 
-Route::controller(AjaxController::class)->group(function(){
-    Route::get('cities', 'cities')->name('cities');
-    Route::get('hotels', 'hotels')->name('hotels');
-});
 
+Route::any('posts', [PostController::class, 'getapi']);
 
 
   

@@ -7,7 +7,7 @@ use Laravel\Socialite\Facades\Socialite;
 use Exception;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-  
+use View;
 class FacebookController extends Controller
 {
     /**
@@ -37,7 +37,11 @@ class FacebookController extends Controller
          
                 Auth::login($finduser);
        
-                return redirect()->intended('hotels');
+                //return redirect()->intended('hotels');
+                return View::make('welcome')
+                ->with('login',2)
+                ->with('avatar_cond',false)
+                ->with('user',$user);
                 //return redirect('dashboard');
          
             }else{
