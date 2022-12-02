@@ -30,4 +30,30 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+
+    'google' => [
+        'client_id' => '717754109933-kn0q1j8luko3hlmnfcp9huhh44cec8vk.apps.googleusercontent.com',
+        'client_secret' => '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',
+        'redirect' => 'http://localhost:8000/auth/google/callback',
+    ],
+
+
+
+    // 'facebook' => [
+    //     'client_id' => '', //USE FROM FACEBOOK DEVELOPER ACCOUNT
+    //     'client_secret' => '', //USE FROM FACEBOOK DEVELOPER ACCOUNT
+    //     'redirect' => 'http://localhost:8000/facebook/callback/'
+    // ],
+
+
+    'facebook' => [
+        'client_id' => env('FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+        'redirect' => 'http://localhost:8000/auth/facebook/callback',
+    ],
+
+   
+
+
+
 ];

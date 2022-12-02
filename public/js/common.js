@@ -11,6 +11,7 @@ function closeNav() {
 
 $(document).ready(function(){
 
+ 
   // header select script start 
 
   function custom_template(obj){
@@ -103,6 +104,354 @@ $('#sec5-carousel').owlCarousel({
       items: 3,
     }
   }
+})
+// pagination scritp start 
+
+var items = $(".list-wrapper .list-item");
+    var numItems = items.length;
+    var perPage = 5;
+
+    items.slice(perPage).hide();
+
+    $('#pagination-container').pagination({
+        items: numItems,
+        itemsOnPage: perPage,
+        prevText: "Pre",
+        nextText: "Next",
+        onPageClick: function (pageNumber) {
+            var showFrom = perPage * (pageNumber - 1);
+            var showTo = showFrom + perPage;
+            items.hide().slice(showFrom, showTo).show();
+        }
+    });
+
+// pagination scritp end 
+
+// $('body').on('click',function(){
+//   console.log('sfasdfadfa',$(this).val())
+// });
+
+$('.nav-link').click(function()
+{
+  console.log('click!!')
+})
+
+getCities('6227804');
+
+getHotels('New York')
+
+// hotelsList('')
+// ajax 
+
+
+
+$.ajaxSetup({
+  headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+
+// function  
+
+
+
+function getCities(regionId)
+{
+$.ajax({
+  type:'GET',
+  url:"/cities",
+  data:{regionId:regionId},
+  success:function(data){
+       if($.isEmptyObject(data.error)){
+        // console.log('data :   ',data)
+        let cities = '';
+        if(data)
+        {
+          data.map(function(item){
+            cities += '<li class="nav-item"><a class="nav-link active" value="'+item.CityName+'"data-toggle="pill" href="#home">'+item.CityName+'</a></li>'
+          });
+          $('#staycation_cities').append(cities);
+          
+        }
+       }else{
+           printErrorMsg(data.error);
+       }
+  }
+});
+// ajax
+}
+
+
+function getHotels(city)
+{
+$.ajax({
+  type:'GET',
+  url:"/hotels",
+  data:{city:city},
+  success:function(data){
+       if($.isEmptyObject(data.error)){
+        
+        console.log('data :   ',data)
+        let hotels = '';
+
+        data.map(function(item){
+          hotels += '<div class="main-img"><img src='+item.heroImage+'></div><div class="star-per"><div class="place-star mb-3"><div class="place-left">'+item.propertyName+'</div><div class="star-right"><img src="images/Star.svg"><div>'+item.rating+'</div></div></div><div class="place-per"><div class="loc-left"><img src="images/location.svg"><div><p class="mb-1">'+item.CityName+',</p><p class="m-0">'+item.CountryName+'</p></div></div><div class="per-right"><div>'+item.referencePrice_value+' '+item.referencePrice_currency+'</div><p>Per Night</p></div></div></div>'
+        })
+        console.log('hotels : ',hotels)
+        $('.test').append(hotels);
+        // '<div class="item"><div class="inner-carousel"><div class="main-img"><img src='+item+'></div><div class="star-per"><div class="place-star mb-3"><div class="place-left">Ten Hill Place</div><div class="star-right"><img src="{{asset('images/Star.svg')}}"><div>4.8</div></div></div><div class="place-per"><div class="loc-left"><img src="{{asset('images/location.svg')}}"><div><p class="mb-1">Edinburgh,</p><p class="m-0">United Kingdom</p></div></div><div class="per-right"><div>$85</div><p>Per Night</p></div></div></div></div></div>'
+       }else{
+           printErrorMsg(data.error);
+       }
+  }
+});
+// ajax
+}
+
+
+
+
+
+
+
+
+$("#hotel").click(function() {  
+    console.log('new')
+});
+
+//login page hide and show
+$("#loginbutton").click(function() {  
+  $(".login-section").toggle(); 
+});
+//Guestroomstoggle
+$(".guestrooms").click(function() {
+  console.log('sdadfdfsafa');
+  $(".members").toggle();
+  $(".guestrooms").addClass('arrowcheck'); 
+});
+
+$('.counter-minus').click(function(){
+  quantityField = $(this).next();
+  if (quantityField.val() != 0) {
+     quantityField.val(parseInt(quantityField.val(), 10) - 1);
+  }
+});
+
+$('.counter-plus').click(function(){
+  quantityField = $(this).prev();
+  quantityField.val(parseInt(quantityField.val(), 10) + 1);
+});
+
+$('#reset').click(function(){
+  $('#guestrooms').val("1 Adult, 1 Room ")
+  $('.adults').val(0)
+  $('.Children').val(0)
+  $('.Rooms').val(0)
+
+  adults[0].dataset.value = $('.adults').val();
+  Children[0].dataset.value = $('.Children').val();
+  Rooms[0].dataset.value = $('.Rooms').val();
+})
+//end guestroom
+
+
+//star
+$(".Popular-Filters").click(function() {
+    $(".Pop_Filter").toggle();
+    $(".Popular-Filters").addClass('arrowcheck'); 
+});
+//star end
+
+//search
+$(".position-relative").click(function() {
+  $("#list_show").toggle();
+  $(".Popular-Filters").addClass('arrowcheck'); 
+});
+//search end
+
+//datapicker
+$(".calender-sec").click(function() {
+  $(".daterangepicker").toggle();
+  $(".Popular-Filters").addClass('arrowcheck'); 
+});
+//datapicker end
+
+  
+// datapicker scritp start 
+
+
+  $('input[name="datefilter"]').daterangepicker({
+    autoUpdateInput: false,
+    locale: {
+      cancelLabel: 'Clear'
+    }
+  });
+
+  $('input[name="datefilter"]').on('apply.daterangepicker', function (ev, picker) {
+    $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+  });
+
+  $('input[name="datefilter"]').on('cancel.daterangepicker', function (ev, picker) {
+    $(this).val('');
+  });
+
+  //   custom script for date picker 
+
+  $('.available').click(function () {
+
+    console.log('available click!!!')
+
+    datePicker();
+    if ($('.end-date').hasClass('active')) {
+
+      getnoOfDays($('.in-range').length + 1)
+    }
+
+  })
+
+  $('.daterangepicker').addClass('date_picker');
+
+
+  $('.applyBtn').click(function () {
+    console.log('count : ', $('.in-range').length + 1)
+    getnoOfDays($('.in-range').length + 1)
+  });
+
+
+  $('.cancelBtn').click(function () {
+    console.log('count : ', $('.in-range').length + 1)
+    datePicker();
+    $('#no_of_days').val('0 days')
+  });
+
+  const getnoOfDays = (day_count) => {
+    $('#no_of_days').val(day_count + 'days')
+    console.log('days choosed!!')
+  }
+
+
+  $('<span id="no_of_days" data-days="0">0 days</span>').insertAfter('.drp-selected')
+
+  console.log('days : ', $('#no_of_days'))
+
+  // const datePicker = () => {
+  //   $('.table-condensed')[0].childNodes[0].firstChild.lastElementChild.remove();
+  //   let next = $('.table-condensed')[1].childNodes[0].firstChild.lastElementChild
+  //   $(next).insertAfter('.month')
+  //   //console.log('date picker !!!!')
+  // }
+
+  //setTimeout(datePicker, 3000)
+
+  // $('body').click(function (event) {
+  //   datePicker();
+  //   //console.log('event : ',event)
+  // })
+
+
+  //  auto suggest API code
+
+  async function getLocation() {
+    let response = await fetch('http://www.geoplugin.net/json.gp');
+    let data = await response.json()
+    return data;
+  }
+
+  console.log('get Location =======> ', getLocation().then(data => {
+    console.log('data =======> ', data)
+  }))
+
+  async function getUsers(locale, language) {
+    let response = await fetch(`https://www.skyscanner.net/g/autosuggest-search/api/v1/search-hotel/${locale}/${language}/?rf=map&vrows=10`);
+    let data = await response.json()
+    return data;
+  }
+
+  getUsers('IN', 'en-GB').then(data => showList(data))
+
+  let element = '';
+
+  let svg_image = 'M19 6h-4a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v15a1 1 0 0 0 2 0V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2 2.15 2.15 0 0 0-2 2v13a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V21a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V8a2.15 2.15 0 0 0-2-2zm-5 11a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm4 6a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zM9 7a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0-3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1z'
+
+  const showList = (response) => {
+    response.map(function (item) {
+      element = element + '<li class="d-flex align-items-center"><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="PopularDestination_PopularDestination__icon__Y2IyM BpkIcon_bpk-icon--rtl-support__NjAzZ" style="width: 1.5rem; height: 1.5rem;"><path d="' + svg_image + '"></path></svg></div><div class="city-place"><p class="city">' + item.entity_name + '</p>' + '<p class="cityplace">' + item.hierarchy.replaceAll('|', ',') + '</p></div>' + '</li>';
+    })
+    $('#list_show').append(element);
+  }
+
+  $('#search_field').click(function () {
+    $('.auto_suggest').show();
+    $('.auto_suggest').addClass('open')
+  })
+
+  $('body').click(function (e) {
+    console.log('event :', e.target.id)
+    if (e.target.id != 'search_field') {
+      $('.auto_suggest').hasClass('open') ? $('.auto_suggest').hide() : '';
+    }
+    else if (e.target.id == 'search_field') {
+      $('#guest').hide();
+      console.log('guest hide!!!');
+    }
+    else {
+      console.log('else')
+    }
+  });
+  //  auto suggest API code
+
+
+
+// datapicker script end 
+
+
+//Search intregration
+
+// $checks = $(":checkbox");
+//     $checks.on('change', function() {
+//         var string = $checks.filter(":checked").map(function(i,v){
+//             return this.value;
+//         }).get().join(" ");
+//         $('.pop-input').val(string);
+//     });
+
+$("input:checkbox").click(function() {
+      var output = "";
+      $("input:checked").each(function() {
+        output = $(this).val();
+      });
+      $(".pop-input").val(output.trim());
+});
+//get all search value
+  //   $('.getVal').click(function(){
+  //     var value = $("[name='properties[wallpaper_size_width]']").val();
+  //     console.log(value);
+  //  });
+
+
+  
+  //$("#search_field").val($("#list_show :selected").val())
+
+  setTimeout(function () {
+  
+    // Closing the alert
+    $('#errormsg').alert('close');
+}, 5000);
+
+
+$('#loginformid').validate({ // initialize the plugin
+  rules: {
+      email: {
+          required: true,
+          email: true
+      },
+      password: {
+          required: true,
+          minlength: 5
+      }
+  },
+  
+
 })
 
 });

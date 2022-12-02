@@ -18,9 +18,15 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        
+
+        
     ];
 
+        
+    
     /**
+     * 
      * Register any events for your application.
      *
      * @return void
@@ -29,4 +35,6 @@ class EventServiceProvider extends ServiceProvider
     {
         //
     }
+   
+
 }

@@ -1,5 +1,5 @@
-<div class="home-page">
-    <div class="banner-section">
+<div class="home-page" id="homepage">
+    <div class="banner-section" id="homepage" >
         <div class="banner-inner">
             <p>Book with Us and</p> 
             <mark>Enjoy your Journey</mark>
@@ -10,33 +10,135 @@
             <div class="row m-0 justify-content-between">
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 form-group">
                     <label>Where do you want to stay</label>
-                    <input type="text" placeholder="Enter Destination or Hotel Name" class="search-stay">
+                   
+                    <div class="position-relative">
+                        <input type="text" placeholder="Enter Destination or Hotel Name" class="search-stay search_field" id="search_field">                   
+                        <div class="auto_suggest" style="display:none;">
+                            <ul id="list_show">
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6 col-12 form-group">
                     <label>Check- In & check Out</label>
-                    <input type="text" class="calender-sec">
+                    <input type="text" class="calender-sec" name="datefilter" id="date_picker" value="06/11/2022 to 13/11/2022 "/>  
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6 col-12 form-group">
-                    <label>Guests and Rooms</label>
-                    <select class="form-control">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                    </select>
+                    <label>Guests and Rooms</label>                   
+                    <div class="position-relative">
+                        <div class="guestrooms">
+                            <input class="guest-input" value="1 adult, 1 Room" readonly />                      
+                        </div>
+                        <div class="members" style="display:none">
+                                <div class="list-room">
+                                    <div class="list-guest">
+                                        <img src="{{asset('images/Maskgroup.svg')}}"> 
+                                        <p>Adults</p>
+                                    </div>
+                                    <div class="handle-counter" id="handleCounter">
+                                        <button class="counter-minus btn btn-primary">
+                                            <img src="{{asset('images/white-arrow.svg')}}">   
+                                        </button>
+                                        <input type="text" class="adults" value="0">
+                                        <button class="counter-plus btn btn-primary">
+                                            <img src="{{asset('images/white-arrow.svg')}}">   
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="list-room">
+                                    <div class="list-guest">
+                                        <img src="{{asset('images/childrengroup.svg')}}"> 
+                                        <p>Children</p> 
+                                    </div>
+                                    <div class="handle-counter" id="handleCounter">
+                                        <button class="counter-minus btn btn-primary">
+                                               <img src="{{asset('images/white-arrow.svg')}}">
+                                        </button>
+                                        <input type="text" class="adults" value="0">
+                                        <button class="counter-plus btn btn-primary">
+                                               <img src="{{asset('images/white-arrow.svg')}}">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="list-room">
+                                    <div class="list-guest">
+                                        <img src="{{asset('images/roomgroup.svg')}}"> 
+                                        <p>Rooms </p>
+                                    </div>
+                                    <div class="handle-counter" id="handleCounter">
+                                        <button class="counter-minus btn btn-primary">
+                                               <img src="{{asset('images/white-arrow.svg')}}">
+                                        </button>
+                                        <input type="text" class="adults" value="0">
+                                        <button class="counter-plus btn btn-primary">
+                                               <img src="{{asset('images/white-arrow.svg')}}">
+                                        </button>
+                                    </div>
+                                </div>      
+                                <hr>                         
+                                <div class="reset-ok">
+                                    <button id="reset">
+                                        Reset
+                                    </button>
+                                    <button id="guests_ok">
+                                        Done
+                                    </button>
+                                </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6 col-12 form-group">
                     <label>Popular Filters</label>
-                    <select class="form-control">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                    </select>
+                    <div class="position-relative PopularFilters">
+                        <div class="Popular-Filters">
+                            <input class="pop-input" value="4 Stars" readonly />                      
+                        </div>
+                        <div class="Pop_Filter" style="display:none">
+                            <div class="popular-bor">                                
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" value="3 Stars" id="customCheck27">
+                                    <label class="custom-control-label" for="customCheck27">
+                                        <span class="ml-3 d-flex align-items-center">3 Stars 
+                                            <span class="star-multi ml-1 mr-2">
+                                                <img src="{{asset('images/Star.svg')}}">
+                                                <img src="{{asset('images/Star.svg')}}">
+                                                <img src="{{asset('images/Star.svg')}}">
+                                            </span>
+                                        </span>
+                                    </label>
+                                </div>                                                                
+                            </div> 
+                            <div class="popular-bor">                                
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" value="4 Stars" id="customCheck28">
+                                    <label class="custom-control-label" for="customCheck28">
+                                        <span class="ml-3 d-flex align-items-center">4 Stars 
+                                            <span class="star-multi ml-1 mr-2">
+                                                <img src="{{asset('images/Star.svg')}}">
+                                                <img src="{{asset('images/Star.svg')}}">
+                                                <img src="{{asset('images/Star.svg')}}">
+                                                <img src="{{asset('images/Star.svg')}}">
+                                            </span>
+                                        </span>
+                                    </label>
+                                </div>                                                                
+                            </div>  
+                            <div class="popular-bor">                                
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" value="Free Cancellation" id="customCheck29">
+                                    <label class="custom-control-label" for="customCheck29">
+                                        <span class="ml-3 d-flex align-items-center">
+                                            Free Cancellation                                           
+                                        </span>
+                                    </label>
+                                </div>                                                                
+                            </div> 
+                        </div>
+                    </div>  
                 </div>
                 <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12 form-group text-center text-xl-left Search-Hotels">
                     <label></label>
-                    <button type="button" class="btn btn-primary">Search Hotels</button>
+                    <button type="button" class="btn btn-primary" >Search Hotels</button>
                 </div>
             </div>                 
         </div>
@@ -45,11 +147,13 @@
             <div class="row m-0">   
                 <div class="col-xl-2 col-lg-4 col-md-4 col-12">
                     <!-- Nav pills -->
-                    <ul class="nav nav-pills" role="tablist">
-                        <li class="nav-item">
+                    <ul class="nav nav-pills tabs-home" role="tablist" id="staycation_cities">
+        
+         
+                     <!-- <li class="nav-item">
                             <a class="nav-link active" data-toggle="pill" href="#home">Edinburgh</a>
-                        </li>
-                        <li class="nav-item">
+                        </li> -->
+                        <!-- <li class="nav-item">
                             <a class="nav-link" data-toggle="pill" href="#menu1">Manchester</a>
                         </li>
                         <li class="nav-item">
@@ -60,7 +164,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="pill" href="#menu4">Glasgow</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div> 
                 <div class="col-xl-10 col-lg-8 col-md-8 col-12">
@@ -68,143 +172,9 @@
                     <div class="tab-content">
                         <div id="home" class="tab-pane active">
                             <div class="owl-carousel owl-theme" id="sec2-carousel">
-                                <div class="item">
-                                    <div class="inner-carousel">
-                                        <div class="main-img">
-                                            <img src="{{asset('images/carousel.svg')}}">
-                                        </div>
-                                        <div class="star-per">
-                                            <div class="place-star mb-3">
-                                                <div class="place-left">Ten Hill Place</div>
-                                                <div class="star-right">
-                                                    <img src="{{asset('images/Star.svg')}}">
-                                                    <div>4.8</div>
-                                                </div>
-                                            </div>
-                                            <div class="place-per">
-                                                <div class="loc-left">
-                                                    <img src="{{asset('images/location.svg')}}">
-                                                    <div><p class="mb-1">Edinburgh,</p><p class="m-0">United Kingdom</p></div>
-                                                </div>
-                                                <div class="per-right">
-                                                    <div>$85</div>
-                                                    <p>Per Night</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="inner-carousel">
-                                        <div class="main-img">
-                                            <img src="{{asset('images/carousel.svg')}}">
-                                        </div>
-                                        <div class="star-per">
-                                            <div class="place-star mb-3">
-                                                <div class="place-left">Ten Hill Place</div>
-                                                <div class="star-right">
-                                                    <img src="{{asset('images/Star.svg')}}">
-                                                    <div>4.8</div>
-                                                </div>
-                                            </div>
-                                            <div class="place-per">
-                                                <div class="loc-left">
-                                                    <img src="{{asset('images/location.svg')}}">
-                                                    <div><p class="mb-1">Edinburgh,</p><p class="m-0">United Kingdom</p></div>
-                                                </div>
-                                                <div class="per-right">
-                                                    <div>$85</div>
-                                                    <p>Per Night</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="inner-carousel">
-                                        <div class="main-img">
-                                            <img src="{{asset('images/carousel.svg')}}">
-                                        </div>
-                                        <div class="star-per">
-                                            <div class="place-star mb-3">
-                                                <div class="place-left">Ten Hill Place</div>
-                                                <div class="star-right">
-                                                    <img src="{{asset('images/Star.svg')}}">
-                                                    <div>4.8</div>
-                                                </div>
-                                            </div>
-                                            <div class="place-per">
-                                                <div class="loc-left">
-                                                    <img src="{{asset('images/location.svg')}}">
-                                                    <div><p class="mb-1">Edinburgh,</p><p class="m-0">United Kingdom</p></div>
-                                                </div>
-                                                <div class="per-right">
-                                                    <div>$85</div>
-                                                    <p>Per Night</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="inner-carousel">
-                                        <div class="main-img">
-                                            <img src="{{asset('images/carousel.svg')}}">
-                                        </div>
-                                        <div class="star-per">
-                                            <div class="place-star mb-3">
-                                                <div class="place-left">Ten Hill Place</div>
-                                                <div class="star-right">
-                                                    <img src="{{asset('images/Star.svg')}}">
-                                                    <div>4.8</div>
-                                                </div>
-                                            </div>
-                                            <div class="place-per">
-                                                <div class="loc-left">
-                                                    <img src="{{asset('images/location.svg')}}">
-                                                    <div><p class="mb-1">Edinburgh,</p><p class="m-0">United Kingdom</p></div>
-                                                </div>
-                                                <div class="per-right">
-                                                    <div>$85</div>
-                                                    <p>Per Night</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="inner-carousel">
-                                        <div class="main-img">
-                                            <img src="{{asset('images/carousel.svg')}}">
-                                        </div>
-                                        <div class="star-per">
-                                            <div class="place-star mb-3">
-                                                <div class="place-left">Ten Hill Place</div>
-                                                <div class="star-right">
-                                                    <img src="{{asset('images/Star.svg')}}">
-                                                    <div>4.8</div>
-                                                </div>
-                                            </div>
-                                            <div class="place-per">
-                                                <div class="loc-left">
-                                                    <img src="{{asset('images/location.svg')}}">
-                                                    <div><p class="mb-1">Edinburgh,</p><p class="m-0">United Kingdom</p></div>
-                                                </div>
-                                                <div class="per-right">
-                                                    <div>$85</div>
-                                                    <p>Per Night</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item"><h4>6</h4></div>
-                                <div class="item"><h4>7</h4></div>
-                                <div class="item"><h4>8</h4></div>
-                                <div class="item"><h4>9</h4></div>
-                                <div class="item"><h4>10</h4></div>
-                                <div class="item"><h4>11</h4></div>
-                                <div class="item"><h4>12</h4></div>
+                                <div class="item test">
+                                    
+                                </div>                                
                             </div>
                             <div class="view-more">View more</div>
                         </div>
@@ -324,3 +294,10 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+

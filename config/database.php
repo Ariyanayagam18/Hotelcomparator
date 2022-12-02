@@ -70,7 +70,7 @@ return [
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'hotel'),
             'username' => env('DB_USERNAME', 'postgres'),
-            'password' => env('DB_PASSWORD', 'SmartWork@123'),
+            'password' => env('DB_PASSWORD', 'pgadminarya'),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
