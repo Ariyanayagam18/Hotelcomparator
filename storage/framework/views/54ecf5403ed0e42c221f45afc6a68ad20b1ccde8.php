@@ -12,16 +12,24 @@
                     <label>Where do you want to stay </label>
                      
                     <div class="position-relative">
-                        <input type="text" placeholder="Enter Destination or Hotel Name" class="search-stay search_field" id="search_field">                   
-                        <div class="auto_suggest" style="display:none;">
+                        <input type="text" placeholder="Enter Destination or Hotel Name" class="search-stay search_field" onkeyup="filter()" id="search_field">      
+
+                        <?php 
+                        $svg_image = 'M19 6h-4a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v15a1 1 0 0 0 2 0V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2 2.15 2.15 0 0 0-2 2v13a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V21a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V8a2.15 2.15 0 0 0-2-2zm-5 11a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm4 6a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zM9 7a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0-3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1z';
+                        ?>      
+
+                        <div class="auto_suggest">
+
                             <ul id="list_show">
 
                             <?php $__currentLoopData = $suggestCities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$suggest_cities): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>       
-                            <li class="d-flex align-items-center" data-regionId=<?php echo e($suggest_cities->RegionID); ?>><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="PopularDestination_PopularDestination__icon__Y2IyM BpkIcon_bpk-icon--rtl-support__NjAzZ" style="width: 1.5rem; height: 1.5rem;"><path d="M19 6h-4a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v15a1 1 0 0 0 2 0V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2 2.15 2.15 0 0 0-2 2v13a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V21a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V8a2.15 2.15 0 0 0-2-2zm-5 11a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm4 6a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zM9 7a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0-3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1z"></path></svg></div><div class="city-place"><p class="city"><?php echo e($suggest_cities->CityName); ?></p><p class="cityplace"><?php echo e($suggest_cities->ProvinceName); ?> , <?php echo e($suggest_cities->CountryName); ?></p></div></li>
+                            <li class="align-items-center" data-regionId=<?php echo e($suggest_cities->RegionID); ?>><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="PopularDestination_PopularDestination__icon__Y2IyM BpkIcon_bpk-icon--rtl-support__NjAzZ" style="width: 1.5rem; height: 1.5rem;"><path d="<?php echo $svg_image;?>"></path></svg></div><div class="city-place"><p class="city"><?php echo e($suggest_cities->CityName); ?></p><p class="cityplace"><?php echo e($suggest_cities->ProvinceName); ?> , <?php echo e($suggest_cities->CountryName); ?></p></div></li>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                             </ul>
+
                         </div>
+
                     </div>
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6 col-12 form-group">
@@ -55,7 +63,9 @@
                                 <div class="list-room">
                                     <div class="list-guest">
                                         <img src="<?php echo e(asset('images/childrengroup.svg')); ?>"> 
-                                        <p>Children</p> 
+                                        <span>Children
+                                            <p style="font-size:10px">(Below 12 years)</p>
+                                        </span> 
                                     </div>
                                     <div class="handle-counter" id="handleCounter">
                                         <button class="counter-minus btn btn-primary">
@@ -95,7 +105,7 @@
                     </div>
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6 col-12 form-group">
-                    <label>Popular Filters</label>
+                    <label>Ratings</label>
                     <div class="position-relative PopularFilters">
                         <div class="Popular-Filters">
                             <input class="pop-input" value="4 Stars" readonly />                      
@@ -115,6 +125,7 @@
                                     </label>
                                 </div>                                                                
                             </div> 
+
                             <div class="popular-bor">                                
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" value="4 Stars" id="customCheck28">
@@ -130,10 +141,28 @@
                                     </label>
                                 </div>                                                                
                             </div>  
+
                             <div class="popular-bor">                                
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" value="Free Cancellation" id="customCheck29">
+                                    <input type="checkbox" class="custom-control-input" value="5 Stars" id="customCheck29">
                                     <label class="custom-control-label" for="customCheck29">
+                                        <span class="ml-3 d-flex align-items-center">5 Stars 
+                                            <span class="star-multi ml-1 mr-2">
+                                                <img src="<?php echo e(asset('images/Star.svg')); ?>">
+                                                <img src="<?php echo e(asset('images/Star.svg')); ?>">
+                                                <img src="<?php echo e(asset('images/Star.svg')); ?>">
+                                                <img src="<?php echo e(asset('images/Star.svg')); ?>">
+                                                <img src="<?php echo e(asset('images/Star.svg')); ?>">
+                                            </span>
+                                        </span>
+                                    </label>
+                                </div>                                                                
+                            </div>  
+
+                            <div class="popular-bor">                                
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" value="Free Cancellation" id="customCheck30">
+                                    <label class="custom-control-label" for="customCheck30">
                                         <span class="ml-3 d-flex align-items-center">
                                             Free Cancellation                                           
                                         </span>
@@ -150,7 +179,7 @@
             </div>                 
         </div>
         <div class="section-2">
-                    <div class="Plan-Your">Plan Your <span>Next Staycatin</span></div>
+                    <div class="Plan-Your">Plan Your <span>Next Staycation</span></div>
             <div class="row m-0">   
                 <div class="col-xl-2 col-lg-4 col-md-4 col-12">
                     <!-- Nav pills -->
@@ -186,7 +215,7 @@
 
                     <div class="tab-content">
                       
-                      <div id="<?php echo e($staycation_cities["0"]->province); ?>" class="tab-pane active">
+                      <div id="" class="tab-pane active">
 
                           <div class="owl-carousel owl-theme city-1" id="sec2-carousel">
 
@@ -387,16 +416,34 @@ $.ajax({
 
 }
 
+// $('#search_field').on('keyup',function()
+// {
+//     // console.log("input value : ",$(this).val())
+//     suggestPlaces($(this).val());
+// })
 
-// function suggestedCities() {
 
+// function suggestPlaces(search_word) {
+
+//     console.log('search_word : ',search_word)
+
+//     // var search_word = document.getElementById("search_field").value;
 //     $.ajax({
 //   type:'GET',
-//   url:"/suggestedCities",
-//   data:{country:"United States"},
+//   url:"/suggestPlaces",
+//   data:{
+//     country : 'United States',
+//     search_word : search_word
+// },
 //   success:function(data){
 //        if($.isEmptyObject(data.error)){
-//         console.log('dropdown data fetched!!!')
+//         console.log('suggested cities : ',data)
+//         let suggest = '';
+//             data.map(function(item) {
+//             suggest += '<li class="d-flex align-items-center" data-regionId='+item.RegionID+'><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="PopularDestination_PopularDestination__icon__Y2IyM BpkIcon_bpk-icon--rtl-support__NjAzZ" style="width: 1.5rem; height: 1.5rem;"><path d="M19 6h-4a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v15a1 1 0 0 0 2 0V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2 2.15 2.15 0 0 0-2 2v13a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V21a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V8a2.15 2.15 0 0 0-2-2zm-5 11a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm4 6a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zM9 7a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0-3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1z"></path></svg></div><div class="city-place"><p class="city">'+item.CityName+'</p><p class="cityplace">'+item.ProvinceName+','+item.CountryName+'</p></div></li>'
+//         })
+//         $('#list_show').html('');
+//         $('#list_show').append(suggest);
 //        }else{
 //            printErrorMsg(data.error);
 //        }
@@ -404,6 +451,45 @@ $.ajax({
 // });
 
 // }
+
+function filter() {
+     
+    debugger;
+
+    var input, filter, ul, li, a, i, txtValue;
+
+    input = document.getElementById("search_field");
+
+   if(input.value != '')
+   {
+
+    filter = input.value.toUpperCase();
+
+    ul = document.getElementById("list_show");
+
+    li = ul.getElementsByTagName("li");
+
+    for (i = 0; i < li.length; i++) {
+
+        a = li[i].getElementsByTagName("p")[0];
+        txtValue = a.textContent || a.innerText;
+
+        if ((txtValue.toUpperCase().indexOf(filter) > -1)) {
+           
+            console.log('filter come!!!')
+
+            li[i].style.display = "";
+
+        } 
+        else 
+        {
+            li[i].style.display = "none";
+        }
+    }
+}
+
+}
+
 </script>
 
 

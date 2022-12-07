@@ -103,6 +103,7 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::controller(AjaxController::class)->group(function(){
     Route::get('cities', 'cities')->name('cities');
     Route::get('getHotels', 'getHotels')->name('getHotels');
+    Route::get('suggestPlaces','suggestPlaces')->name('suggestPlaces');
 });
 
 

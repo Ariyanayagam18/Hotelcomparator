@@ -34,6 +34,7 @@ $(document).ready(function(){
   function custom_template(obj){
     var data = $(obj.element).data();
     var text = $(obj.element).text();
+
     if(data && data['img_src']){
         img_src = data['img_src'];
         template = $("<div><img src=\"" + img_src + "\" style=\"width: 30px;height: 30px;\"/><p style=\"margin-bottom: 0px;\">" + text + "</p></div>");
@@ -304,24 +305,29 @@ $(".calender-sec").click(function() {
   //   $('#list_show').append(element);
   // }
 
-  $('#search_field').click(function () {
-    $('.auto_suggest').show();
-    $('.auto_suggest').addClass('open')
-  })
+  // $('#search_field').click(function () {
+  //   $('.auto_suggest').show();
+  //   $('.auto_suggest').addClass('open')
+  // })
 
-  $('body').click(function (e) {
-    console.log('event :', e.target.id)
-    if (e.target.id != 'search_field') {
-      $('.auto_suggest').hasClass('open') ? $('.auto_suggest').hide() : '';
-    }
-    else if (e.target.id == 'search_field') {
-      $('#guest').hide();
-      console.log('guest hide!!!');
-    }
-    else {
-      console.log('else')
-    }
-  });
+
+
+  // $('body').click(function (e) {
+  //   console.log('event :', e.target.id)
+  //   if (e.target.id != 'search_field') {
+  //     $('.auto_suggest').hasClass('open') ? $('.auto_suggest').hide() : '';
+  //   }
+  //   else if (e.target.id == 'search_field') {
+  //     $('#guest').hide();
+  //     console.log('guest hide!!!');
+  //   }
+  //   else {
+  //     console.log('else')
+  //   }
+  // });
+
+
+
   //  auto suggest API code
 
 
@@ -380,3 +386,35 @@ $('#loginformid').validate({ // initialize the plugin
 
 
 });
+
+
+
+
+
+// function filter() {
+
+//   var input, filter, ul, li, a, i, txtValue;
+
+//   input = document.getElementById("search_field");
+
+//  if(input.value != '')
+//  {
+//   filter = input.value.toUpperCase();
+
+//   ul = document.getElementById("list_show");
+
+//   li = ul.getElementsByTagName("li");
+
+//   for (i = 0; i < li.length; i++) {
+//       a = li[i].children[1];
+//       txtValue = a.textContent || a.innerText;
+//       if ((txtValue.toUpperCase().indexOf(filter) > -1)) {
+//           li[i].style.display = "";
+//       } 
+//       else 
+//       {
+//           li[i].style.display = "none !important";
+//       }
+//   }
+// }
+// }

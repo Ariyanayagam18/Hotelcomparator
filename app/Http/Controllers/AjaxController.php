@@ -37,7 +37,6 @@ public function defaultDatas()
     ->whereOr('CountryName','=','United States')
     ->where('CountryName','like','United States%')
     ->distinct('CityName')
-    ->limit(10)
     ->get()
     ->toArray();
     
@@ -89,10 +88,19 @@ public function getHotels(Request $request)
      return $hotels;
 }
 
-public function needInspiration()
+public function suggestPlaces(Request $request)
 {
-    // SELECT * FROM public."T_property_location_enUS"
-    // ORDER BY "propertyId_expedia" ASC LIMIT 100
+
+    $suggestion = DB::table('T_idsRegions_enUS')
+    ->select('CityName','RegionID','CountryName','ProvinceName')
+    ->distinct('CityName')
+    ->where('CountryName','like',$request->country.'%')
+    ->where('CityName','like',$request->search_word.'%')
+    ->limit(12)
+    ->get()
+    ->toArray();
+
+    return $suggestion;
 }
 
 }
