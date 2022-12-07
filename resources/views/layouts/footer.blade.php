@@ -51,7 +51,6 @@
     </div>
 </div>
 <!-- Bootstrap script -->
-<script src="{{asset('jquery/jquery.slim.min.js')}}"></script>
 <script src="{{asset('jquery/jquery.validate.js')}}"></script>
 
 <script src="{{asset('popper/popper.min.js')}}"></script>

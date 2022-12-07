@@ -9,12 +9,18 @@
         <div class="section-1">        
             <div class="row m-0 justify-content-between">
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 form-group">
-                    <label>Where do you want to stay</label>
-                   
+                    <label>Where do you want to stay </label>
+                     
                     <div class="position-relative">
                         <input type="text" placeholder="Enter Destination or Hotel Name" class="search-stay search_field" id="search_field">                   
                         <div class="auto_suggest" style="display:none;">
                             <ul id="list_show">
+
+                            @foreach ($suggestCities as $key=>$suggest_cities)       
+                            <li class="d-flex align-items-center" data-regionId={{ $suggest_cities->RegionID }}><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="PopularDestination_PopularDestination__icon__Y2IyM BpkIcon_bpk-icon--rtl-support__NjAzZ" style="width: 1.5rem; height: 1.5rem;"><path d="M19 6h-4a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v15a1 1 0 0 0 2 0V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2 2.15 2.15 0 0 0-2 2v13a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V21a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V8a2.15 2.15 0 0 0-2-2zm-5 11a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm4 6a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zM9 7a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0-3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1z"></path></svg></div><div class="city-place"><p class="city">{{
+                                $suggest_cities->CityName }}</p><p class="cityplace">{{ $suggest_cities->ProvinceName  }} , {{ $suggest_cities->CountryName }}</p></div></li>
+                            @endforeach
+
                             </ul>
                         </div>
                     </div>
@@ -28,6 +34,8 @@
                     <div class="position-relative">
                         <div class="guestrooms">
                             <input class="guest-input" value="1 adult, 1 Room" readonly />                      
+                        </div>
+                        <div>
                         </div>
                         <div class="members" style="display:none">
                                 <div class="list-room">
@@ -54,7 +62,7 @@
                                         <button class="counter-minus btn btn-primary">
                                                <img src="{{asset('images/white-arrow.svg')}}">
                                         </button>
-                                        <input type="text" class="Children" value="0">
+                                        <input type="text" class="adults" value="0">
                                         <button class="counter-plus btn btn-primary">
                                                <img src="{{asset('images/white-arrow.svg')}}">
                                         </button>
@@ -69,7 +77,7 @@
                                         <button class="counter-minus btn btn-primary">
                                                <img src="{{asset('images/white-arrow.svg')}}">
                                         </button>
-                                        <input type="text" class="Rooms" value="0">
+                                        <input type="text" class="adults" value="0">
                                         <button class="counter-plus btn btn-primary">
                                                <img src="{{asset('images/white-arrow.svg')}}">
                                         </button>
@@ -143,15 +151,24 @@
             </div>                 
         </div>
         <div class="section-2">
-            <div class="Plan-Your">Plan Your <span>Next Staycatin</span></div>
+                    <div class="Plan-Your">Plan Your <span>Next Staycatin</span></div>
             <div class="row m-0">   
                 <div class="col-xl-2 col-lg-4 col-md-4 col-12">
                     <!-- Nav pills -->
-                    <ul class="nav nav-pills tabs-home" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="pill" href="#home">Edinburgh</a>
-                        </li>
-                        <li class="nav-item">
+                    <ul class="nav nav-pills tabs-home" role="tablist" id="staycation_cities">
+                    @php
+                    $count = 0;
+                    @endphp
+                    
+                @foreach($staycation_cities as $key => $value)
+                     <li class="nav-item " >
+                            <a class="nav-link <?php echo $count==0 ? 'active' : '';?>" data-toggle="pill" href="#{{$value->province}}" onclick="getHotels('{{$value->province}}')">  {{ $value->province }}</a>
+                            @php
+                            $count++
+                            @endphp
+                        </li> 
+                  @endforeach
+                        <!-- <li class="nav-item">
                             <a class="nav-link" data-toggle="pill" href="#menu1">Manchester</a>
                         </li>
                         <li class="nav-item">
@@ -162,172 +179,88 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="pill" href="#menu4">Glasgow</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div> 
                 <div class="col-xl-10 col-lg-8 col-md-8 col-12">
                     <!-- Tab panes -->
+
                     <div class="tab-content">
-                        <div id="home" class="tab-pane active">
-                            <div class="owl-carousel owl-theme" id="sec2-carousel">
+                      
+                      <div id="{{ $staycation_cities["0"]->province }}" class="tab-pane active">
+
+                          <div class="owl-carousel owl-theme city-1" id="sec2-carousel">
+
+                              @foreach($hotels as $key=>$value)
+
                                 <div class="item">
                                     <div class="inner-carousel">
                                         <div class="main-img">
-                                            <img src="{{asset('images/carousel.svg')}}">
+                                            <img src="{{$value->heroImage}}" style="height:213px">
                                         </div>
                                         <div class="star-per">
                                             <div class="place-star mb-3">
-                                                <div class="place-left">Ten Hill Place</div>
+                                                <div class="place-left">{{$value->propertyName}}</div>
                                                 <div class="star-right">
                                                     <img src="{{asset('images/Star.svg')}}">
-                                                    <div>4.8</div>
+                                                    <div>{{$value->rating}}</div>
                                                 </div>
                                             </div>
                                             <div class="place-per">
                                                 <div class="loc-left">
                                                     <img src="{{asset('images/location.svg')}}">
-                                                    <div><p class="mb-1">Edinburgh,</p><p class="m-0">United Kingdom</p></div>
+                                                    <div><p class="mb-1">{{$value->city}}Edinburgh,</p><p class="m-0">{{$value->country}}</p></div>
                                                 </div>
                                                 <div class="per-right">
-                                                    <div>$85</div>
+                                                    <div>${{$value->referencePrice_value}}</div>
                                                     <p>Per Night</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="item">
-                                    <div class="inner-carousel">
-                                        <div class="main-img">
-                                            <img src="{{asset('images/carousel.svg')}}">
-                                        </div>
-                                        <div class="star-per">
-                                            <div class="place-star mb-3">
-                                                <div class="place-left">Ten Hill Place</div>
-                                                <div class="star-right">
-                                                    <img src="{{asset('images/Star.svg')}}">
-                                                    <div>4.8</div>
-                                                </div>
-                                            </div>
-                                            <div class="place-per">
-                                                <div class="loc-left">
-                                                    <img src="{{asset('images/location.svg')}}">
-                                                    <div><p class="mb-1">Edinburgh,</p><p class="m-0">United Kingdom</p></div>
-                                                </div>
-                                                <div class="per-right">
-                                                    <div>$85</div>
-                                                    <p>Per Night</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="inner-carousel">
-                                        <div class="main-img">
-                                            <img src="{{asset('images/carousel.svg')}}">
-                                        </div>
-                                        <div class="star-per">
-                                            <div class="place-star mb-3">
-                                                <div class="place-left">Ten Hill Place</div>
-                                                <div class="star-right">
-                                                    <img src="{{asset('images/Star.svg')}}">
-                                                    <div>4.8</div>
-                                                </div>
-                                            </div>
-                                            <div class="place-per">
-                                                <div class="loc-left">
-                                                    <img src="{{asset('images/location.svg')}}">
-                                                    <div><p class="mb-1">Edinburgh,</p><p class="m-0">United Kingdom</p></div>
-                                                </div>
-                                                <div class="per-right">
-                                                    <div>$85</div>
-                                                    <p>Per Night</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="inner-carousel">
-                                        <div class="main-img">
-                                            <img src="{{asset('images/carousel.svg')}}">
-                                        </div>
-                                        <div class="star-per">
-                                            <div class="place-star mb-3">
-                                                <div class="place-left">Ten Hill Place</div>
-                                                <div class="star-right">
-                                                    <img src="{{asset('images/Star.svg')}}">
-                                                    <div>4.8</div>
-                                                </div>
-                                            </div>
-                                            <div class="place-per">
-                                                <div class="loc-left">
-                                                    <img src="{{asset('images/location.svg')}}">
-                                                    <div><p class="mb-1">Edinburgh,</p><p class="m-0">United Kingdom</p></div>
-                                                </div>
-                                                <div class="per-right">
-                                                    <div>$85</div>
-                                                    <p>Per Night</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="inner-carousel">
-                                        <div class="main-img">
-                                            <img src="{{asset('images/carousel.svg')}}">
-                                        </div>
-                                        <div class="star-per">
-                                            <div class="place-star mb-3">
-                                                <div class="place-left">Ten Hill Place</div>
-                                                <div class="star-right">
-                                                    <img src="{{asset('images/Star.svg')}}">
-                                                    <div>4.8</div>
-                                                </div>
-                                            </div>
-                                            <div class="place-per">
-                                                <div class="loc-left">
-                                                    <img src="{{asset('images/location.svg')}}">
-                                                    <div><p class="mb-1">Edinburgh,</p><p class="m-0">United Kingdom</p></div>
-                                                </div>
-                                                <div class="per-right">
-                                                    <div>$85</div>
-                                                    <p>Per Night</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item"><h4>6</h4></div>
-                                <div class="item"><h4>7</h4></div>
-                                <div class="item"><h4>8</h4></div>
-                                <div class="item"><h4>9</h4></div>
-                                <div class="item"><h4>10</h4></div>
-                                <div class="item"><h4>11</h4></div>
-                                <div class="item"><h4>12</h4></div>
+
+                              @endforeach
+ 
                             </div>
-                            <div class="view-more">View more</div>
-                        </div>
-                        <div id="menu1" class="tab-pane fade"><br>
-                            <h3>Menu 1</h3>
-                            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                        </div>
-                        <div id="menu2" class="tab-pane fade"><br>
-                            <h3>Menu 2</h3>
-                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-                        </div>
-                        <div id="menu3" class="tab-pane fade"><br>
-                            <h3>Menu 2</h3>
-                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-                        </div>
-                        <div id="menu4" class="tab-pane fade"><br>
-                            <h3>Menu 2</h3>
-                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-                        </div>
+
+                          </div>
+
+<!--       
+                         <div id="{{ $staycation_cities["1"]->province }}" class="tab-pane fade"><br>
+                               <div class="owl-carousel owl-theme city-2" id="sec2-carousel">
+                                    <!-- <h3>Menu 1</h3>
+                                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p> -->
+                              <!-- </div>
+
+                         </div> -->
+                        
+                         <!-- <div id="{{ $staycation_cities["2"]->province }}" class="tab-pane fade"><br>
+                         <div class="owl-carousel owl-theme city-3" id="sec2-carousel"> -->
+                            <!-- <h3>Menu 2</h3>
+                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p> -->
+                            <!-- </div>
+                         </div> -->
+
+                         <!-- <div id="{{ $staycation_cities["3"]->province }}" class="tab-pane fade"><br>
+                         <div class="owl-carousel owl-theme city-4" id="sec2-carousel"> -->
+                            <!-- <h3>Menu 3</h3>
+                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p> -->
+                            <!-- </div>
+                         </div> -->
+
+                         <!-- <div id="{{ $staycation_cities["4"]->province }}" class="tab-pane fade"><br>
+                           <div class="owl-carousel owl-theme city-5" id="sec2-carousel"> -->
+                            <!-- <h3>Menu 4</h3>
+                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p> -->
+                            <!-- </div>
+                         </div> --> 
+                        
+
                     </div>
+
                 </div>
+
             </div>
         </div>
         <div class="sec3-inner">
@@ -426,9 +359,54 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
+
+<script>
     
-    </script>
+function getHotels(city)
+{
+
+$.ajax({
+  type:'GET',
+  url:"/getHotels",
+  data:{city:city},
+  success:function(data){
+       if($.isEmptyObject(data.error)){
+        console.log('hotels fetched!!!',data)
+        let hotels = '';
+        $('#sec2-carousel').html('');
+        data.map(function(item){
+             console.log('item : ',item)
+             hotels += `<div class="item"><div class="inner-carousel"><div class="main-img"><img src='${item.heroImage}' style="height:213px"></div><div class="star-per"><div class="place-star mb-3"><div class="place-left">${item.propertyName}</div><div class="star-right"><img src="{{asset('images/Star.svg')}}"><div>${item.rating}</div></div></div><div class="place-per"><div class="loc-left"><img src="{{asset('images/location.svg')}}"><div><p class="mb-1">${item.city}</p><p class="m-0">${item.country}</p></div></div><div class="per-right"><div>$${item.referencePrice_value}</div><p>Per Night</p></div></div></div></div></div>`
+     })
+        $('#sec2-carousel').append(hotels)
+
+       }else{
+           printErrorMsg(data.error);
+       }
+  }
+});
+
+}
+
+
+// function suggestedCities() {
+
+//     $.ajax({
+//   type:'GET',
+//   url:"/suggestedCities",
+//   data:{country:"United States"},
+//   success:function(data){
+//        if($.isEmptyObject(data.error)){
+//         console.log('dropdown data fetched!!!')
+//        }else{
+//            printErrorMsg(data.error);
+//        }
+//   }
+// });
+
+// }
+</script>
+
 
 
 

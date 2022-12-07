@@ -8,7 +8,10 @@ use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\FaceBookController;
 use App\Http\Controllers\Auth\LoginController;
 
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\AjaxController;
+
+use App\Http\Controllers\HomeController;
+
 
 
 
@@ -28,13 +31,21 @@ use App\Http\Controllers\PostController;
 // });
 
 //homeurl
-Route::get('/', function () {
-    return view('welcome')->with('login',1);
-});
+// Route::get('/', function () {
+//     return view('welcome')->with('login',1);
+// });
+
+Route::get('/', [App\Http\Controllers\AjaxController::class, 'defaultDatas'])->name('defaultDatas');
+
+
+
+
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
 
 //google
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
@@ -75,7 +86,7 @@ Route::controller(FacebookController::class)->group(function(){
 
 Route::any('/loginuser', 'App\Http\Controllers\Auth\LoginController@select')->name('userlogin');
 
-Route::any('/login', 'App\Http\Controllers\Auth\LoginController@index')->name('login');;
+Route::any('/login', 'App\Http\Controllers\Auth\LoginController@index')->name('login');
 
 //Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 //Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
@@ -83,15 +94,17 @@ Route::any('/login', 'App\Http\Controllers\Auth\LoginController@index')->name('l
 
 Route::get('/afterlogin', function () {
     //return view('pages.afterlogin');
-    return view('pages.afterlogin')->with('login',2)->with('avatar_cond',false);
+    return view('pages.afterlogin')->with('login',2);
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
-// Route::get('/hotels', '\App\Http\Controllers\Auth\LoginController@hotels');
 
+Route::controller(AjaxController::class)->group(function(){
+    Route::get('cities', 'cities')->name('cities');
+    Route::get('getHotels', 'getHotels')->name('getHotels');
+});
 
-Route::any('posts', [PostController::class, 'getapi']);
 
 
   

@@ -7,8 +7,8 @@ use Laravel\Socialite\Facades\Socialite;
 use Exception;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use View;
 
+  
 class GoogleController extends Controller
 {
     /**
@@ -32,8 +32,7 @@ class GoogleController extends Controller
       
             $user = Socialite::driver('google')->stateless()->user();
             
-           //dd($user->avatar);
-           
+         
             $finduser = User::where('google_id', $user->id)->first();
 
           
@@ -45,12 +44,7 @@ class GoogleController extends Controller
        
                 Auth::login($finduser);
       
-                // return redirect('hotels');
-
-                return View::make('welcome')
-                ->with('login',2)
-                ->with('avatar_cond',true)
-                ->with('user',$user);
+                return redirect('/hotels');
        
             }else{
                 $newUser = User::create([
@@ -62,7 +56,7 @@ class GoogleController extends Controller
       
                 Auth::login($newUser);
       
-                return redirect()->intended('hotels');
+                return redirect()->intended('/');
             }
       
         } catch (Exception $e) {

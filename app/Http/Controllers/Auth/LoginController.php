@@ -11,8 +11,6 @@ use DB;
 use Redirect;
 use Session;
 use App\Models\User;
-use View;
-
 class LoginController extends Controller
 {
     /*
@@ -52,7 +50,6 @@ class LoginController extends Controller
         //$user= Auth::user();
         $host = DB::table('users')->select('email','google_id')->where('email', $id['email'])->get();
         //dd($host->google_id);
-        
     if(count($host)>0){
         $google = $host[0]->google_id;
         // dd($google );
@@ -73,12 +70,7 @@ class LoginController extends Controller
         } 
         else if($user !==null && !empty($user)){
            
-            // return redirect('/hotels');
-            return View::make('welcome')
-            ->with('login',2)
-            ->with('avatar_cond',false)
-            ->with('user', $host );
-            
+            return redirect('/hotels');
           
             //dd($newUser);
            
@@ -92,10 +84,7 @@ class LoginController extends Controller
                 'email' =>  $id['email'],
                 'password' => $id['password']
             ]);
-            return View::make('welcome')
-            ->with('login',2)
-            ->with('avatar_cond',false)
-            ->with('user',$host);
+            return redirect('/hotels');
         }
    
     //  dd($host);

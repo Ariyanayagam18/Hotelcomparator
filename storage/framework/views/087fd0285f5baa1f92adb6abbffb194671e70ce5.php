@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
   <title>Hotel Comparator</title>
-
+  <link rel="icon" type="image/svg" href="images/logo.svg">
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -24,6 +24,9 @@
   <link rel="stylesheet" type="text/css" href="<?php echo e(asset('datapicker/css/daterangepicker.css')); ?>" />
     
   <!-- owl -->
+  <script src="<?php echo e(asset('jquery/jquery.slim.min.js')); ?>"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
   <link rel="stylesheet" href="<?php echo e(asset('owl/css/owl.carousel.min.css')); ?>">
   <link rel="stylesheet" href="<?php echo e(asset('owl/css/owl.theme.default.min.css')); ?>">        
 </head>
@@ -106,5 +109,6 @@
   // $('.login-after').css('display':'block');
 
 </script> -->
+
 
 <?php /**PATH /opt/lampp/htdocs/Projects/Hotel Comparator/Hotel_latest/resources/views/layouts/header.blade.php ENDPATH**/ ?>

@@ -54,7 +54,7 @@
                                         <button class="counter-minus btn btn-primary">
                                                <img src="<?php echo e(asset('images/white-arrow.svg')); ?>">
                                         </button>
-                                        <input type="text" class="Children" value="0">
+                                        <input type="text" class="adults" value="0">
                                         <button class="counter-plus btn btn-primary">
                                                <img src="<?php echo e(asset('images/white-arrow.svg')); ?>">
                                         </button>
@@ -69,7 +69,7 @@
                                         <button class="counter-minus btn btn-primary">
                                                <img src="<?php echo e(asset('images/white-arrow.svg')); ?>">
                                         </button>
-                                        <input type="text" class="Rooms" value="0">
+                                        <input type="text" class="adults" value="0">
                                         <button class="counter-plus btn btn-primary">
                                                <img src="<?php echo e(asset('images/white-arrow.svg')); ?>">
                                         </button>
@@ -426,9 +426,7 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    
-    </script>
+
 
 
 

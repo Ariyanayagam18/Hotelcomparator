@@ -8,7 +8,57 @@ use Illuminate\Support\Facades\DB;
 class AjaxController extends Controller
 {
 
-public function cities(Request $request)
+
+public function defaultDatas()
+{
+    // $staycation_cities = DB::table('T_summary_data_enUS')
+    //                         ->select('province')
+    //                         ->where('country','United States')
+    //                         ->distinct()
+    //                         ->limit(5)
+    //                         ->get()
+    //                         ->toArray();
+    
+    $staycation_cities = DB::table('T_property_location_enUS')
+    ->select('province')
+    // ->distinct('province')
+    ->where('country','United States')
+    ->limit(5)
+    ->get()
+    ->toArray();
+
+
+
+    // dd($staycation_cities);
+    
+    $suggestCities = DB::table('T_idsRegions_enUS')
+    ->select('RegionID','CityName','ProvinceName','CountryName')
+    ->where('CityName','!=','')
+    ->whereOr('CountryName','=','United States')
+    ->where('CountryName','like','United States%')
+    ->distinct('CityName')
+    ->limit(10)
+    ->get()
+    ->toArray();
+    
+    $login = 1;
+
+    $hotels = DB::table('T_summary_data_enUS')
+    ->select('heroImage','propertyName','city','country','rating','referencePrice_value')
+    ->where('province',$staycation_cities["0"]->province)
+    ->where('rating','!=','')
+    ->orderBy('rating','desc')
+    ->distinct()
+    ->limit(12)
+    ->get()
+    ->toArray();
+
+    return view('welcome',compact('staycation_cities','login','hotels','suggestCities'));
+    
+}
+
+
+public function getCities(Request $request)
 {
     $staycation_cities = DB::table('T_displaySections')
     ->where('RegionID',$request->regionId)->where('Section','staycation')
@@ -16,40 +66,33 @@ public function cities(Request $request)
     ->get();
 
     return $staycation_cities;
-    // $staycation_cities = DB::table('');
-    // dd($staycation_cities);
-    // return view('homepage',compact('staycation_cities'));
 
-    
 }
 
-public function hotels(Request $request)
+public function getHotels(Request $request)
 {
-    $city = "New York";
-
-    // $hotels_list = DB::table('T_displaySections')
-    // ->leftJoin('T_property_location_enUS','T_displaySections.CityName','=','T_property_location_enUS.city')
-    // ->leftJoin('T_summary_data_enUS','T_summary_data_enUS.propertyId_hcom','=','T_property_location_enUS.propertyId_hcom')
-    // ->select('T_displaySections.CityName','T_displaySections.CountryName','T_property_location_enUS.propertyName')
-    // ->distinct()
-    // ->limit(12)
-    // ->get();
-
-    $hotels_list = DB::table('T_property_location_enUS')
-    ->leftJoin('T_displaySections','T_displaySections.CityName','=','T_property_location_enUS.city')
-    ->leftJoin('T_summary_data_enUS','T_summary_data_enUS.propertyId_hcom','=','T_property_location_enUS.propertyId_hcom')
-    ->select('T_summary_data_enUS.heroImage','T_displaySections.CityName','T_displaySections.CountryName','T_property_location_enUS.propertyName','T_summary_data_enUS.rating','T_summary_data_enUS.referencePrice_value','T_summary_data_enUS.referencePrice_currency')
-    ->where('T_summary_data_enUS.referencePrice_value','!=','0')
-    ->wherenotNull('T_summary_data_enUS.rating')
-    ->where('T_displaySections.CityName','=',$city)
+    // dd('dfsdsas');
+    $hotels= DB::table('T_summary_data_enUS')
+    ->select('heroImage','propertyName','city','country','rating','referencePrice_value')
+    ->where('province',$request->city)
+    ->where('rating','!=','')
+    ->orderBy('rating','desc')
     ->distinct()
-    ->orderBy('T_summary_data_enUS.rating','desc')
     ->limit(12)
-    ->get();
+    ->get()
+    ->toArray();
 
-     return $hotels_list;
 
+     
+    // dd($hotels);
+    
+     return $hotels;
+}
 
+public function needInspiration()
+{
+    // SELECT * FROM public."T_property_location_enUS"
+    // ORDER BY "propertyId_expedia" ASC LIMIT 100
 }
 
 }

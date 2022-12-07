@@ -2,9 +2,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Hotel Comparator</title>
-
+  <link rel="icon" type="image/svg" href="images/logo.svg">
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -24,6 +24,9 @@
   <link rel="stylesheet" type="text/css" href="{{asset('datapicker/css/daterangepicker.css')}}" />
     
   <!-- owl -->
+  <script src="{{asset('jquery/jquery.slim.min.js')}}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
   <link rel="stylesheet" href="{{asset('owl/css/owl.carousel.min.css')}}">
   <link rel="stylesheet" href="{{asset('owl/css/owl.theme.default.min.css')}}">        
 </head>
@@ -67,18 +70,13 @@
       <li class="nav-item login-after">
         <div class="dropdown">
           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-            <?php if($avatar_cond==true){?> <img src="{{$user->avatar}}"> <?php } else { ?>
             <img src="{{asset('images/profile.svg')}}">   
-           <?php } ?>
           </button>
           <div class="dropdown-menu">
             <div class="logout-sec">
               <div class="email-logout">
-              <?php if($avatar_cond==true){?> <img src="{{$user->avatar}}"><p><?php echo $user->email; ?></p> 
-              <?php }else{?>
-                <img src="{{asset('images/profile.svg')}}">  
+                <img src="{{asset('images/profile.svg')}}">   
                 <p>Scarlet@yopmail.com</p>
-                <?php } ?>
               </div>
             </div>
             <div class="logout-sec">
@@ -111,4 +109,5 @@
   // $('.login-after').css('display':'block');
 
 </script> -->
+
 

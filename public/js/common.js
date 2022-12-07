@@ -127,13 +127,29 @@ var items = $(".list-wrapper .list-item");
 
 // pagination scritp end 
 
+// $('body').on('click',function(){
+//   console.log('sfasdfadfa',$(this).val())
+// });
+
+$('.nav-link').click(function()
+{
+  console.log('click!!')
+})
+
+
+
+
+$("#hotel").click(function() {  
+    console.log('new')
 });
+
 //login page hide and show
 $("#loginbutton").click(function() {  
   $(".login-section").toggle(); 
 });
 //Guestroomstoggle
 $(".guestrooms").click(function() {
+  console.log('sdadfdfsafa');
   $(".members").toggle();
   $(".guestrooms").addClass('arrowcheck'); 
 });
@@ -160,20 +176,6 @@ $('#reset').click(function(){
   Children[0].dataset.value = $('.Children').val();
   Rooms[0].dataset.value = $('.Rooms').val();
 })
-
-$('#guests_ok').click(function() 
-{
-  
- var adults = $('.adults').val();
- var Children = $('.Children').val();
- var Rooms = $('.Rooms').val();
-
-  $('.guest-input').val(adults +' '+"adults" +','+ Rooms +' ' +"Rooms")
-  
-  var getinput = $('.guest-input').val();
-  console.log(getinput);
-
-});
 //end guestroom
 
 
@@ -198,22 +200,9 @@ $(".calender-sec").click(function() {
 });
 //datapicker end
 
-$('body').click(function(e){
-    // console.log('target',e.target.id)
-    //  var senderElement=e.target.id;
-    //   if((senderElement== ''))
-    //   {
-    //      $(".login-section").css('display','none');
-    //   }
-
-      //  if(!$(e.target).is(".guest-input"))
-      //  {
-      //     $(".members").css('display','none');
-      //  }
-});
   
 // datapicker scritp start 
-$(function () {
+
 
   $('input[name="datefilter"]').daterangepicker({
     autoUpdateInput: false,
@@ -293,29 +282,27 @@ $(function () {
   }
 
   console.log('get Location =======> ', getLocation().then(data => {
-    console.log('country code =======> ', data.geoplugin_countryCode)
+    console.log('current user data =======> ', data)
   }))
 
-  async function getUsers(locale, language) {
-    let response = await fetch(`https://www.skyscanner.net/g/autosuggest-search/api/v1/search-hotel/${locale}/${language}/?rf=map&vrows=10`);
-    let data = await response.json()
-    console.log('dfd'+data);
-    return data;
-  }
+  // async function getUsers(locale, language) {
+  //   let response = await fetch(`https://www.skyscanner.net/g/autosuggest-search/api/v1/search-hotel/${locale}/${language}/?rf=map&vrows=10`);
+  //   let data = await response.json()
+  //   return data;
+  // }
 
-  getUsers('IN', 'en-GB').then(data => showList(data))
+  // getUsers('IN', 'en-GB').then(data => showList(data))
 
-  let element = '';
+  // let element = '';
 
-  let svg_image = 'M19 6h-4a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v15a1 1 0 0 0 2 0V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2 2.15 2.15 0 0 0-2 2v13a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V21a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V8a2.15 2.15 0 0 0-2-2zm-5 11a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm4 6a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zM9 7a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0-3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1z'
+  // let svg_image = 'M19 6h-4a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v15a1 1 0 0 0 2 0V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2 2.15 2.15 0 0 0-2 2v13a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V21a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V8a2.15 2.15 0 0 0-2-2zm-5 11a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm4 6a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zM9 7a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0-3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1z'
 
-  const showList = (response) => {
-    response.map(function (item) {
-      element = element + '<li class="d-flex align-items-center"><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="PopularDestination_PopularDestination__icon__Y2IyM BpkIcon_bpk-icon--rtl-support__NjAzZ" style="width: 1.5rem; height: 1.5rem;"><path d="' + svg_image + '"></path></svg></div><div class="city-place"><p class="city">' + item.entity_name + '</p>' + '<p class="cityplace">' + item.hierarchy.replaceAll('|', ',') + '</p></div>' + '</li>';
-    })
-    console.log('element : ', element)
-    $('#list_show').append(element);
-  }
+  // const showList = (response) => {
+  //   response.map(function (item) {
+  //     element = element + '<li class="d-flex align-items-center"><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="PopularDestination_PopularDestination__icon__Y2IyM BpkIcon_bpk-icon--rtl-support__NjAzZ" style="width: 1.5rem; height: 1.5rem;"><path d="' + svg_image + '"></path></svg></div><div class="city-place"><p class="city">' + item.entity_name + '</p>' + '<p class="cityplace">' + item.hierarchy.replaceAll('|', ',') + '</p></div>' + '</li>';
+  //   })
+  //   $('#list_show').append(element);
+  // }
 
   $('#search_field').click(function () {
     $('.auto_suggest').show();
@@ -337,33 +324,28 @@ $(function () {
   });
   //  auto suggest API code
 
-});
+
 
 // datapicker script end 
 
 
 //Search intregration
 
-$checks = $(":checkbox");
-    $checks.on('change', function() {
-        var string = $checks.filter(":checked").map(function(i,v){
-            return this.value;
-        }).get();
-        
-        $('.pop-input').val(string);
-    });
+// $checks = $(":checkbox");
+//     $checks.on('change', function() {
+//         var string = $checks.filter(":checked").map(function(i,v){
+//             return this.value;
+//         }).get().join(" ");
+//         $('.pop-input').val(string);
+//     });
 
-// $("input:checkbox").click(function() {
-//       var output = "";
-//       $("input:checked").each(function() {
-//         output = $(this).val();
-//       });
-      
-//       $(".pop-input").val(output.trim());
-// });
-
-
-
+$("input:checkbox").click(function() {
+      var output = "";
+      $("input:checked").each(function() {
+        output = $(this).val();
+      });
+      $(".pop-input").val(output.trim());
+});
 //get all search value
   //   $('.getVal').click(function(){
   //     var value = $("[name='properties[wallpaper_size_width]']").val();
@@ -393,7 +375,8 @@ $('#loginformid').validate({ // initialize the plugin
       }
   },
   
-});
 
-var country=$('.city-place').val();
-    console.log(country);
+})
+
+
+});
