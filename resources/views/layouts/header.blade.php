@@ -28,7 +28,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
   <link rel="stylesheet" href="{{asset('owl/css/owl.carousel.min.css')}}">
-  <link rel="stylesheet" href="{{asset('owl/css/owl.theme.default.min.css')}}">        
+  <link rel="stylesheet" href="{{asset('owl/css/owl.theme.default.min.css')}}">     
+     
 </head>
 <nav class="header-section navbar navbar-expand-md navbar-light">
   <a class="navbar-brand" href="#">
@@ -42,14 +43,20 @@
     $token=Auth::id();
   //  dd(Auth::id());
     ?>
+
+
     <ul class="navbar-nav">
     	<li><a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a></li>
       <li class="nav-item">
         <select id="id_select2_example">
-        <option data-img_src="{{asset('images/Flags/usa.svg')}}">USA</option>
-          <option data-img_src="{{asset('images/Flags/EN.svg')}}">EN</option>
-          <option data-img_src="{{asset('images/Flags/france.svg')}}">FR</option>
-          <option data-img_src="{{asset('images/Flags/india.svg')}}">IND</option>
+          <?php if($login == 2) { ?>
+            <option value="FR" data-img_src="{{asset('images/Flags/france.svg')}}">FR</option>
+            <?php } else { ?>
+              <option value="USA" data-img_src="{{asset('images/Flags/usa.svg')}}">USA</option>
+           <?php } ?>
+          <option value="EN" data-img_src="{{asset('images/Flags/EN.svg')}}">EN<s/option>
+          <option value="FR" data-img_src="{{asset('images/Flags/france.svg')}}">FR</option>
+          <option value="IND" data-img_src="{{asset('images/Flags/india.svg')}}">IND</option>
         </select>
       </li>
       <li class="nav-item coins-list">
@@ -60,13 +67,13 @@
           <option data-img_src="{{asset('images/coins/GBP.svg')}}">GBP</option>
         </select>
       </li>
-      @if($login == 1)
+      @if(isset($login) && $login == 1)
       <li class="nav-item login">
         <a class="nav-link" id="loginbutton">Login</a>
         <div class="login-link">@include('auth.login')</div>
       </li> 
      @endif
-     @if($login == 2)
+     @if(isset($login) && $login == 2)
       <li class="nav-item login-after">
         <div class="dropdown">
           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -95,19 +102,17 @@
   </div>  
 </nav>
 
-<!-- 
-<script type="text/javascript">
-  console.log('session',window.location.href);
-  var href=window.location.href;
-  var split=href.split('/');
-  console.log('href',split[3]);
-  if(split[3]=='hotels'){
-    // alert('hii');
-    $(".login-after").removeAttr("style")
-    // $('.login-after').css('display':'block');
-  }
-  // $('.login-after').css('display':'block');
 
-</script> -->
+<script type="text/javascript">
+  
+  $(document).on('click','.locale',function(){
+console.log('locale : ',$(this).attr('data-locale'))
+if($(this).attr('data-locale') != 'USA')
+{
+  location.href = `/locale/${$(this).attr('data-locale')}`
+}
+  });
+
+</script>
 
 

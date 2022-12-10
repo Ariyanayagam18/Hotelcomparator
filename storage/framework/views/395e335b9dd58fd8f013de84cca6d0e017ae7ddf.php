@@ -52,7 +52,6 @@
 </div>
 <!-- Bootstrap script -->
 <script src="<?php echo e(asset('jquery/jquery.validate.js')); ?>"></script>
-
 <script src="<?php echo e(asset('popper/popper.min.js')); ?>"></script>
 <script src="<?php echo e(asset('bootstrap/js/bootstrap.bundle.min.js')); ?>"></script>
 <script src="<?php echo e(asset('js/common.js')); ?>"></script>

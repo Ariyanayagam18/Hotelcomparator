@@ -37,7 +37,7 @@ $(document).ready(function(){
 
     if(data && data['img_src']){
         img_src = data['img_src'];
-        template = $("<div><img src=\"" + img_src + "\" style=\"width: 30px;height: 30px;\"/><p style=\"margin-bottom: 0px;\">" + text + "</p></div>");
+        template = $("<div class='locale' data-locale='"+text+"' ><img src=\"" + img_src + "\" style=\"width: 30px;height: 30px;\"/><p style=\"margin-bottom: 0px;\">" + text + "</p></div>");
         return template;
     }
   }
@@ -148,12 +148,8 @@ $("#hotel").click(function() {
 $("#loginbutton").click(function() {  
   $(".login-section").toggle(); 
 });
+
 //Guestroomstoggle
-$(".guestrooms").click(function() {
-  console.log('sdadfdfsafa');
-  $(".members").toggle();
-  $(".guestrooms").addClass('arrowcheck'); 
-});
 
 $('.counter-minus').click(function(){
   quantityField = $(this).next();
@@ -305,45 +301,47 @@ $(".calender-sec").click(function() {
   //   $('#list_show').append(element);
   // }
 
-  // $('#search_field').click(function () {
-  //   $('.auto_suggest').show();
-  //   $('.auto_suggest').addClass('open')
-  // })
 
 
+// popular-filter
 
-  // $('body').click(function (e) {
-  //   console.log('event :', e.target.id)
-  //   if (e.target.id != 'search_field') {
-  //     $('.auto_suggest').hasClass('open') ? $('.auto_suggest').hide() : '';
-  //   }
-  //   else if (e.target.id == 'search_field') {
-  //     $('#guest').hide();
-  //     console.log('guest hide!!!');
-  //   }
-  //   else {
-  //     console.log('else')
-  //   }
-  // });
+var restrict = ["guestrooms","search_field",'popular-filter']
+// var $el = $("#guestrooms");
+// var $ee = $("#search_field");
+// var $e3 = $('.checkboxstyle');
+// var $e4 = $('.tab_content');
+
+// $el.click(function(e) {
+// 	e.stopPropagation();
+// });
+
+$("#guestrooms , #search_field").click(function(e) {
+	e.stopPropagation();
+});
+
+$("body").on('click', function(e) {
+	if( !(restrict.includes(e.target))) {  
+    $('.auto_suggest').hasClass('open') ? $('.auto_suggest').hide() : '';
+    $('.Pop_Filter').hide();
+    // $('.members').hasClass('members-open') ? $('.members').removeClass('members-open') : '';
+	}
+});
 
 
+$('#search_field').click(function () {
+  $('.auto_suggest').show();
+  $('.auto_suggest').addClass('open');  
+})
 
-  //  auto suggest API code
+$('#guestrooms').click(function () {
+  $('.members').show();  
+})
 
+$('#guests_ok').click(function()
+{
+  $('.members').hide();
+})
 
-
-// datapicker script end 
-
-
-//Search intregration
-
-// $checks = $(":checkbox");
-//     $checks.on('change', function() {
-//         var string = $checks.filter(":checked").map(function(i,v){
-//             return this.value;
-//         }).get().join(" ");
-//         $('.pop-input').val(string);
-//     });
 
 $("input:checkbox").click(function() {
       var output = "";
@@ -352,15 +350,6 @@ $("input:checkbox").click(function() {
       });
       $(".pop-input").val(output.trim());
 });
-//get all search value
-  //   $('.getVal').click(function(){
-  //     var value = $("[name='properties[wallpaper_size_width]']").val();
-  //     console.log(value);
-  //  });
-
-
-  
-  //$("#search_field").val($("#list_show :selected").val())
 
   setTimeout(function () {
   
@@ -386,35 +375,3 @@ $('#loginformid').validate({ // initialize the plugin
 
 
 });
-
-
-
-
-
-// function filter() {
-
-//   var input, filter, ul, li, a, i, txtValue;
-
-//   input = document.getElementById("search_field");
-
-//  if(input.value != '')
-//  {
-//   filter = input.value.toUpperCase();
-
-//   ul = document.getElementById("list_show");
-
-//   li = ul.getElementsByTagName("li");
-
-//   for (i = 0; i < li.length; i++) {
-//       a = li[i].children[1];
-//       txtValue = a.textContent || a.innerText;
-//       if ((txtValue.toUpperCase().indexOf(filter) > -1)) {
-//           li[i].style.display = "";
-//       } 
-//       else 
-//       {
-//           li[i].style.display = "none !important";
-//       }
-//   }
-// }
-// }

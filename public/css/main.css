@@ -2248,6 +2248,10 @@ td.available {
   border-bottom: 1px solid #e5e5e5;
   padding: 1rem 0rem;
 }
+.suggest_city{
+  display:flex;
+  align-items: center;
+}
 .city-place p {
   margin: 0px;
   margin-left: 1rem;
@@ -2350,4 +2354,9 @@ td.available {
 .error {
   color: red;
   padding: .375rem .75rem;
+}
+
+.members,.auto_suggest
+{
+    display: none;
 }

@@ -21,11 +21,11 @@
                         <div class="auto_suggest">
 
                             <ul id="list_show">
-
+                            <?php if(count($suggestCities) > 0) { ?>
                             <?php $__currentLoopData = $suggestCities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$suggest_cities): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>       
-                            <li class="align-items-center" data-regionId=<?php echo e($suggest_cities->RegionID); ?>><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="PopularDestination_PopularDestination__icon__Y2IyM BpkIcon_bpk-icon--rtl-support__NjAzZ" style="width: 1.5rem; height: 1.5rem;"><path d="<?php echo $svg_image;?>"></path></svg></div><div class="city-place"><p class="city"><?php echo e($suggest_cities->CityName); ?></p><p class="cityplace"><?php echo e($suggest_cities->ProvinceName); ?> , <?php echo e($suggest_cities->CountryName); ?></p></div></li>
+                            <li class="suggest_city" data-regionId=<?php echo e($suggest_cities->RegionID); ?>><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="PopularDestination_PopularDestination__icon__Y2IyM BpkIcon_bpk-icon--rtl-support__NjAzZ" style="width: 1.5rem; height: 1.5rem;"><path d="<?php echo $svg_image;?>"></path></svg></div><div class="city-place"><p class="city"><?php echo e($suggest_cities->CityName); ?></p><p class="cityplace"><?php echo e($suggest_cities->ProvinceName); ?> , <?php echo e($suggest_cities->CountryName); ?></p></div></li>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
+                            <?php } ?>
                             </ul>
 
                         </div>
@@ -34,15 +34,13 @@
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6 col-12 form-group">
                     <label>Check- In & check Out</label>
-                    <input type="text" class="calender-sec" name="datefilter" id="date_picker" value="06/11/2022 to 13/11/2022 "/>  
+                    <input type="text" class="calender-sec" name="datefilter" id="date_picker" value="06/11/2022 to 13/11/2022" readonly/>  
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6 col-12 form-group">
                     <label>Guests and Rooms</label>                   
                     <div class="position-relative">
-                        <div class="guestrooms">
+                        <div class="guestrooms" id="guestrooms">
                             <input class="guest-input" value="1 adult, 1 Room" readonly />                      
-                        </div>
-                        <div>
                         </div>
                         <div class="members" style="display:none">
                                 <div class="list-room">
@@ -107,7 +105,7 @@
                 <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6 col-12 form-group">
                     <label>Ratings</label>
                     <div class="position-relative PopularFilters">
-                        <div class="Popular-Filters">
+                        <div class="Popular-Filters" id="popular-filter">
                             <input class="pop-input" value="4 Stars" readonly />                      
                         </div>
                         <div class="Pop_Filter" style="display:none">
@@ -187,7 +185,7 @@
                     <?php
                     $count = 0;
                     ?>
-                    
+                <?php if(count($staycation_cities) > 0) { ?>     
                 <?php $__currentLoopData = $staycation_cities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                      <li class="nav-item " >
                             <a class="nav-link <?php echo $count==0 ? 'active' : '';?>" data-toggle="pill" href="#<?php echo e($value->province); ?>" onclick="getHotels('<?php echo e($value->province); ?>')">  <?php echo e($value->province); ?></a>
@@ -196,6 +194,7 @@
                             ?>
                         </li> 
                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                  <?php  } ?>
                         <!-- <li class="nav-item">
                             <a class="nav-link" data-toggle="pill" href="#menu1">Manchester</a>
                         </li>
@@ -210,15 +209,19 @@
                         </li> -->
                     </ul>
                 </div> 
+
                 <div class="col-xl-10 col-lg-8 col-md-8 col-12">
                     <!-- Tab panes -->
 
-                    <div class="tab-content">
-                      
-                      <div id="" class="tab-pane active">
+                <div class="tab-content">
+
+                    <div id="loader" class="">
+
+                        <div id="append_hotel" class="tab-pane active">
 
                           <div class="owl-carousel owl-theme city-1" id="sec2-carousel">
 
+                               <?php if(count($hotels) > 0) { ?>
                               <?php $__currentLoopData = $hotels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                 <div class="item">
@@ -237,7 +240,7 @@
                                             <div class="place-per">
                                                 <div class="loc-left">
                                                     <img src="<?php echo e(asset('images/location.svg')); ?>">
-                                                    <div><p class="mb-1"><?php echo e($value->city); ?>Edinburgh,</p><p class="m-0"><?php echo e($value->country); ?></p></div>
+                                                    <div><p class="mb-1"><?php echo e($value->city); ?></p><p class="m-0"><?php echo e($value->country); ?></p></div>
                                                 </div>
                                                 <div class="per-right">
                                                     <div>$<?php echo e($value->referencePrice_value); ?></div>
@@ -248,9 +251,10 @@
                                     </div>
                                 </div>
 
-                              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
- 
-                            </div>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php } ?>
+                                </div>
+                                </div>
 
                           </div>
 
@@ -290,7 +294,9 @@
                 </div>
 
             </div>
+
         </div>
+
         <div class="sec3-inner">
             <div class="section-3">
                 <div class="row m-0">
@@ -388,11 +394,32 @@
     </div>
 </div>
 
+<style>
+
+.loader {
+  border: 10px solid #f3f3f3; /* Light grey */
+  border-top: 10px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: spin 2s linear infinite;
+  margin-top: 5%;
+  margin-left: 40%;
+}
+
+@keyframes  spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+</style>
+
 <script>
     
 function getHotels(city)
 {
-
+$('#sec2-carousel').html('');
+$('#loader').addClass('loader')
 $.ajax({
   type:'GET',
   url:"/getHotels",
@@ -401,12 +428,45 @@ $.ajax({
        if($.isEmptyObject(data.error)){
         console.log('hotels fetched!!!',data)
         let hotels = '';
-        $('#sec2-carousel').html('');
+        if(data.length == 0)
+        {
+            $('#append_hotel').append('No Hotels Found!!')
+        }
         data.map(function(item){
-             console.log('item : ',item)
+            //  console.log('item : ',item)
              hotels += `<div class="item"><div class="inner-carousel"><div class="main-img"><img src='${item.heroImage}' style="height:213px"></div><div class="star-per"><div class="place-star mb-3"><div class="place-left">${item.propertyName}</div><div class="star-right"><img src="<?php echo e(asset('images/Star.svg')); ?>"><div>${item.rating}</div></div></div><div class="place-per"><div class="loc-left"><img src="<?php echo e(asset('images/location.svg')); ?>"><div><p class="mb-1">${item.city}</p><p class="m-0">${item.country}</p></div></div><div class="per-right"><div>$${item.referencePrice_value}</div><p>Per Night</p></div></div></div></div></div>`
      })
-        $('#sec2-carousel').append(hotels)
+        let lll = "<div class='owl-carousel owl-theme city-1' id='sec2-carousel'>"+hotels+"</div>";
+        $('#sec2-carousel').remove();
+        $('#loader').removeClass('loader')
+        $('#append_hotel').append(lll)
+        $('#sec2-carousel').owlCarousel({
+    loop:true,
+    margin:10,
+    nav:true,
+    dots:false,
+    responsive:{
+        280:{
+            items:1
+        },
+        500:{
+            items:2
+        },
+        768:{
+          items:2
+        },
+        992:{
+          items:3
+        },
+        1200:{
+            items:4
+        },
+        1900:{
+          items:5
+        }
+    }
+})
+
 
        }else{
            printErrorMsg(data.error);
@@ -415,6 +475,8 @@ $.ajax({
 });
 
 }
+
+
 
 // $('#search_field').on('keyup',function()
 // {
@@ -453,8 +515,6 @@ $.ajax({
 // }
 
 function filter() {
-     
-    debugger;
 
     var input, filter, ul, li, a, i, txtValue;
 
@@ -472,11 +532,15 @@ function filter() {
     for (i = 0; i < li.length; i++) {
 
         a = li[i].getElementsByTagName("p")[0];
+        // console.log("a : ",a);
+
         txtValue = a.textContent || a.innerText;
+
+        // txtValue = a.startsWith(`${txtValue}`)
 
         if ((txtValue.toUpperCase().indexOf(filter) > -1)) {
            
-            console.log('filter come!!!')
+            // console.log('filter come!!!')
 
             li[i].style.display = "";
 
@@ -489,6 +553,9 @@ function filter() {
 }
 
 }
+
+
+
 
 </script>
 

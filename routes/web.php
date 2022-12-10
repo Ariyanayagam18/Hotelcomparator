@@ -37,7 +37,7 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [App\Http\Controllers\AjaxController::class, 'defaultDatas'])->name('defaultDatas');
 
-
+Route::get('/locale/{lang}', [App\Http\Controllers\AjaxController::class, 'locale'])->name('locale');
 
 
 
