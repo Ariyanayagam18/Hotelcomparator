@@ -858,6 +858,7 @@ S2.define('select2/results',[
       var $option = this.option(item);
 
       $options.push($option);
+      // console.log('options : ',$options)
     }
 
     this.$results.append($options);
@@ -945,11 +946,12 @@ S2.define('select2/results',[
 
   Results.prototype.option = function (data) {
     var option = document.createElement('li');
-    option.className = 'select2-results__option';
+    option.className = 'locale select2-results__option';
 
     var attrs = {
       'role': 'treeitem',
-      'aria-selected': 'false'
+      'aria-selected': 'false',
+      'data-language': `${data.text}`
     };
 
     if (data.disabled) {

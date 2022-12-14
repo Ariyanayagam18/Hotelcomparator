@@ -12,7 +12,7 @@
                     <label>Where do you want to stay </label>
                      
                     <div class="position-relative">
-                        <input type="text" placeholder="Enter Destination or Hotel Name" class="search-stay search_field" onkeyup="filter()" id="search_field">      
+                        <input type="text" placeholder="Enter Destination or Hotel Name" class="search-stay search_field" onkeyup="filter()" oninput="suggestPlaces(this.value)" id="search_field">      
 
                         <?php 
                         $svg_image = 'M19 6h-4a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v15a1 1 0 0 0 2 0V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2 2.15 2.15 0 0 0-2 2v13a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V21a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V8a2.15 2.15 0 0 0-2-2zm-5 11a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm4 6a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zM9 7a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0-3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1z';
@@ -189,7 +189,7 @@
                 <?php if(count($staycation_cities) > 0) { ?>     
                 @foreach($staycation_cities as $key => $value)
                      <li class="nav-item " >
-                            <a class="nav-link <?php echo $count==0 ? 'active' : '';?>" data-toggle="pill" href="#{{$value->province}}" onclick="getHotels('{{$value->province}}')">  {{ $value->province }}</a>
+                            <a class="nav-link <?php echo $count==0 ? 'active' : '';?>" data-toggle="pill" href="#{{$value->ProvinceName}}" onclick="getHotels('{{$value->ProvinceName}}')">  {{ $value->ProvinceName }}</a>
                             @php
                             $count++
                             @endphp
@@ -198,7 +198,6 @@
                   <?php  } ?>
                     </ul>
                 </div> 
-
                 <div class="col-xl-10 col-lg-8 col-md-8 col-12">
                     <!-- Tab panes -->
 
@@ -371,13 +370,18 @@
     
 function getHotels(city)
 {
+$('#append_hotel').html('');
 $('#sec2-carousel').html('');
 $('#loader').css('display','block');
 
 $.ajax({
   type:'GET',
   url:"/getHotels",
-  data:{city:city},
+  data:{
+    city:city,
+    locale : localStorage.getItem("locale")
+
+},
   success:function(data){
        if($.isEmptyObject(data.error)){
         console.log('hotels fetched!!!',data)
@@ -394,6 +398,7 @@ $.ajax({
         $('#sec2-carousel').remove();
         $('#loader').css('display','none')
         $('#append_hotel').append(lll)
+        
         $('#sec2-carousel').owlCarousel({
     loop:true,
     margin:10,
@@ -421,7 +426,6 @@ $.ajax({
     }
 })
 
-
        }else{
            printErrorMsg(data.error);
        }
@@ -439,34 +443,38 @@ $.ajax({
 // })
 
 
-// function suggestPlaces(search_word) {
+function suggestPlaces(search_word) {
 
-//     console.log('search_word : ',search_word)
+    console.log('search_word : ',search_word)
 
-//     // var search_word = document.getElementById("search_field").value;
-//     $.ajax({
-//   type:'GET',
-//   url:"/suggestPlaces",
-//   data:{
-//     country : 'United States',
-//     search_word : search_word
-// },
-//   success:function(data){
-//        if($.isEmptyObject(data.error)){
-//         console.log('suggested cities : ',data)
-//         let suggest = '';
-//             data.map(function(item) {
-//             suggest += '<li class="d-flex align-items-center" data-regionId='+item.RegionID+'><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="PopularDestination_PopularDestination__icon__Y2IyM BpkIcon_bpk-icon--rtl-support__NjAzZ" style="width: 1.5rem; height: 1.5rem;"><path d="M19 6h-4a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v15a1 1 0 0 0 2 0V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2 2.15 2.15 0 0 0-2 2v13a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V21a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V8a2.15 2.15 0 0 0-2-2zm-5 11a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm4 6a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zM9 7a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0-3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1z"></path></svg></div><div class="city-place"><p class="city">'+item.CityName+'</p><p class="cityplace">'+item.ProvinceName+','+item.CountryName+'</p></div></li>'
-//         })
-//         $('#list_show').html('');
-//         $('#list_show').append(suggest);
-//        }else{
-//            printErrorMsg(data.error);
-//        }
-//   }
-// });
+    search_word.length
+    const search = search_word.charAt(0).toUpperCase() + search_word.slice(1)
+    // var search_word = document.getElementById("search_field").value;
+    if(search.length > 2)
+    {
+    $.ajax({
+  type:'GET',
+  url:"/suggestPlaces",
+  data:{
+    search_word : search
+},
+  success:function(data){
+       if($.isEmptyObject(data.error)){
+        console.log('suggested cities : ',data)
+        let suggest = '';
+            data.map(function(item) {
+            suggest += '<li class="d-flex align-items-center" data-regionId='+item.RegionID+'><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="PopularDestination_PopularDestination__icon__Y2IyM BpkIcon_bpk-icon--rtl-support__NjAzZ" style="width: 1.5rem; height: 1.5rem;"><path d="M19 6h-4a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v15a1 1 0 0 0 2 0V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2 2.15 2.15 0 0 0-2 2v13a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V21a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V8a2.15 2.15 0 0 0-2-2zm-5 11a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm4 6a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zM9 7a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0-3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1z"></path></svg></div><div class="city-place"><p class="city">'+item.CityName+'</p><p class="cityplace">'+item.ProvinceName+','+item.CountryName+'</p></div></li>'
+        })
+        $('#list_show').html('');
+        $('#list_show').append(suggest);
+       }else{
+           printErrorMsg(data.error);
+       }
+  }
+});
+    }
 
-// }
+}
 
 function filter() {
 
@@ -508,11 +516,22 @@ function filter() {
 
 }
 
+$('.localechoose').click(function(e){
+    $('#select2-id_select2_example-container').attr('title') == 'FR' ? localStorage.setItem("locale",'frFR') : localStorage.setItem("locale",'enUS')
+    // console.log("translate : ",translate(localStorage.getItem("locale"))) 
+    location.href = `/locale/${localStorage.getItem("locale")}`
 
+})
 
+$('.locale').each(function(){
+    // console.log('locale : ',$(this).data('locale'))
+    if(localStorage.getItem("locale") == $(this).data('locale'))
+    {
+        $(this).attr('selected','true')
+    }
+})
 
 </script>
-
 
 
 

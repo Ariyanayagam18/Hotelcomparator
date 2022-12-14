@@ -1,0 +1,35 @@
+    Hostname : 18.135.144.242
+
+    Database : prod_hotelcomp
+
+    Username: monty217
+
+    Password : Xvvbfg#WEsdf@526
+
+
+ec2-18-135-144-242.eu-west-2.compute.amazonaws.com	
+
+$ puttygen hotelComp_keypair05.12.2022.pem -O private -o hotelComp_keypair05.12.2022.ppk
+
+
+ssh -i "hotelComp_keypair05.12.2022.pem" ec2-user@ec2-18-135-144-242.eu-west-2.compute.amazonaws.com	
+
+
+user name : TwilightDev
+
+pass : TwilightDev712
+
+public  IP : 18.135.144.242   /  ec2-18-135-144-242.eu-west-2.compute.amazonaws.com	
+
+
+December
+
+December - 5 
+
+Tables 
+
+
+
+
+
+

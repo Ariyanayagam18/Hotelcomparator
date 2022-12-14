@@ -9,26 +9,29 @@ use Illuminate\Support\Facades\Redirect;
 
 class AjaxController extends Controller
 {
-
-
+    
 public function defaultDatas()
 {
+ 
     // $location = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.$_SERVER['REMOTE_ADDR']));
 
     // $user_country = $location['geoplugin_countryName'];
-    $user_country = 'India';
 
-    $staycation_cities = DB::table('T_property_location_enUS')
-    ->select('province')
-    ->where('country',"$user_country")
-    ->limit(5)
-    ->inRandomOrder()
-    ->get()
-    ->toArray();
-    // dd('dasasd');/
-    
-    
-    $suggestCities = DB::table('T_idsRegions_enUS')
+        $user_country = 'India';
+
+        $staycation_cities = DB::table("T_idsRegions_enUS")
+        ->select('ProvinceName')
+        ->where('ProvinceName','!=','')
+        ->where('CountryName',"$user_country")
+        ->limit(5)
+        // ->distinct('ProvinceName')
+        ->inRandomOrder()
+        ->get()
+        ->toArray();
+
+//    dd($staycation_cities);
+
+    $suggestCities = DB::table("T_idsRegions_enUS")
     ->select('RegionID','CityName','ProvinceName','CountryName')
     ->where('CityName','!=','')
     ->whereOr('CountryName','=',"$user_country")
@@ -37,53 +40,35 @@ public function defaultDatas()
     ->get()
     ->toArray();
 
-    // echo "<pre>";print_r($staycation_cities);
-    // dd($suggestCities);
-
-    $hotels = DB::table('T_summary_data_enUS')
+    $hotels = DB::table("T_summary_data_enUS")
     ->select('heroImage','propertyName','city','country','rating','referencePrice_value')
-    ->where('province',$staycation_cities["0"]->province)
+    ->where('province',$staycation_cities["0"]->ProvinceName)
     ->where('rating','!=','')
     ->limit(12)
     ->orderBy('rating','desc')
     ->get()
     ->toArray();
-
-    // dd($hotels);
 
     $login = 1; 
 
     return view('welcome',compact('staycation_cities','hotels','login','suggestCities'));
-    
 }
 
-
-public function getCities(Request $request)
-{
-    $staycation_cities = DB::table('T_displaySections')
-    ->where('RegionID',$request->regionId)->where('Section','staycation')
-    ->select('CityName')
-    ->get();
-
-    return $staycation_cities;
-
-}
 
 public function getHotels(Request $request)
 {
-    // dd('dfsdsas');
-    $hotels= DB::table('T_summary_data_enUS')
+    $locale =  isset($request->locale)? $request->locale : 'enUS';
+
+    $hotels= DB::table("T_summary_data_$locale")
     ->select('heroImage','propertyName','city','country','rating','referencePrice_value')
     ->where('province',$request->city)
-    ->where('rating','!=','')
+    ->orWhere('province',$this->translate($request->city,'fr','en'))
+    ->whereNotNull('rating')
     ->orderBy('rating','desc')
-    ->distinct()
     ->limit(12)
     ->get()
     ->toArray();
-        
-    // dd($hotels);
-    
+
      return $hotels;
 }
 
@@ -92,10 +77,10 @@ public function suggestPlaces(Request $request)
 
     $suggestion = DB::table('T_idsRegions_enUS')
     ->select('CityName','RegionID','CountryName','ProvinceName')
-    ->distinct('CityName')
-    ->where('CountryName','like',$request->country.'%')
-    ->where('CityName','like',$request->search_word.'%')
-    ->limit(12)
+    ->whereNotNull('CityName')
+    ->whereNotNull('ProvinceName')
+    ->where('CityName','like',"$request->search_word%")
+    ->distinct('CityName','CountryName')
     ->get()
     ->toArray();
 
@@ -105,89 +90,49 @@ public function suggestPlaces(Request $request)
 public function locale($locale)
 {
     
-    if($locale == "FR")
-    {
-    // dd($locale);
-    $staycation_cities = DB::table("T_idsRegions_frFR as France")
-    ->join('T_property_location_enUS as Location','France.CountryName','=','Location.country')
-    ->where('France.ProvinceName','!=','')
-    ->where('country','France')
-    ->distinct('France.ProvinceName')
-    ->select('France.ProvinceName')
-    ->limit(5)
-    ->get()
-    ->toArray();
+        $user_country = 'India';
 
- 
+        $locale =  isset($locale)? $locale : 'enUS';
+        
+        $user_country =  $locale == 'enUS' ? 'India' : $this->translate($user_country,'en','fr');
 
-    $suggestCities = DB::table('T_idsRegions_frFR')
-    ->select('RegionID','CityName','ProvinceName','CountryName')
-    ->where('CityName','!=','')
-    ->whereOr('CountryName','=','France')
-    ->where('CountryName','like','Franc%')
-    ->distinct('CityName')
-    ->get()
-    ->toArray();
-
-    // echo "<pre>";print_r($suggestCities);
-    // dd($staycation_cities);
-
-
-    $hotels = DB::table('T_summary_data_enUS')
-    ->select('heroImage','propertyName','city','country','rating','referencePrice_value')
-    ->where('province',$staycation_cities["0"]->ProvinceName)
-    ->where('rating','!=','')
-    ->orderBy('rating','desc')
-    ->distinct()
-    ->limit(12)
-    ->get()
-    ->toArray();
-
-    // dd($staycation_cities);
-
-    // $hotels = array();
-    $login = 2;
-    // $suggestCities = array();
+        $staycation_cities = DB::table("T_idsRegions_$locale")
+        ->select('ProvinceName')
+        ->where('ProvinceName','!=','')
+        ->where('CountryName',"$user_country")
+        ->limit(5)
+        // ->distinct()
+        ->inRandomOrder()
+        ->get()
+        ->toArray();
     
-    // echo "<pre>";print_r($suggestCities);
+        $suggestCities = DB::table("T_idsRegions_$locale")
+        ->select('RegionID','CityName','ProvinceName','CountryName')
+        ->where('CityName','!=','')
+        ->whereOr('CountryName','=',"$user_country")
+        ->where('CountryName','like',"$user_country")
+        ->distinct('CityName')
+        ->get()
+        ->toArray();
 
-    // dd($staycation_cities);
-    // return view('homepage',compact('staycation_cities'));
+        $hotels = DB::table("T_summary_data_$locale")
+        ->select('heroImage','propertyName','city','country','rating','referencePrice_value')
+        ->where('province',$staycation_cities["0"]->ProvinceName)
+        ->where('rating','!=','')
+        ->limit(12)
+        ->orderBy('rating','desc')
+        ->get()
+        ->toArray();
 
-    return view('frwelcome', compact('staycation_cities','hotels','login','suggestCities'));
+        $login = 1; 
 
-    }
-    // elseif($locale == "EN")
-    // {
-    //     $staycation_cities = DB::table("T_idsRegions_enES")
-    //     ->join('T_property_location_enUS','T_idsRegions_enES.CountryName','=','T_property_location_enUS.country')
-    //     ->where('T_idsRegions_enES.ProvinceName','!=','')
-    //     ->where('country','France')
-    //     ->distinct('T_idsRegions_enES.ProvinceName')
-    //     ->select('T_idsRegions_enES.ProvinceName')
-    //     ->limit(5)
-    //     ->get()
-    //     ->toArray();
+        return view('welcome',compact('staycation_cities','hotels','login','suggestCities'));
+}
 
-
-
-    // }
-    else
-    {
-        // $staycation_cities = DB::table('T_property_location_enUS')
-        // ->select('province')
-        // // ->distinct('province')
-        // ->where('country','United States')
-        // ->limit(5)
-        // ->get()
-        // ->toArray();
-    
-    
-        // //  dd($staycation_cities);
-    
-           return redirect('/');
-    }
-  
+public function translate($sourceText,$sourceLang,$targetLang)
+{
+    $res = json_decode(file_get_contents("https://translate.googleapis.com/translate_a/single?client=gtx&sl=".$sourceLang."&tl=". $targetLang."&dt=t&q=".$sourceText));
+    return $res[0][0][0];
 }
 
 }

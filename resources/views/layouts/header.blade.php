@@ -43,20 +43,14 @@
     $token=Auth::id();
   //  dd(Auth::id());
     ?>
-
-
     <ul class="navbar-nav">
     	<li><a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a></li>
-      <li class="nav-item">
+      <li class="localechoose nav-item">
         <select id="id_select2_example">
-          <?php if($login == 2) { ?>
-            <option value="FR" data-img_src="{{asset('images/Flags/france.svg')}}">FR</option>
-            <?php } else { ?>
-              <option value="USA" data-img_src="{{asset('images/Flags/usa.svg')}}">USA</option>
-           <?php } ?>
-          <option value="EN" data-img_src="{{asset('images/Flags/EN.svg')}}">EN<s/option>
-          <option value="FR" data-img_src="{{asset('images/Flags/france.svg')}}">FR</option>
-          <option value="IND" data-img_src="{{asset('images/Flags/india.svg')}}">IND</option>
+          <option class="locale" value="USA" data-locale="enUS" data-img_src="{{asset('images/Flags/usa.svg')}}">USA</option>
+          <option class="locale"  value="EN" data-img_src="{{asset('images/Flags/EN.svg')}}">EN</option>
+          <option class="locale" value="FR" data-locale="frFR" data-img_src="{{asset('images/Flags/france.svg')}}">FR</option>
+          <option class="locale" value="IND" data-img_src="{{asset('images/Flags/india.svg')}}">IND</option>
         </select>
       </li>
       <li class="nav-item coins-list">
@@ -102,17 +96,5 @@
   </div>  
 </nav>
 
-
-<script type="text/javascript">
-  
-  $(document).on('click','.locale',function(){
-console.log('locale : ',$(this).attr('data-locale'))
-if($(this).attr('data-locale') != 'USA')
-{
-  location.href = `/locale/${$(this).attr('data-locale')}`
-}
-  });
-
-</script>
 
 

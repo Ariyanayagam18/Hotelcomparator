@@ -37,9 +37,7 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [App\Http\Controllers\AjaxController::class, 'defaultDatas'])->name('defaultDatas');
 
-Route::get('/locale/{lang}', [App\Http\Controllers\AjaxController::class, 'locale'])->name('locale');
-
-
+Route::get('/locale/{locale}/', [App\Http\Controllers\AjaxController::class, 'locale'])->name('locale');
 
 Auth::routes();
 
@@ -104,6 +102,7 @@ Route::controller(AjaxController::class)->group(function(){
     Route::get('cities', 'cities')->name('cities');
     Route::get('getHotels', 'getHotels')->name('getHotels');
     Route::get('suggestPlaces','suggestPlaces')->name('suggestPlaces');
+    // Route::get('locale','locale')->name('locale');
 });
 
 

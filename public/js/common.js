@@ -10,8 +10,6 @@ function closeNav() {
 
 
 $(document).ready(function(){
-
- 
   // header select script start 
 
   function custom_template(obj){
@@ -19,7 +17,7 @@ $(document).ready(function(){
     var text = $(obj.element).text();
     if(data && data['img_src']){
         img_src = data['img_src'];
-        template = $("<div><img src=\"" + img_src + "\" style=\"width: 30px;height: 30px;\"/><p style=\"margin-bottom: 0px;\">" + text + "</p></div>");
+        template = $("<div><img src=\"" + img_src + "\"  style=\"width: 30px;height: 30px;\"/><p  class='language' style=\"margin-bottom: 0px;\">" + text + "</p></div>");
         return template;
     }
   }
@@ -37,7 +35,7 @@ $(document).ready(function(){
 
     if(data && data['img_src']){
         img_src = data['img_src'];
-        template = $("<div class='locale' data-locale='"+text+"' ><img src=\"" + img_src + "\" style=\"width: 30px;height: 30px;\"/><p style=\"margin-bottom: 0px;\">" + text + "</p></div>");
+        template = $("<div><img src=\"" + img_src + "\" style=\"width: 30px;height: 30px;\"/><p style=\"margin-bottom: 0px;\">" + text + "</p></div>");
         return template;
     }
   }
@@ -49,7 +47,6 @@ $(document).ready(function(){
   $('.select2-container--default .select2-selection--single').css({'height': 'auto'});
 
   // header select script start 
-
 
   $('#sec2-carousel').owlCarousel({
     loop:true,
@@ -106,6 +103,7 @@ $('#sec5-carousel').owlCarousel({
     }
   }
 })
+
 // pagination scritp start 
 
 var items = $(".list-wrapper .list-item");
@@ -127,17 +125,6 @@ var items = $(".list-wrapper .list-item");
     });
 
 // pagination scritp end 
-
-// $('body').on('click',function(){
-//   console.log('sfasdfadfa',$(this).val())
-// });
-
-$('.nav-link').click(function()
-{
-  console.log('click!!')
-})
-
-
 
 
 $("#hotel").click(function() {  
@@ -255,21 +242,6 @@ $(".calender-sec").click(function() {
 
   console.log('days : ', $('#no_of_days'))
 
-  // const datePicker = () => {
-  //   $('.table-condensed')[0].childNodes[0].firstChild.lastElementChild.remove();
-  //   let next = $('.table-condensed')[1].childNodes[0].firstChild.lastElementChild
-  //   $(next).insertAfter('.month')
-  //   //console.log('date picker !!!!')
-  // }
-
-  //setTimeout(datePicker, 3000)
-
-  // $('body').click(function (event) {
-  //   datePicker();
-  //   //console.log('event : ',event)
-  // })
-
-
   //  auto suggest API code
 
   async function getLocation() {
@@ -282,38 +254,9 @@ $(".calender-sec").click(function() {
     console.log('current user data =======> ', data)
   }))
 
-  // async function getUsers(locale, language) {
-  //   let response = await fetch(`https://www.skyscanner.net/g/autosuggest-search/api/v1/search-hotel/${locale}/${language}/?rf=map&vrows=10`);
-  //   let data = await response.json()
-  //   return data;
-  // }
-
-  // getUsers('IN', 'en-GB').then(data => showList(data))
-
-  // let element = '';
-
-  // let svg_image = 'M19 6h-4a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v15a1 1 0 0 0 2 0V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2 2.15 2.15 0 0 0-2 2v13a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V21a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V8a2.15 2.15 0 0 0-2-2zm-5 11a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm4 6a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zM9 7a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0-3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1z'
-
-  // const showList = (response) => {
-  //   response.map(function (item) {
-  //     element = element + '<li class="d-flex align-items-center"><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="PopularDestination_PopularDestination__icon__Y2IyM BpkIcon_bpk-icon--rtl-support__NjAzZ" style="width: 1.5rem; height: 1.5rem;"><path d="' + svg_image + '"></path></svg></div><div class="city-place"><p class="city">' + item.entity_name + '</p>' + '<p class="cityplace">' + item.hierarchy.replaceAll('|', ',') + '</p></div>' + '</li>';
-  //   })
-  //   $('#list_show').append(element);
-  // }
-
-
-
 // popular-filter
 
 var restrict = ["guestrooms","search_field",'popular-filter']
-// var $el = $("#guestrooms");
-// var $ee = $("#search_field");
-// var $e3 = $('.checkboxstyle');
-// var $e4 = $('.tab_content');
-
-// $el.click(function(e) {
-// 	e.stopPropagation();
-// });
 
 $("#guestrooms , #search_field").click(function(e) {
 	e.stopPropagation();
@@ -372,6 +315,5 @@ $('#loginformid').validate({ // initialize the plugin
   
 
 })
-
 
 });
