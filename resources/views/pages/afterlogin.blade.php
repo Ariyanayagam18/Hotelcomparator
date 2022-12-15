@@ -1,6 +1,7 @@
 <div class="afterlogin">
     @include('layouts/header')
     <div class="home-page">
+   
         <div class="banner-section">
             
         </div>
@@ -9,25 +10,29 @@
                 <div class="row m-0 justify-content-between">
                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 form-group">
                         <label>Where do you want to stay</label>
+                        <form method="post" action="{{url('hotelsearch')}}" id="search-holder">
+                      <input type="hidden" name="_token" value="{{ csrf_token() }}">   
                         <div class="position-relative">
-                        <input type="text" placeholder="Enter Destination or Hotel Name" class="search-stay search_field" id="search_field">                   
+                        <input type="text" placeholder="Enter Destination or Hotel Name" name="country"  class="search-stay search_field"  value="<?php echo $inputdata['country'];?>" readonly>                   
                         <div class="auto_suggest" style="display:none;">
                             <ul id="list_show">
+                       
                             </ul>
                         </div>
                     </div>
                     </div>
                     <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6 col-12 form-group">
                         <label>Check- In & check Out</label>
-                        <input type="text" class="calender-sec" name="datefilter" id="date_picker" value=""/> 
+                        <input type="text" class="calender-sec"  value="<?php echo $inputdata['country'];?>" /> 
                     </div>
                     <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6 col-12 form-group">
                         <label>Guests and Rooms</label>
                         <div class="position-relative">
                         <div class="guestrooms">
-                            <input class="guest-input" value="1 adult, 1 Room" readonly />                      
+                            <input class="guest-input" value="<?php echo $inputdata['country'];?>" readonly />                      
                         </div>
-                        <div class="members" style="display:none">
+                        
+                        <!-- <div class="members" style="display:none">
                                 <div class="list-room">
                                     <div class="list-guest">
                                         <img src="{{asset('images/Maskgroup.svg')}}"> 
@@ -82,16 +87,16 @@
                                         Done
                                     </button>
                                 </div>
-                        </div>
+                        </div> -->
                     </div>
                     </div>
                     <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6 col-12 form-group">
                         <label>Popular Filters</label>
                         <div class="position-relative PopularFilters">
                         <div class="Popular-Filters">
-                            <input class="pop-input" value="4 Stars" readonly />                      
+                            <input class="pop-input" value="<?php echo $inputdata['country'];?>" readonly />                      
                         </div>
-                        <div class="Pop_Filter" style="display:none">
+                        <!-- <div class="Pop_Filter" style="display:none">
                             <div class="popular-bor">                                
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="customCheck27">
@@ -131,7 +136,7 @@
                                     </label>
                                 </div>                                                                
                             </div> 
-                        </div>
+                        </div> -->
                     </div>  
                     </div>
                     <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12 form-group text-center text-xl-left Search-Hotels">
@@ -550,18 +555,23 @@
                             </div>
                         </div>
                         <div class="list-wrapper">
+                            
+                            @foreach($hotels as $items)
+                          
                             <div class="row m-0  hotel-list list-item">
                                 <div class="col-xl-5 col-lg-4 col-md-4 col-sm-4 col-12 p-0">
-                                    <div class="hotel-img"><img src="{{asset('images/room/room.svg')}}" class="w-100"></div>
+                                    <div class="hotel-img"><img src="<?php if(isset($items->heroImage)){
+                                        echo $items->heroImage;}?>" class="w-100"></div>
+                                    
                                 </div>
                                 <div class="col-xl-7 col-lg-8 col-md-8 col-sm-8 col-12 p-0">
                                     <div class="row m-0 pt-3">
                                         <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7 col-7 w-sm-400">
                                             <div class="hotel-leftside">
-                                                <p class="hotel-title">Holiday Inn London West,an IHG Hotel</p>
+                                                <p class="hotel-title"><?php echo  $items->propertyName;?></p>
                                                 <div class="hotel-loc">
                                                     <img src="{{asset('images/location.svg')}}">
-                                                    <div><p class="m-0">London</p></div>
+                                                    <div><p class="m-0"><?php echo $items->country;?></p></div>
                                                 </div>
                                                 <div class="breakfast">
                                                     <img src="{{asset('images/break.svg')}}">
@@ -598,7 +608,7 @@
                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 pr-0 w-sm-400">
                                             <div class="exp-price">                                              
                                                 <div><img src="{{asset('images/exp-img.svg')}}"></div>   
-                                                <div class="value-price">$795</div> 
+                                                <div class="value-price"><?php echo $items->referencePrice_value ?></div> 
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 pl-0 w-sm-400">
@@ -609,7 +619,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row m-0  hotel-list list-item">
+                            @endforeach
+                            <!-- <div class="row m-0  hotel-list list-item">
                                 <div class="col-xl-5 col-lg-4 col-md-4 col-sm-4 col-12 p-0">
                                     <div class="hotel-img"><img src="{{asset('images/room/room1.svg')}}" class="w-100"></div>
                                 </div>
@@ -1080,7 +1091,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             
                             <div id="pagination-container"></div>
                         </div>
@@ -1100,6 +1111,7 @@
             </div>
         </div>
     </div>
+</form>
     @include('layouts/footer')
 </div>
 

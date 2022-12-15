@@ -10,20 +10,19 @@
             <div class="row m-0 justify-content-between">
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 form-group">
                     <label>Where do you want to stay </label>
-                     
+                    <form method="post" action="{{url('hotelsearch')}}" id="search-holder">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">   
                     <div class="position-relative">
-                        <input type="text" placeholder="Enter Destination or Hotel Name" class="search-stay search_field" onkeyup="filter()" oninput="suggestPlaces(this.value)" id="search_field">      
-
-                        <?php 
-                        $svg_image = 'M19 6h-4a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v15a1 1 0 0 0 2 0V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2 2.15 2.15 0 0 0-2 2v13a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V21a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V8a2.15 2.15 0 0 0-2-2zm-5 11a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm4 6a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zM9 7a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0-3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1z';
-                        ?>      
+                        <input type="text" placeholder="Enter Destination or Hotel Name"  name="country" class="search-stay search_field" onkeyup="filter()" oninput="suggestPlaces(this.value)" id="search_field" autocomplete="off">   
+                        
+                        <input type="hidden" placeholder="Enter Destination or Hotel Name" name="regionid" class="region-search-stay region-search_field" id="hidden_search_field" autocomplete="off">                   
 
                         <div class="auto_suggest">
 
                             <ul id="list_show">
                             <?php if(count($suggestCities) > 0) { ?>
                             @foreach ($suggestCities as $key=>$suggest_cities)       
-                            <li class="suggest_city" data-regionId={{ $suggest_cities->RegionID }}><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="PopularDestination_PopularDestination__icon__Y2IyM BpkIcon_bpk-icon--rtl-support__NjAzZ" style="width: 1.5rem; height: 1.5rem;"><path d="<?php echo $svg_image;?>"></path></svg></div><div class="city-place"><p class="city">{{
+                            <li class="suggest_city" value ={{ $suggest_cities->CityName }} data-regionId={{ $suggest_cities->RegionID }}><div><img src="{{asset('images/places.svg')}}"></div><div class="city-place"><p class="city">{{
                                 $suggest_cities->CityName }}</p><p class="cityplace">{{ $suggest_cities->ProvinceName  }} , {{ $suggest_cities->CountryName }}</p></div></li>
                             @endforeach
                             <?php } ?>
@@ -173,7 +172,7 @@
                 </div>
                 <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12 form-group text-center text-xl-left Search-Hotels">
                     <label></label>
-                    <button type="button" class="btn btn-primary" >Search Hotels</button>
+                    <button  class="btn btn-primary" id="search">Search Hotels</button>
                 </div>
             </div>                 
         </div>
@@ -189,7 +188,7 @@
                 <?php if(count($staycation_cities) > 0) { ?>     
                 @foreach($staycation_cities as $key => $value)
                      <li class="nav-item " >
-                            <a class="nav-link <?php echo $count==0 ? 'active' : '';?>" data-toggle="pill" href="#{{$value->ProvinceName}}" onclick="getHotels('{{$value->ProvinceName}}')">  {{ $value->ProvinceName }}</a>
+                            <a class="nav-link <?php echo $count==0 ? 'active' : '';?>" value="{{ $value->ProvinceName }}"  data-toggle="pill" href="#{{$value->ProvinceName}}" onclick="getHotels('{{$value->ProvinceName}}')">  {{ $value->ProvinceName }}</a>
                             @php
                             $count++
                             @endphp
@@ -198,17 +197,18 @@
                   <?php  } ?>
                     </ul>
                 </div> 
+                <input type="hidden" name="hotel_default" id="default-hotel" value="<?php echo count($hotels);?>" >
                 <div class="col-xl-10 col-lg-8 col-md-8 col-12">
                     <!-- Tab panes -->
 
                 <div class="tab-content">
 
-                    <img id="loader" style="width:150px;height:150px;display:none;margin-left: 500px;" src="{{asset('images/building_loader.gif')}}">
+                    <img id="loader" style="display:none;margin-left: 500px;height:200px" src="{{asset('images/building_loader.gif')}}">
 
                         <div id="append_hotel" class="tab-pane active">
 
                           <div class="owl-carousel owl-theme city-1" id="sec2-carousel">
-
+                    
                                <?php if(count($hotels) > 0) { ?>
                               @foreach($hotels as $key=>$value)
 
@@ -231,7 +231,7 @@
                                                     <div><p class="mb-1">{{$value->city}}</p><p class="m-0">{{$value->country}}</p></div>
                                                 </div>
                                                 <div class="per-right">
-                                                    <div>${{$value->referencePrice_value}}</div>
+                                                    <div class="currency_symbol"> <span id="currency" class="currency_sym"> $ </span><span class="exchange_price">{{$value->referencePrice_value}}</span></div>
                                                     <p>Per Night</p>
                                                 </div>
                                             </div>
@@ -344,6 +344,7 @@
             </div>
         </div>
     </div>
+</form>
 </div>
 
 <style>
@@ -367,11 +368,15 @@
 </style>
 
 <script>
-    
+
+
+currencySymbol();
+
 function getHotels(city)
 {
 $('#append_hotel').html('');
 $('#sec2-carousel').html('');
+$('#loader').attr("src","{{asset('images/building_loader.gif')}}")
 $('#loader').css('display','block');
 
 $.ajax({
@@ -379,26 +384,32 @@ $.ajax({
   url:"/getHotels",
   data:{
     city:city,
-    locale : localStorage.getItem("locale")
+    locale : localStorage.getItem("locale"),
+    currency : localStorage.getItem("currency")
 
 },
   success:function(data){
        if($.isEmptyObject(data.error)){
         console.log('hotels fetched!!!',data)
         let hotels = '';
-        if(data.length == 0)
-        {
-            $('#append_hotel').append('No Hotels Found!!')
-        }
         data.map(function(item){
             //  console.log('item : ',item)
-             hotels += `<div class="item"><div class="inner-carousel"><div class="main-img"><img src='${item.heroImage}' style="height:213px"></div><div class="star-per"><div class="place-star mb-3"><div class="place-left">${item.propertyName}</div><div class="star-right"><img src="{{asset('images/Star.svg')}}"><div>${item.rating}</div></div></div><div class="place-per"><div class="loc-left"><img src="{{asset('images/location.svg')}}"><div><p class="mb-1">${item.city}</p><p class="m-0">${item.country}</p></div></div><div class="per-right"><div>$${item.referencePrice_value}</div><p>Per Night</p></div></div></div></div></div>`
+             hotels += `<div class="item"><div class="inner-carousel"><div class="main-img"><img src='${item.heroImage}' style="height:213px"></div><div class="star-per"><div class="place-star mb-3"><div class="place-left">${item.propertyName}</div><div class="star-right"><img src="{{asset('images/Star.svg')}}"><div>${item.rating}</div></div></div><div class="place-per"><div class="loc-left"><img src="{{asset('images/location.svg')}}"><div><p class="mb-1">${item.city}</p><p class="m-0">${item.country}</p></div></div><div class="per-right"><div class="currency_symbol"> <span class="currency_sym" > $ </span> <span class="exchange_price">${item.referencePrice_value}</span></div><p>Per Night</p></div></div></div></div></div>`
      })
+        
         let lll = "<div class='owl-carousel owl-theme city-1' id='sec2-carousel'>"+hotels+"</div>";
         $('#sec2-carousel').remove();
-        $('#loader').css('display','none')
-        $('#append_hotel').append(lll)
+        if(data.length == 0)
+        {
+            $('#loader').attr("src","{{asset("images/notfound.gif")}}")
+            $('#loader').css('display','block')
+        }else{
+            $('#loader').css('display','none')
+            $('#loader').attr("src","{{asset('images/building_loader.gif')}}")
+        }
         
+        $('#append_hotel').append(lll)
+        currencySymbol();
         $('#sec2-carousel').owlCarousel({
     loop:true,
     margin:10,
@@ -434,23 +445,17 @@ $.ajax({
 
 }
 
-
-
-// $('#search_field').on('keyup',function()
-// {
-//     // console.log("input value : ",$(this).val())
-//     suggestPlaces($(this).val());
-// })
-
+getHotels($('a.nav-link.active')[0].outerText);
 
 function suggestPlaces(search_word) {
-
+    //  $('#list_show').addClass('loader');
+    //  $('#list_show').html('');
     console.log('search_word : ',search_word)
 
     search_word.length
     const search = search_word.charAt(0).toUpperCase() + search_word.slice(1)
     // var search_word = document.getElementById("search_field").value;
-    if(search.length > 2)
+    if(search.length > 2 || search.length == 2 )
     {
     $.ajax({
   type:'GET',
@@ -460,12 +465,13 @@ function suggestPlaces(search_word) {
 },
   success:function(data){
        if($.isEmptyObject(data.error)){
-        console.log('suggested cities : ',data)
+        console.log('suggested cities count : ',data.length)
         let suggest = '';
             data.map(function(item) {
-            suggest += '<li class="d-flex align-items-center" data-regionId='+item.RegionID+'><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="PopularDestination_PopularDestination__icon__Y2IyM BpkIcon_bpk-icon--rtl-support__NjAzZ" style="width: 1.5rem; height: 1.5rem;"><path d="M19 6h-4a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v15a1 1 0 0 0 2 0V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2 2.15 2.15 0 0 0-2 2v13a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V21a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V8a2.15 2.15 0 0 0-2-2zm-5 11a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm4 6a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm0-3a1 1 0 1 1 1-1 1 1 0 0 1-1 1zM9 7a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0-3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm0 6a1 1 0 1 1-1-1 1 1 0 0 1 1 1z"></path></svg></div><div class="city-place"><p class="city">'+item.CityName+'</p><p class="cityplace">'+item.ProvinceName+','+item.CountryName+'</p></div></li>'
+            suggest += '<li class="d-flex align-items-center" value ='+item.CityName+' data-regionId='+item.RegionID+'><div><img src="{{asset('images/places.svg')}}"></div><div class="city-place"><p class="city">'+item.CityName+'</p><p class="cityplace">'+item.ProvinceName+','+item.CountryName+'</p></div></li>'
         })
         $('#list_show').html('');
+        // $('#list_show').removeClass('loader');
         $('#list_show').append(suggest);
        }else{
            printErrorMsg(data.error);
@@ -476,60 +482,139 @@ function suggestPlaces(search_word) {
 
 }
 
-function filter() {
-
-    var input, filter, ul, li, a, i, txtValue;
-
-    input = document.getElementById("search_field");
-
-   if(input.value != '')
-   {
-
-    filter = input.value.toUpperCase();
-
-    ul = document.getElementById("list_show");
-
-    li = ul.getElementsByTagName("li");
-
-    for (i = 0; i < li.length; i++) {
-
-        a = li[i].getElementsByTagName("p")[0];
-        // console.log("a : ",a);
-
-        txtValue = a.textContent || a.innerText;
-
-        // txtValue = a.startsWith(`${txtValue}`)
-
-        if ((txtValue.toUpperCase().indexOf(filter) > -1)) {
-           
-            // console.log('filter come!!!')
-
-            li[i].style.display = "";
-
-        } 
-        else 
-        {
-            li[i].style.display = "none";
-        }
+function currencySymbol()
+{
+    console.log('currency : ',$('#currency'));
+    if(localStorage.getItem("currency") == 'EUR')
+    {
+        $('.currency_sym').each(function(){
+              $(this)[0].textContent =  ' € '
+        })
+    }
+    else if(localStorage.getItem("currency") == 'INR')
+    { 
+        $('.currency_sym').each(function(){
+             $(this)[0].textContent = ' ₹ '
+        })
+    }
+    else if(localStorage.getItem("currency") == 'GBP')
+    {
+        $('.currency_sym').each(function(){
+        $(this)[0].textContent = ' £ '
+        })
+    }
+    else
+    {
+       
+        $('.currency_sym').each(function(){
+        $(this)[0].textContent = ' $ '
+        })
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+function filter() {
+
+var input, filter, ul, li, a, i, txtValue;
+
+input = document.getElementById("search_field");
+
+if(input.value != '')
+{
+
+filter = input.value.toUpperCase();
+
+ul = document.getElementById("list_show");
+
+li = ul.getElementsByTagName("li");
+
+for (i = 0; i < li.length; i++) {
+
+    a = li[i].getElementsByTagName("p")[0];
+
+    txtValue = a.textContent || a.innerText;
+
+    if ((txtValue.toUpperCase().indexOf(filter) > -1)) {
+
+        li[i].style.display = "";
+
+    } 
+    else 
+    {
+        li[i].style.display = "none";
+    }
+}
+}
+
+}
+
+if($('#default-hotel').val() == 0) 
+{
+    $('#loader').attr("src","{{asset("images/notfound.gif")}}")
+    $('#loader').css('display','block')
 }
 
 $('.localechoose').click(function(e){
-    $('#select2-id_select2_example-container').attr('title') == 'FR' ? localStorage.setItem("locale",'frFR') : localStorage.setItem("locale",'enUS')
-    // console.log("translate : ",translate(localStorage.getItem("locale"))) 
-    location.href = `/locale/${localStorage.getItem("locale")}`
+  if($('#select2-id_select2_example-container').attr('title') == 'FR')
+  {
+      localStorage.setItem("locale",'frFR') 
+  }
+  else if($('#select2-id_select2_example-container').attr('title') == 'EN')
+  {
+      localStorage.setItem("locale",'esES')
+  }
+  else
+  {
+      localStorage.setItem("locale",'enUS')
+  }
+  // console.log("translate : ",translate(localStorage.getItem("locale"))) 
+  location.href = `/locale/${localStorage.getItem("locale")}`
 
 })
 
-$('.locale').each(function(){
-    // console.log('locale : ',$(this).data('locale'))
-    if(localStorage.getItem("locale") == $(this).data('locale'))
-    {
-        $(this).attr('selected','true')
-    }
+$('.coins-list').click(function(){
+  console.log("Choosen currency : ",$('#id_select2_examples').val())
+  if($('#select2-id_select2_examples-container').attr('title') != 'USD')
+  {
+      localStorage.setItem("currency",$('#select2-id_select2_examples-container').attr('title'))
+      getHotels($('a.nav-link.active')[0].outerText);
+      
+  }
+  else
+  {
+    localStorage.setItem("currency",$('#select2-id_select2_examples-container').attr('title'))
+  }
+
 })
+
+// currency conversion 
+// async function currencyRate(curr) {
+//     let response = await fetch(`https://api.coinbase.com/v2/exchange-rates?currency=${curr}`);
+//     let data = await response.json()
+//     return parseFloat(data.data.rates.USD).toFixed(6)
+
+//   }
+// currency conversion
+
+$("li").click(function ()
+{       
+var a = $(this).attr("data-regionid");
+var b = $(this).attr("value");
+console.log('value',b);
+$('#hidden_search_field').val(a);
+$("#search_field").val(b);//here the clicked value is showing in the div name user
+console.log(a);//here the clicked value is showing in the console
+});
+
 
 </script>
 

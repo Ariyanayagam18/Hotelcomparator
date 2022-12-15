@@ -48,17 +48,17 @@
       <li class="localechoose nav-item">
         <select id="id_select2_example">
           <option class="locale" value="USA" data-locale="enUS" data-img_src="{{asset('images/Flags/usa.svg')}}">USA</option>
-          <option class="locale"  value="EN" data-img_src="{{asset('images/Flags/EN.svg')}}">EN</option>
+          <option class="locale"  value="EN" data-locale="esES" data-img_src="{{asset('images/Flags/EN.svg')}}">EN</option>
           <option class="locale" value="FR" data-locale="frFR" data-img_src="{{asset('images/Flags/france.svg')}}">FR</option>
           <option class="locale" value="IND" data-img_src="{{asset('images/Flags/india.svg')}}">IND</option>
         </select>
       </li>
       <li class="nav-item coins-list">
         <select id="id_select2_examples">
-          <option data-img_src="{{asset('images/coins/USD.svg')}}">USD</option>
-          <option data-img_src="{{asset('images/coins/EUR.svg')}}">EUR</option>
-          <option data-img_src="{{asset('images/coins/INR.svg')}}">INR</option>
-          <option data-img_src="{{asset('images/coins/GBP.svg')}}">GBP</option>
+          <option class="currency" data-img_src="{{asset('images/coins/USD.svg')}}" data-currency="USD" >USD</option>
+          <option class="currency"  data-img_src="{{asset('images/coins/EUR.svg')}}" data-currency="EUR" >EUR</option>
+          <option class="currency" data-img_src="{{asset('images/coins/INR.svg')}}" data-currency="INR" >INR</option>
+          <option class="currency" data-img_src="{{asset('images/coins/GBP.svg')}}" data-currency="GBP" >GBP</option>
         </select>
       </li>
       @if(isset($login) && $login == 1)

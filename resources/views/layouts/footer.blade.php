@@ -65,3 +65,22 @@
 <!-- data picker script -->
 <script type="text/javascript" src="{{asset('datapicker/js/moment.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('datapicker/js/daterangepicker.min.js')}}"></script>
+
+
+<script>
+    $('.locale').each(function(){
+  if(localStorage.getItem("locale") == $(this).data('locale'))
+  {
+    console.log('selected language : ',$(this).data('locale'))
+      $(this).attr('selected','true')
+  }
+})
+
+$('.currency').each(function(){
+  if(localStorage.getItem("currency") == $(this).data('currency'))
+  {
+    console.log('selected currency : ',$(this).data('currency'))
+      $(this).attr('selected','true')
+  }
+})
+</script>

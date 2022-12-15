@@ -39,6 +39,9 @@ Route::get('/', [App\Http\Controllers\AjaxController::class, 'defaultDatas'])->n
 
 Route::get('/locale/{locale}/', [App\Http\Controllers\AjaxController::class, 'locale'])->name('locale');
 
+
+
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -102,9 +105,20 @@ Route::controller(AjaxController::class)->group(function(){
     Route::get('cities', 'cities')->name('cities');
     Route::get('getHotels', 'getHotels')->name('getHotels');
     Route::get('suggestPlaces','suggestPlaces')->name('suggestPlaces');
+    Route::get('currency','currency')->name('currency');
     // Route::get('locale','locale')->name('locale');
 });
 
 
+//search route
+Route::any('hotelsearch',[AjaxController::class, 'getapi']);
 
-  
+
+// language switch routes
+
+// Route::group(['namespace' => 'frFR'], function() {
+//     Route::get('/frFR', [HomeController::class, 'test']);
+//     // call RoleA/HomeController
+// });
+
+// language switch routes

@@ -244,15 +244,15 @@ $(".calender-sec").click(function() {
 
   //  auto suggest API code
 
-  async function getLocation() {
-    let response = await fetch('http://www.geoplugin.net/json.gp');
-    let data = await response.json()
-    return data;
-  }
+  // async function getLocation() {
+  //   let response = await fetch(`https://api.coinbase.com/v2/exchange-rates?currency={}EUR`);
+  //   let data = await response.json()
+  //   return data;
+  // }
 
-  console.log('get Location =======> ', getLocation().then(data => {
-    console.log('current user data =======> ', data)
-  }))
+  // console.log('get Location =======> ', getLocation().then(data => {
+  //   console.log('current user data =======> ', data)
+  // }))
 
 // popular-filter
 
@@ -265,7 +265,7 @@ $("#guestrooms , #search_field").click(function(e) {
 $("body").on('click', function(e) {
 	if( !(restrict.includes(e.target))) {  
     $('.auto_suggest').hasClass('open') ? $('.auto_suggest').hide() : '';
-    $('.Pop_Filter').hide();
+    // $('.Pop_Filter').hide();
     // $('.members').hasClass('members-open') ? $('.members').removeClass('members-open') : '';
 	}
 });
@@ -273,6 +273,7 @@ $("body").on('click', function(e) {
 
 $('#search_field').click(function () {
   $('.auto_suggest').show();
+  $('#list_show').show();
   $('.auto_suggest').addClass('open');  
 })
 
@@ -315,5 +316,11 @@ $('#loginformid').validate({ // initialize the plugin
   
 
 })
+
+
+
+//country fetch in search bar
+
+
 
 });
