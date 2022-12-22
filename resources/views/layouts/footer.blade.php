@@ -13,10 +13,10 @@
             <div>
                 <p class="site-explore">International Sites</p>
                 <ul>
-                    <li><img src="{{asset('images/Flags/france.svg')}}">France</li>
-                    <li><img src="{{asset('images/Flags/india.svg')}}">India</li>
-                    <li><img src="{{asset('images/Flags/usa.svg')}}">USA</li>
-                    <li><img src="{{asset('images/Flags/EN.svg')}}">London</li>
+                    <li><a href="{{ url('locale/frFR') }}" class="sites_link"><img src="{{asset('images/Flags/france.svg')}}">France</a></li>
+                    <li><a href="{{ url('locale/enUS') }}" class="sites_link"><img src="{{asset('images/Flags/india.svg')}}">India</a></li>
+                    <li><a href="{{ url('locale/enUS') }}" class="sites_link"><img src="{{asset('images/Flags/usa.svg')}}">USA</a></li>
+                    <li><a href="{{ url('locale/esES') }}" class="sites_link"><img src="{{asset('images/Flags/EN.svg')}}">London</a></li>
                 </ul>
             </div>
         </div>
@@ -66,14 +66,104 @@
 <script type="text/javascript" src="{{asset('datapicker/js/moment.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('datapicker/js/daterangepicker.min.js')}}"></script>
 
-
 <script>
-    $('.locale').each(function(){
+
+  var currentPageUrl  = location.href 
+  console.log("currentPageUrl : ",currentPageUrl);
+
+  $('#id_select2_example').on('change',function(){
+   
+    console.log('this : ',$(this))
+    localStorage.setItem("locale",$(this).find('.selected').data('locale'))
+    
+    location.href = `&language?locale=${$(this).find('.selected').data('locale')}`
+    // location.href = `${currentPageUrl}&locale=${$(this).find('.selected').data('locale')}`
+  })
+
+  $('#id_select2_examples').on('change',function(){
+    console.log('currency select : ',$(this).find('.selected').data('currency'))
+    localStorage.setItem("currency",$(this).find('.selected').data('currency'))
+    $('a.nav-link.active').hasClass('home') ? getHotels($('a.nav-link.active')[0].outerText) : '' ;
+    (window.location.pathname == '/hotelDetails') ? currencyConversion(localStorage.getItem('currency'),$('#hotel_price').val()) : '' ;
+    // location.href = `language?locale=${$(this).find('.selected').data('locale')}`
+    
+})
+
+var currentRequest = null;    
+
+function suggestPlaces(search_word) {
+    //  $('#list_show').addClass('loader');
+    //  $('#list_show').html('');
+    console.log('search_word : ',search_word)
+    if(search_word != '' || search_word.length > 1)
+{
+currentRequest = jQuery.ajax({
+    type:'GET',
+    url:"/suggestPlaces",
+    data:{
+        search_word : search_word
+    },
+    beforeSend : function()    {           
+        if(currentRequest != null) {
+            currentRequest.abort();
+        }
+    },
+    success: function(data) {
+            if($.isEmptyObject(data.error)){
+        $('#list_show').html('');
+        console.log('suggested cities count : ',data.length)
+        let suggest = '';
+            data.map(function(item) {
+            suggest += '<li class="suggest_city" value ='+item.CityName+' data-regionId='+item.RegionID+'><div><img src="{{asset('images/places.svg')}}"></div><div class="city-place"><p class="city">'+item.CityName+'</p><p class="cityplace">'+item.ProvinceName+','+item.CountryName+'</p></div></li>'
+        })
+        $('#list_show').append(suggest);
+    }
+    },
+    error:function(e){
+        console.log('error !!!',e);
+    }
+
+});
+
+}
+
+//     $.ajax({
+//   type:'GET',
+//   url:"/suggestPlaces",
+//   data:{
+//     search_word : search_word
+// },
+//   success:function(data){
+//        if($.isEmptyObject(data.error)){
+//         $('#list_show').html('');
+//         console.log('suggested cities count : ',data.length)
+//         let suggest = '';
+//             data.map(function(item) {
+//             suggest += '<li class="suggest_city" value ='+item.CityName+' data-regionId='+item.RegionID+'><div><img src="{{asset('images/places.svg')}}"></div><div class="city-place"><p class="city">'+item.CityName+'</p><p class="cityplace">'+item.ProvinceName+','+item.CountryName+'</p></div></li>'
+//         })
+        
+//         // $('#list_show').removeClass('loader');
+//         $('#list_show').append(suggest);
+//        }else{
+//            printErrorMsg(data.error);
+//        }
+//   },
+//   beforeSend: function () {
+//     if (request !== null) {
+//         request.abort();
+//     }
+//     }
+// });
+}
+
+
+$('.locale').each(function(){
   if(localStorage.getItem("locale") == $(this).data('locale'))
   {
-    console.log('selected language : ',$(this).data('locale'))
+      console.log('selected language : ',$(this).data('locale'))
       $(this).attr('selected','true')
   }
+//   location.href = `language?locale=${$(this).data('locale')}`
 })
 
 $('.currency').each(function(){
@@ -83,4 +173,9 @@ $('.currency').each(function(){
       $(this).attr('selected','true')
   }
 })
+
+
+
 </script>
+
+

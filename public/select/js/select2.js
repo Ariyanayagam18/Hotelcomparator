@@ -3076,7 +3076,8 @@ S2.define('select2/data/select',[
     // If data.element is a DOM node, use it instead
     if ($(data.element).is('option')) {
       data.element.selected = true;
-
+      // console.log('data.element : ',data.element)
+      $(data.element).addClass('selected')
       this.$element.trigger('change');
 
       return;
@@ -3234,7 +3235,6 @@ S2.define('select2/data/select',[
 
     // Override the option's data with the combined data
     $.data(option, 'data', normalizedData);
-
     return $option;
   };
 
@@ -3634,6 +3634,7 @@ S2.define('select2/data/tags',[
 
     $options.each(function () {
       if (this.selected) {
+        console.log('option  : ',this.selected);
         return;
       }
 
@@ -5141,7 +5142,6 @@ S2.define('select2/core',[
 
   Select2.prototype._generateId = function ($element) {
     var id = '';
-
     if ($element.attr('id') != null) {
       id = $element.attr('id');
     } else if ($element.attr('name') != null) {
@@ -5149,10 +5149,9 @@ S2.define('select2/core',[
     } else {
       id = Utils.generateChars(4);
     }
-
+   
     id = id.replace(/(:|\.|\[|\]|,)/g, '');
     id = 'select2-' + id;
-
     return id;
   };
 
@@ -5224,12 +5223,14 @@ S2.define('select2/core',[
   Select2.prototype._registerDomEvents = function () {
     var self = this;
 
-    this.$element.on('change.select2', function () {
+    this.$element.on('change.select2', function (event) {
       self.dataAdapter.current(function (data) {
         self.trigger('selection:update', {
           data: data
         });
+        // console.log('data !!!!',data,event);
       });
+      
     });
 
     this.$element.on('focus.select2', function (evt) {
@@ -5275,6 +5276,8 @@ S2.define('select2/core',[
         false
       );
     }
+
+    
   };
 
   Select2.prototype._registerDataEvents = function () {

@@ -11,6 +11,7 @@ function closeNav() {
 
 $(document).ready(function(){
   // header select script start 
+  
 
   function custom_template(obj){
     var data = $(obj.element).data();
@@ -101,6 +102,72 @@ $('#sec5-carousel').owlCarousel({
     1000:{
       items: 3,
     }
+  }
+})
+
+$('#view-carousel').owlCarousel({
+  nav: true,
+  loop: false,
+  dots: false,
+  pagination: false,
+  margin: 15,
+  autoHeight: false,
+  stagePadding: 20,
+  responsive: {
+    0: {
+      items: 1,
+      stagePadding: 0,
+      margin: 30,
+    },
+    500: {
+      items: 1.8,
+      stagePadding: 30,
+    },
+    768: {
+      items: 1.8,
+      stagePadding: 25,
+    },
+    1000: {
+      items: 1.8,
+    }
+  }
+})
+
+$('#Hotels , #Hotels1 , #Hotels2').owlCarousel({
+  loop:true,
+  margin:10,
+  nav:false,
+  responsive:{
+      0:{
+          items:1
+      },
+      600:{
+          items:2
+      },        
+      1600:{
+          items:3
+      },
+  }
+})
+
+$('#Explore').owlCarousel({
+  loop:true,
+  margin:10,
+  nav:true,
+  dots:false,
+  responsive:{
+      0:{
+          items:1
+      },
+      500:{
+        items:2
+      },
+      600:{
+          items:3
+      },              
+      1280:{
+        items:4
+      }
   }
 })
 
@@ -242,19 +309,6 @@ $(".calender-sec").click(function() {
 
   console.log('days : ', $('#no_of_days'))
 
-  //  auto suggest API code
-
-  // async function getLocation() {
-  //   let response = await fetch(`https://api.coinbase.com/v2/exchange-rates?currency={}EUR`);
-  //   let data = await response.json()
-  //   return data;
-  // }
-
-  // console.log('get Location =======> ', getLocation().then(data => {
-  //   console.log('current user data =======> ', data)
-  // }))
-
-// popular-filter
 
 var restrict = ["guestrooms","search_field",'popular-filter']
 
@@ -274,7 +328,7 @@ $("body").on('click', function(e) {
 $('#search_field').click(function () {
   $('.auto_suggest').show();
   $('#list_show').show();
-  $('.auto_suggest').addClass('open');  
+  // $('.auto_suggest').addClass('open');  
 })
 
 $('#guestrooms').click(function () {
@@ -317,10 +371,29 @@ $('#loginformid').validate({ // initialize the plugin
 
 })
 
+if($('#default-hotel').val() == 0) 
+{
+    $('#loader').attr("src","{{asset('images/notfound.gif')}}")
+    $('#loader').css('display','block')
+}
 
 
-//country fetch in search bar
+
+$(".suggest_city").click(function ()
+{    
+var a = $(this).attr("data-regionid");
+var b = $(this).attr("value");
+console.log('value',b);
+$('#hidden_search_field').val(a);
+$("#search_field").val(b); // here the clicked value is showing in the div name user
+console.log(a);            // here the clicked value is showing in the console
+});
 
 
+// var suggest = document.getElementsByClassName('suggest_city')
+
+// suggest.onclick = function(){
+//   console.log('value : ',this)
+// }
 
 });

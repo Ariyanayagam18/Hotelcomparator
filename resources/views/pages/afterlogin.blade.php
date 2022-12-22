@@ -613,7 +613,7 @@
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 pl-0 w-sm-400">
                                             <div class="exp-view">                                              
-                                                View More
+                                                <a class="view_more" target="_blank" href='/hotelDetails?expediaId=<?php echo $items->propertyId_expedia;?>&property_Name=<?php echo $items->propertyName;?>&price=<?php echo $items->referencePrice_value;?>&propertyType_name=<?php echo $items->propertyType_name?>&rating=<?php echo $items->rating;?>' >View More <?php echo $items->propertyId_expedia;?> </a>
                                             </div>
                                         </div>
                                     </div>
@@ -1107,6 +1107,7 @@
                     src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=puducherry&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
                     ></iframe>
                 </div>
+                
             </div>
             </div>
         </div>
@@ -1115,4 +1116,13 @@
     @include('layouts/footer')
 </div>
 
+<script>
 
+    $('.view_more').click(function(){
+        console.log('before link  :',$(this).attr('href'))
+        var newlink = `${$(this).attr('href')}&locale=${localStorage.getItem('locale')}&currency=${localStorage.getItem('currency')}`
+        $(this).attr('href',newlink)
+        // console.log('after  :',$(this).attr('href')) 
+    })
+
+</script>

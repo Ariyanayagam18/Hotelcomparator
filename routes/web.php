@@ -37,16 +37,9 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [App\Http\Controllers\AjaxController::class, 'defaultDatas'])->name('defaultDatas');
 
-Route::get('/locale/{locale}/', [App\Http\Controllers\AjaxController::class, 'locale'])->name('locale');
-
-
 
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
 
 //google
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
@@ -78,6 +71,7 @@ Route::controller(FacebookController::class)->group(function(){
     Route::get('auth/facebook', 'redirectToFacebook')->name('auth.facebook');
     Route::get('auth/facebook/callback', 'handleFacebookCallback');
 });
+
 //Route::any('/userlogin', array('uses' => 'App\Http\Controllers\Auth\LoginController@select'))->name('userlogin');
 
 //Route::get('/loginuser', [App\Http\Controllers\LoginController::class, 'loginuser'])->name('userlogin');
@@ -106,19 +100,21 @@ Route::controller(AjaxController::class)->group(function(){
     Route::get('getHotels', 'getHotels')->name('getHotels');
     Route::get('suggestPlaces','suggestPlaces')->name('suggestPlaces');
     Route::get('currency','currency')->name('currency');
+    Route::get('getExchangedCurrency','getExchangedCurrency')->name('getExchangedCurrency');
+    Route::get('partnerLink','apiAccess')->name('apiAccess');
     // Route::get('locale','locale')->name('locale');
 });
 
 
 //search route
+
 Route::any('hotelsearch',[AjaxController::class, 'getapi']);
 
 
-// language switch routes
+//Route::any('/userlogin', array('uses' => 'App\Http\Controllers\Auth\LoginController@select'))->name('userlogin');
 
-// Route::group(['namespace' => 'frFR'], function() {
-//     Route::get('/frFR', [HomeController::class, 'test']);
-//     // call RoleA/HomeController
-// });
 
-// language switch routes
+
+Route::get('/hotelDetails',[AjaxController::class, 'hotelDetails']);
+
+Route::get('/language', [AjaxController::class, 'locale']);

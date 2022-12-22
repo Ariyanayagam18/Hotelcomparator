@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Hotel Comparator</title>
-  <link rel="icon" type="image/svg" href="images/logo.svg">
+  <link rel="icon" type="image/svg" href="{{asset('images/logo.svg')}}" >
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -47,10 +47,10 @@
     	<li><a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a></li>
       <li class="localechoose nav-item">
         <select id="id_select2_example">
-          <option class="locale" value="USA" data-locale="enUS" data-img_src="{{asset('images/Flags/usa.svg')}}">USA</option>
-          <option class="locale"  value="EN" data-locale="esES" data-img_src="{{asset('images/Flags/EN.svg')}}">EN</option>
-          <option class="locale" value="FR" data-locale="frFR" data-img_src="{{asset('images/Flags/france.svg')}}">FR</option>
-          <option class="locale" value="IND" data-img_src="{{asset('images/Flags/india.svg')}}">IND</option>
+          <option class="locale" value="USA"  data-locale="enUS" data-img_src="{{asset('images/Flags/usa.svg')}}">USA</option>
+          <option class="locale"  value="EN"  data-locale="esES" data-img_src="{{asset('images/Flags/EN.svg')}}">EN</option>
+          <option class="locale" value="FR"   data-locale="frFR" data-img_src="{{asset('images/Flags/france.svg')}}">FR</option>
+          <option class="locale" value="IND"   data-img_src="{{asset('images/Flags/india.svg')}}">IND</option>
         </select>
       </li>
       <li class="nav-item coins-list">
@@ -95,6 +95,5 @@
      
   </div>  
 </nav>
-
 
 
