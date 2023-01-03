@@ -320,7 +320,7 @@ $("body").on('click', function(e) {
 	if( !(restrict.includes(e.target))) {  
     $('.auto_suggest').hasClass('open') ? $('.auto_suggest').hide() : '';
     // $('.Pop_Filter').hide();
-    // $('.members').hasClass('members-open') ? $('.members').removeClass('members-open') : '';
+    $('.members').hasClass('members-open') ? $('.members').removeClass('members-open') : '';
 	}
 });
 
@@ -328,7 +328,7 @@ $("body").on('click', function(e) {
 $('#search_field').click(function () {
   $('.auto_suggest').show();
   $('#list_show').show();
-  // $('.auto_suggest').addClass('open');  
+  $('.auto_suggest').addClass('open');  
 })
 
 $('#guestrooms').click(function () {
@@ -379,15 +379,6 @@ if($('#default-hotel').val() == 0)
 
 
 
-$(".suggest_city").click(function ()
-{    
-var a = $(this).attr("data-regionid");
-var b = $(this).attr("value");
-console.log('value',b);
-$('#hidden_search_field').val(a);
-$("#search_field").val(b); // here the clicked value is showing in the div name user
-console.log(a);            // here the clicked value is showing in the console
-});
 
 
 // var suggest = document.getElementsByClassName('suggest_city')

@@ -208,7 +208,7 @@ $regionIds =$request->regionid;
 
 $hotels= DB::table('T_summary_data_enUS')
 ->select('T_summary_data_enUS.propertyId_expedia','T_summary_data_enUS.heroImage','T_summary_data_enUS.propertyName','T_summary_data_enUS.city',
-'T_summary_data_enUS.country','T_summary_data_enUS.rating','T_summary_data_enUS.referencePrice_value','T_idsRegions_enUS.Name','T_summary_data_enUS.propertyType_name')
+'T_summary_data_enUS.country','T_summary_data_enUS.rating','T_summary_data_enUS.referencePrice_value','T_idsRegions_enUS.Name','T_summary_data_enUS.propertyType_name','T_summary_data_enUS.propertyId_hcom')
 ->join('T_idsRegions_enUS','T_idsRegions_enUS.CityName', '=', 'T_summary_data_enUS.city')
 ->where('RegionID',$regionIds)
 ->where('T_summary_data_enUS.referencePrice_value','!=',0)
@@ -233,28 +233,35 @@ public function hotelDetails(Request $request)
 
 
 $search = DB::table("T_summary_data_$request->locale as Summ")
-->select('Summ.city','Summ.province','Summ.country','Summ.address1','Summ.address2','Summ.postalCode','Summ.propertyName','Summ.propertyType_name','Summ.referencePrice_value','Desc.areaDescription','Desc.propertyDescription','Ams.popularAmenities','Ams.propertyAmenities','Img.hero_link','Img.images','Img.hero_title')
+->select('Summ.city','Summ.province','Summ.country','Summ.address1','Summ.address2','Summ.postalCode','Summ.propertyName','Summ.propertyType_name','Summ.referencePrice_value','Desc.areaDescription','Desc.propertyDescription','Ams.popularAmenities','Ams.propertyAmenities','Img.hero_link','Img.images','Img.hero_title','Reviews.guestReviews','Reviews.guestRating_expedia','Reviews.guestRating_hcom')
 ->join("T_property_description_$request->locale as Desc",'Desc.propertyId_expedia', '=', 'Summ.propertyId_expedia')
 ->join("T_property_amenities_$request->locale as Ams",'Ams.propertyId_expedia','=','Desc.propertyId_expedia')
 ->join("T_property_images_enUS as Img",'Img.propertyId_expedia','=','Desc.propertyId_expedia')
+->join("T_guestRatings_reviews_enUS as Reviews","Reviews.propertyId_expedia",'=','Desc.propertyId_expedia')
 // ->join("T_property_description_$request->locale as Desc",'Desc.propertyId_expedia', '=', 'Summ.propertyId_expedia')
 ->where('Summ.propertyId_expedia',$request->expediaId)
 ->limit(5)
 ->get();
 
-// dd($search);
 // $this->cURL(10001);
-// dd($search);
+// dd($search[0]);
+
+$search = (isset($search[0]) && !empty($search[0])) ? $search[0] : [];
+
 
 $images = array();
 
-if(isset($search[0]->images))
+if(isset($search->images))
 {
-    $res = json_decode($search[0]->images);
+    $res = json_decode($search->images);
     $images = $res->ROOMS;
 }
 
+
 $login = 1;
+
+// return view('viewmore',compact('login','search','images'));
+
 
 return view('viewmore',compact('login','search','images'));
 
@@ -269,40 +276,49 @@ public function getExchangedCurrency(Request $request)
 
 public function apiAccess(Request $request)
 {
-//    dd($request->locale);
-//    $locale =  ? 'FR' : ''; 
-
+    // dd($request);
    $API_details = DB::table("T_ApiAccess as API")
                   ->where('Local',$request->locale)
-                  ->where('agency','expedia')
+                  ->whereIn('agency',["expedia","Hcom"])
                   ->get();
 
-    // dd($API_details);
+// dd($API_details);
 
-
-    return $this->cURL($API_details[0],$request->propertyId);
+    if(!empty($API_details))
+    {
+        return $this->cURL($API_details,$request->propertyId);
+    }
+    else{
+        dd("no details found!!!");
+    }
 }
 
 public function cURL($API,$propertyId)
 {
-    // echo "cURL";
-// dd($API->EndPoint);
-// $uri = "https://apim.expedia.com/hotels/listings?&ecomHotelIds=10001";
 
-$uri = "$API->EndPoint?&ecomHotelIds=$propertyId";
-
-$params['headers'] = [
-      'Authorization' => "Basic $API->auth_token",
-     'Accept' => $API->accept,
-     'Partner-Transaction-Id'=> $API->partner_id,
-     'Key' =>$API->f_key
-];
-
+$links = array();
 $client = new Client();
-$response = $client->request('get', $uri, $params);
-$data = json_decode($response->getBody(), true);
 
-return $data['Hotels'][0]['Links']['WebSearchResult']['Href'];
+for($inc=0;$inc < count($API);$inc++)
+{
+    $uri = $API[$inc]->EndPoint."?&ecomHotelIds=$propertyId";
+
+    $params['headers'] = [
+        'Authorization' => "Basic ".$API[$inc]->auth_token,
+        'Accept' => $API[$inc]->accept,
+        'Partner-Transaction-Id'=> $API[$inc]->partner_id,
+        'Key' =>$API[$inc]->f_key
+    ];
+    
+    $response = $client->request('get', $uri, $params);
+    $data = json_decode($response->getBody(), true);
+
+    $link = isset($data['Hotels'][0]['RoomTypes']) ? $data['Hotels'][0]['RoomTypes'][0]["Links"]["WebDetails"]["Href"]  : $data['Hotels'][0]['Links']['WebSearchResult']['Href'];
+
+    array_push($links,$link);
+}
+
+return $links;
 
 }
 

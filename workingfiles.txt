@@ -71,6 +71,25 @@ Hotel comparator
 2. How to implement Stored Procedures for select Queries  in Postgresql
 
 
+points 
+
+1035, - completed 
+36, - completed 
+37, - completed
+41, - completed 
+40, -  not start yet ( explore other options )
+42,  - completed 
+44  -  doubt (Hotel rating slider section progress bar )
+
+guest ratings and reviews 
+
+expedia link 
+
+Hotel Detailspage - Getting and Updating the particular hotel links for both Expedia and Hotels.com from the Listing API
+
+
+
+tar -xvf Hotelcomparator.tar.xz
 
 
 
@@ -78,4 +97,20 @@ Hotel comparator
 
 
 
+ssh -i hotelcomparator.ppk ec2-user@ec2-18-135-144-242.eu-west-2.compute.amazonaws.com
+
+
+
+chmod 400 hotelcomparator.ppk
+
+
+
+
+sudo yum clean metadata
+
+
+sudo nano /etc/nginx/sites-available/default
+
+
+sudo yum install software-properties-common
 

@@ -613,7 +613,7 @@
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 pl-0 w-sm-400">
                                             <div class="exp-view">                                              
-                                                <a class="view_more" target="_blank" href='/hotelDetails?expediaId=<?php echo $items->propertyId_expedia;?>&property_Name=<?php echo $items->propertyName;?>&price=<?php echo $items->referencePrice_value;?>&propertyType_name=<?php echo $items->propertyType_name?>&rating=<?php echo $items->rating;?>' >View More <?php echo $items->propertyId_expedia;?> </a>
+                                                <a class="view_more" target="_blank" href='/hotelDetails?expediaId=<?php echo $items->propertyId_expedia;?>&propertyId_hcom=<?php echo $items->propertyId_hcom;?>&property_Name=<?php echo $items->propertyName;?>&price=<?php echo $items->referencePrice_value;?>&propertyType_name=<?php echo $items->propertyType_name?>&rating=<?php echo $items->rating;?>' >View More <?php echo $items->propertyId_expedia;?> </a>
                                             </div>
                                         </div>
                                     </div>

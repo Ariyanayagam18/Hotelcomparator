@@ -118,3 +118,9 @@ Route::any('hotelsearch',[AjaxController::class, 'getapi']);
 Route::get('/hotelDetails',[AjaxController::class, 'hotelDetails']);
 
 Route::get('/language', [AjaxController::class, 'locale']);
+
+
+Route::get('/viewmoredesign', function () {
+    //return view('pages.afterlogin');
+    return view('viewmoreold')->with('login',2);
+});

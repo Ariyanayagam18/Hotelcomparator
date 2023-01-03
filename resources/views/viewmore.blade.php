@@ -8,24 +8,24 @@
                         <div>
                             <ul class="home-list">
                                 <li><a href="#">Home</li></a>
-                                <li><a href="#">@if(!empty($search[0]->propertyType_name)) {{ $search[0]->propertyType_name }} @endif </li></a>
-                                <li><a href="#">@if(!empty($search[0]->province)) {{ $search[0]->province }} @endif</li></a>
-                                <li><a href="#">@if(!empty($search[0]->country)) {{ $search[0]->country }} @endif</li></a>
-                                <li><a href="#">@if(!empty($search[0]->propertyName)) {{ $search[0]->propertyName }} @endif  </li></a>
+                                <li><a href="#">@if(!empty($search->propertyType_name)) {{ $search->propertyType_name }} @endif </li></a>
+                                <li><a href="#">@if(!empty($search->province)) {{ $search->province }} @endif</li></a>
+                                <li><a href="#">@if(!empty($search->country)) {{ $search->country }} @endif</li></a>
+                                <li><a href="#">@if(!empty($search->propertyName)) {{ $search->propertyName }} @endif  </li></a>
                             </ul>
-                            <p class="hotel-name"> @if(!empty($search[0]->propertyName)) {{ $search[0]->propertyName }} @endif </p>
+                            <p class="hotel-name"> @if(!empty($search->propertyName)) {{ $search->propertyName }} @endif </p>
                             <div class="address-sec">
                                 <div class="d-flex align-items-center justify-content-center justify-content-md-start">
                                     <img src="{{asset('images/location.svg')}}" style="width: 12px;margin-right: 0.5rem;">
                                     <span class="address-way">
-                                    @if(!empty($search[0]->address1)) {{ $search[0]->address1 }} @endif,
-                                        @if(!empty($search[0]->address2))
-                                        {{ $search[0]->address2 }},
+                                    @if(!empty($search->address1)) {{ $search->address1 }} @endif,
+                                        @if(!empty($search->address2))
+                                        {{ $search->address2 }},
                                         @endif
-                                        @if(!empty($search[0]->city)) {{ $search[0]->city }} @endif-
-                                        @if(!empty($search[0]->postalCode)) {{ $search[0]->postalCode }} @endif,
-                                        @if(!empty($search[0]->province)) {{ $search[0]->province }} @endif,
-                                        @if(!empty($search[0]->country)) {{ $search[0]->country }} @endif
+                                        @if(!empty($search->city)) {{ $search->city }} @endif-
+                                        @if(!empty($search->postalCode)) {{ $search->postalCode }} @endif,
+                                        @if(!empty($search->province)) {{ $search->province }} @endif,
+                                        @if(!empty($search->country)) {{ $search->country }} @endif
                                     </span>
                                 </div>                                
                                 <div class="mt-3 mt-sm-0"><img src="{{asset('images/share.svg')}}" style="width: 36px;height: 36px;margin-left: 1rem;"></div>
@@ -34,12 +34,12 @@
                     </div> 
                     <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
                         <div class="rating-right">
-                            <p class="price-value" id="price-value">$ @if(!empty($search[0]->referencePrice_value)) {{ $search[0]->referencePrice_value }} @endif </p>
+                            <p class="price-value" id="price-value">$ @if(!empty($search->referencePrice_value)) {{ $search->referencePrice_value }} @endif </p>
                             <input type="hidden" id="hotel_price" value="<?php echo $_GET['price'];?>">
                             <input type="hidden" id="propertyId" value="<?php echo $_GET['expediaId'];?>">
                             <div class="rating-star">
                                 <div>
-                                    Rating @if(!empty($search[0]->rating)) {{ $search[0]->rating }} @endif
+                                    Rating @if(!empty($search->rating)) {{ $search->rating }} @endif
                                     <span>
                                         <img src="{{asset('images/Star.svg')}}">
                                         <img src="{{asset('images/Star.svg')}}">
@@ -59,25 +59,38 @@
            
            
             <?php
-            // if(isset($images) && !empty($images))
-            // {
+            if(isset($images) && !empty($images))
+            {
             // foreach ($images as $key=>$img)
             // {
             //     echo "img : ".$img->title."<br/>";
             //     echo "link : ".$img->link."<br/>";
             // }
             // }
+            // echo "Images count : ".count($images);
+            // $splice_images = array_slice($images,2);
+            $images_part1 = array_slice($images,0,4);
+            //    echo "<pre> Images : ";print_r($images); 
+            $images_part2 = array_slice($images,4);
+            // echo "images_part1 count: ".count($images_part1)."<br/>";
+            // echo "images_part2  count: ".count($images_part2)."<br/>";
+            // echo "<pre> images: ";print_r($images);die; 
+            // echo "<pre> images_part2 : ";print_r($images_part2);die; 
+            }
             ?>
+            
             <div class="owl-carousel owl-theme" id="view-carousel">
 
                 <div class="item">
                     <div class="view-inner">
                         <div>
-                        @if(!empty($search[0]->hero_link))
-                        <img src="<?php echo $search[0]->hero_link;?>" title="<?php echo $search[0]->hero_title;?>" class="single-img">
+
+                        @if(!empty($search->hero_link))
+                        <img src="<?php echo $search->hero_link;?>" title="<?php echo $search->hero_title;?>" class="single-img">
                        @endif
                         </div>
                     </div>
+
                 </div> 
                 
               
@@ -110,10 +123,9 @@
     <div class="row m-0 carousel-view-img">
           
           <?php 
-             $count = 0;
-            if(isset($images) && !empty($images))
+            if(isset($images_part1) && !empty($images_part1))
             {
-                foreach ($images as $key=>$img)
+                foreach ($images_part1 as $key=>$img)
                 { ?>
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-6 mb-4">
@@ -121,7 +133,7 @@
                 </div>
 
                 <?php 
-                    $count++;
+
                     }  
                 } 
                 ?>
@@ -131,15 +143,20 @@
             </div>
            
 
-            
-
-                <!-- <div class="item">
-                    <div class="view-inner">
-                        <div><img src="{{asset('images/view-img.svg')}}" class="single-img"></div>
-                    </div>
-                </div> 
-
-                <div class="item">
+            <?php 
+            if(isset($images_part2) && !empty($images_part2))
+            {
+            foreach ($images_part2 as $key=>$img)
+            { ?>
+            <div class="item">
+                <div class="view-inner">
+                    <div><img src="{{ $img->link }}" title="{{ $img->title }}" class="single-img"></div>
+                </div>
+            </div> 
+            <?php } 
+            }
+            ?>
+              <!--  <div class="item">
                     <div class="view-inner">
                         <div><img src="{{asset('images/view-img.svg')}}" class="single-img"></div>
                     </div>
@@ -169,9 +186,9 @@
                                     <p class="title-list">Description</p>
                                     <div class="descrption-list">
                                    
-                                        @if(!empty($search[0]->areaDescription)) {{ $search[0]->areaDescription }} @endif
+                                        @if(!empty($search->areaDescription)) {{ $search->areaDescription }} @endif
                                         <br></br>
-                                        @if(!empty($search[0]->propertyDescription)) {{ $search[0]->propertyDescription }} @endif
+                                        @if(!empty($search->propertyDescription)) {{ $search->propertyDescription }} @endif
                                     </div>
                                 </div>
                             </div>
@@ -196,7 +213,8 @@
                                 <div>
                                     <p class="title-list">Most Popular Facilities</p>
                                     <div class="d-block d-md-flex popular-sec mt-4">
-                                        <ul>
+
+                                        <!-- <ul>
                                             <li><img src="{{asset('images/popular/popular-img1.svg')}}">Free WIFI</li>
                                             <li><img src="{{asset('images/popular/popular-img2.svg')}}">Conditioned Air</li>
                                             <li><img src="{{asset('images/popular/popular-img3.svg')}}">Restaurant</li>
@@ -207,7 +225,20 @@
                                             <li><img src="{{asset('images/popular/popular-img6.svg')}}">Pet Friendly</li>
                                             <li><img src="{{asset('images/popular/popular-img7.svg')}}">Gym Centre</li>
                                             <li><img src="{{asset('images/popular/popular-img8.svg')}}">Sap & Wellness Centre</li>
-                                        </ul>                                        
+                                        </ul> -->
+                                        <ul>
+                                        <?php 
+                                            if(isset($search)) { 
+                                            $facilities = json_decode($search->popularAmenities);
+                                            $other_facilities = json_decode($search->propertyAmenities);
+                                            // echo "<pre>";print_r($other_facilities);exit;
+                                            foreach($facilities as $popularAmenities) { ?>
+                                            <li><img src="{{asset('images/popular/popular-img1.svg')}}"><?php echo $popularAmenities."<br/>";?></li> 
+                                         <?php
+                                            }
+                                        } 
+                                         ?>
+                                         </ul>
                                     </div>
                                 </div>
                             </div>
@@ -216,7 +247,7 @@
                                 <div>
                                     <p class="title-list">Others Facilities</p>
                                     <div class="d-block d-md-flex Facilities-sec mt-4">
-                                        <ul>
+                                        <!-- <ul>
                                             <li><img src="{{asset('images/Facilities.svg')}}">Meeting Rooms</li>                                           
                                             <li><img src="{{asset('images/Facilities.svg')}}">Lift</li>
                                             <li><img src="{{asset('images/Facilities.svg')}}">concierge Service</li>
@@ -237,7 +268,15 @@
                                             <li><img src="{{asset('images/Facilities.svg')}}">Cash Machine</li>
                                             <li><img src="{{asset('images/Facilities.svg')}}">Express check-in</li>
                                             <li><img src="{{asset('images/Facilities.svg')}}">Front desk 24 hour</li>
-                                        </ul>                                        
+                                        </ul> -->
+                                       <?php if(isset($other_facilities->ACCESSIBILITY)) { ?>
+                                        <ul>
+                                            <?php foreach($other_facilities->ACCESSIBILITY as $other_facilities) { ?>
+                                            <li><img src="{{asset('images/Facilities.svg')}}">{{ $other_facilities }} </li>
+                                            <?php }  ?>
+                                        </ul>
+                                        <?php } ?>
+
                                     </div>
                                 </div>
                             </div>
@@ -302,7 +341,7 @@
                                                         <p class="taxes-fee">Taxes and frees not included</p>
                                                     </div>
                                                     <div class="Go-to-Site">
-                                                        <a href="" id="expedia_link" target="_blank">Go to Site</a>
+                                                    <button> <a href="" id="expedia_link" target="_blank">Go to Site</a> </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -311,7 +350,7 @@
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-12">
                                                 <div class="room-selection-left">
                                                     <p class="stand-double">Standard Room</p>
-                                                    <div><img src="{{asset('images/exp-img.svg')}}"></div> 
+                                                    <div><img src="{{asset('images/hotels.svg')}}" style="width:79px;height:24px;"></div> 
                                                     <p class="refundable">Non Refundable</p>
                                                 </div>
                                             </div>
@@ -324,7 +363,7 @@
                                                         <p class="taxes-fee">Taxes and frees not included</p>
                                                     </div>
                                                     <div class="Go-to-Site">
-                                                        <button>Go to Site</button>
+                                                    <button> <a href="" id="hcom_link" target="_blank">Go to Site</a> </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -960,7 +999,18 @@
                                 <p class="title-list">Very Good Locations</p>
                                 <div class="d-flex align-items-center justify-content-center justify-content-md-start">
                                     <img src="{{asset('images/location.svg')}}" style="width: 12px;margin-right: 0.5rem;">
-                                    <span class="address-way">4 Portal Way, Gypsy Corner/ A40, London, W3 6RT, United Kingdom</span>
+                                   
+                                    <span class="address-way">
+                                        @if(!empty($search->address1)) {{ $search->address1 }} @endif,
+                                        @if(!empty($search->address2))
+                                        {{ $search->address2 }},
+                                        @endif
+                                        @if(!empty($search->city)) {{ $search->city }} @endif
+                                        @if(!empty($search->postalCode)) - {{ $search->postalCode }} @endif,
+                                        @if(!empty($search->province)) {{ $search->province }} @endif,
+                                        @if(!empty($search->country)) {{ $search->country }} @endif
+                                    </span>
+
                                 </div> 
                             </div>
                             <div class="mb-4">
@@ -1021,6 +1071,60 @@
                                     <div>369 reviews</div>
                                 </div>
                             </div>
+
+                            <?php
+                                if(isset($search->guestReviews)) {
+                                $reviews = json_decode($search->guestReviews);
+                                // dd($reviews);
+                                $review_count = 0;
+                                foreach($reviews as $key=>$guest_reviews)
+                                {   
+                                    // echo "<pre>";var_dump($guest_reviews->reviewerName);die;
+                                    // if(isset($guest_reviews->reviewerName))
+                                    // {
+                                    //     echo "reviewer name : ".$guest_reviews->reviewerName."<br/>";
+                                    // }
+                                    ?>
+                                <div class="d-flex mb-4">                                
+                                <div class="mr-4"><img src="{{asset('images/empty-person.svg')}}"></div>
+                                <div>
+                                    <div class="mb-4">
+                                        <p class="m-0"><?php  echo isset($guest_reviews->reviewerName) ? $guest_reviews->reviewerName."<br/>" : 'Anonymous traveller <br/>'; ?></p>
+                                        <div class="d-block d-md-flex">
+                                            <div>
+                                                <img src="{{asset('images/Star.svg')}}">
+                                                <img src="{{asset('images/Star.svg')}}">
+                                                <img src="{{asset('images/Star.svg')}}">
+                                                <img src="{{asset('images/Star.svg')}}">
+                                                <img src="{{asset('images/Star.svg')}}">
+                                            </div>
+                                            <div class="year-text">
+                                            <?php  echo isset($guest_reviews-> creationDate) ? $guest_reviews-> creationDate."<br/>" : ' creationDate <br/>'; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="hotel-great">Excellent choice when in London</p>
+                                        <p class="room-descrption">
+                                        <?php  echo isset($guest_reviews-> reviewText) ? $guest_reviews-> reviewText."<br/>" : ' reviewText <br/>'; ?> <a href="#">Read More</a> 
+                                        </p>
+                                        <p class="red-like"><img src="{{asset('images/red-heart.svg')}}"><span>Like</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                               <?php
+                                if($review_count == 4)
+                                {
+                                    break;
+                                }
+                               $review_count++;
+                                   // echo "reviewer name : ".$guest_reviews->reviewerName."<br/>";
+                                 }
+                              }
+                            ?>
+                           
+
+<!--                             
                             <div class="d-flex mb-4">                                
                                 <div class="mr-4"><img src="{{asset('images/empty-person.svg')}}"></div>
                                 <div>
@@ -1040,16 +1144,15 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <p class="hotel-great">Great Hotel - Great staff - Feeling like at home</p>
+                                        <p class="hotel-great">Excellent choice when in London</p>
                                         <p class="room-descrption">
-                                            Hotel - Room - Lobby - Dinning room maintained in the best way.Staff - Polites. do the best to help, 
-                                            provideng the best that they can do.Location - Very good.From the few hotels that do not suffer from 
-                                            Post Corona and providing the best. Congartulation to all the staff.
+                                        I have had the most wonderful stay at this IHG hotel, conveniently located just a short walk from the North Acton tube station. <a href="#">Read More</a> 
                                         </p>
                                         <p class="red-like"><img src="{{asset('images/red-heart.svg')}}"><span>Like</span></p>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="d-flex mb-4">                                
                                 <div class="mr-4"><img src="{{asset('images/empty-person.svg')}}"></div>
                                 <div>
@@ -1104,6 +1207,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="d-flex mb-4">                                
                                 <div class="mr-4"><img src="{{asset('images/empty-person.svg')}}"></div>
                                 <div>
@@ -1130,37 +1234,12 @@
                                         <p class="red-like"><img src="{{asset('images/red-heart.svg')}}"><span>Like</span></p>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="d-flex mb-4">                                
-                                <div class="mr-4"><img src="{{asset('images/empty-person.svg')}}"></div>
-                                <div>
-                                    <div class="mb-4">
-                                        <p class="m-0">Anonymous traveller</p>
-                                        <div class="d-block d-md-flex">
-                                            <div>
-                                                <img src="{{asset('images/Star.svg')}}">
-                                                <img src="{{asset('images/Star.svg')}}">
-                                                <img src="{{asset('images/Star.svg')}}">
-                                                <img src="{{asset('images/Star.svg')}}">
-                                                <img src="{{asset('images/Star.svg')}}">
-                                            </div>
-                                            <div class="year-text">
-                                                2 Oct  2022
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p class="hotel-great">Excellent choice when in London</p>
-                                        <p class="room-descrption">
-                                        I have had the most wonderful stay at this IHG hotel, conveniently located just a short walk from the North Acton tube station. <a href="#">Read More</a> 
-                                        </p>
-                                        <p class="red-like"><img src="{{asset('images/red-heart.svg')}}"><span>Like</span></p>
-                                    </div>
-                                </div>
-                            </div>
+                            </div> -->
+
                             <div class="Show-more-Results">
                                 <button>Show more Results</button>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -1206,13 +1285,17 @@
     @include('layouts/footer')
 </div>
 
+
+
 <script>
+
 currencyConversion(localStorage.getItem('currency'),'<?php echo $_GET['price']?>')
 
 function currencyConversion(curr,price)
 {
-   var symbol = (curr == 'EUR') ? ' € ' : (curr == 'INR') ? ' ₹ ' : (curr ='GBP') ? '£' : ' $ ';
-   console.log('curr',curr,price)
+//    console.log('local storage : ',curr);
+   var symbol = (curr == 'EUR') ? ' € ' : (curr == 'INR') ? ' ₹ ' : (curr == 'GBP') ? '£' : (curr == 'USD')  ? ' $ ' : '';
+//    console.log('curr symbol ',symbol)
     $.ajax({
     type:'GET',
     url:"/getExchangedCurrency",
@@ -1235,14 +1318,13 @@ function currencyConversion(curr,price)
 
 setTimeout(() => {
     partnerLink()
-},2000);
+},4000);
+
 
 function partnerLink()
 {
    var locale = (localStorage.getItem('locale') == 'frFR') ? ' FR ' : (localStorage.getItem('locale') == 'esES') ? ' UK ' : 'US';
-//    console.log('curr',curr,price)
-    
-    $.ajax({
+   $.ajax({
     type:'GET',
     url:"/partnerLink",
     data:{
@@ -1251,9 +1333,11 @@ function partnerLink()
     },
     success:function(data){
         if($.isEmptyObject(data.error))
-        {
-            console.log(`expedia link  : ${data}`)
-            $('#expedia_link').attr('href',data)
+        {   
+            $('#expedia_link').attr('href',data[0])
+            $('#hcom_link').attr('href',data[1])
+            console.log('expedia_link url : ',data[0]);
+            console.log('hcom link url : ',data[1]);
         }
         else{
             printErrorMsg(data.error);
@@ -1266,3 +1350,9 @@ function partnerLink()
 
 </script>
 
+<style>
+    a#expedia_link,a#hcom_link
+    {
+        color : #fff !important;
+    }
+</style>

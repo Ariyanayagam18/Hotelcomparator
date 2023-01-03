@@ -76,15 +76,16 @@
     console.log('this : ',$(this))
     localStorage.setItem("locale",$(this).find('.selected').data('locale'))
     
-    location.href = `&language?locale=${$(this).find('.selected').data('locale')}`
+    location.href = `language?locale=${$(this).find('.selected').data('locale')}`
     // location.href = `${currentPageUrl}&locale=${$(this).find('.selected').data('locale')}`
   })
 
   $('#id_select2_examples').on('change',function(){
     console.log('currency select : ',$(this).find('.selected').data('currency'))
     localStorage.setItem("currency",$(this).find('.selected').data('currency'))
-    $('a.nav-link.active').hasClass('home') ? getHotels($('a.nav-link.active')[0].outerText) : '' ;
+    $('a.nav-link.active').hasClass('home') ? getHotels($('a.nav-link.active.home')[0].outerText) : '' ;
     (window.location.pathname == '/hotelDetails') ? currencyConversion(localStorage.getItem('currency'),$('#hotel_price').val()) : '' ;
+    
     // location.href = `language?locale=${$(this).find('.selected').data('locale')}`
     
 })

@@ -516,6 +516,16 @@ function currencySymbol()
     }
 }
 
+$(".suggest_city").click(function () {   
+     
+var a = $(this).attr("data-regionid");
+var b = $(this).attr("value");
+console.log('value',b);
+$('#hidden_search_field').val(a);
+$("#search_field").val(b);    // here the clicked value is showing in the div name user
+console.log(a);               // here the clicked value is showing in the console
+});
+
 
 
 
