@@ -76,7 +76,11 @@
             // echo "images_part2  count: ".count($images_part2)."<br/>";
             // echo "<pre> images: ";print_r($images);die; 
             // echo "<pre> images_part2 : ";print_r($images_part2);die; 
-            }
+            // echo "type : ".gettype($search->guestRating_expedia);
+            // echo "<pre> count : ";print_r($search->guestRating_expedia);die;
+            
+            // echo "<pre> req: ";print_r($review->reviewCount)
+            } 
             ?>
             
             <div class="owl-carousel owl-theme" id="view-carousel">
@@ -323,7 +327,7 @@
                                         <button>Breakfast Included</button>
                                         <button class="active">Pay on Arrival</button>
                                     </div>    
-                                    <div>
+                                    <div class="links_section">
                                         <div class="row room-selection">
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-12">
                                                 <div class="room-selection-left">
@@ -392,185 +396,193 @@
                                 </ul>
                                 <!-- Tab panes -->
                                 <div class="tab-content">
+                                <!-- <img id="loader" style="display:none;margin-left: 250px;height:200px" src="{{asset('images/building_loader.gif')}}"> -->
                                     <div id="Similar" class="container tab-pane p-0 active">
                                         <div>
                                             <div class="owl-carousel owl-theme" id="Hotels">
-                                                <div class="item">
-                                                    <div class="inner-carousel">
-                                                        <div class="main-img">
-                                                            <img src="{{asset('images/similar.svg')}}">
-                                                            <img class="star-white" src="{{asset('images/star-white.svg')}}">
-                                                        </div>
-                                                        <div class="star-per">
-                                                            <div class="mb-1">                                                               
-                                                                <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
-                                                                <div class="loc-left d-block">                                                                    
-                                                                    <div class="d-flex m-0">
-                                                                        <img src="{{asset('images/location.svg')}}">
-                                                                        <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
+                                                
+                                                    <!-- <div class="item">
+                                                            <div class="inner-carousel">
+                                                                <div class="main-img">
+                                                                    <img src="{{asset('images/similar.svg')}}">
+                                                                    <img class="star-white" src="{{asset('images/star-white.svg')}}">
+                                                                </div>
+                                                                <div class="star-per">
+                                                                    <div class="mb-1">                                                               
+                                                                        <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
+                                                                        <div class="loc-left d-block">                                                                    
+                                                                            <div class="d-flex m-0">
+                                                                                <img src="{{asset('images/location.svg')}}">
+                                                                                <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                        <div class="rating-review">
+                                                                            <button>4.0</button>   
+                                                                            <div class="reviews-hotal">
+                                                                                <img src="{{asset('images/eye-green.svg')}}">
+                                                                                <p>2611 reviews</p>
+                                                                            </div>                                                                
+                                                                        </div>
+                                                                        </div>
+                                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                            <p class="recommended-hotels-price">$863</p>
+                                                                            <p class="recommended-hotels-night">a Night</p>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                   <div class="rating-review">
-                                                                    <button>4.0</button>   
-                                                                    <div class="reviews-hotal">
-                                                                        <img src="{{asset('images/eye-green.svg')}}">
-                                                                        <p>2611 reviews</p>
-                                                                    </div>                                                                
-                                                                   </div>
+                                                        </div> 
+                                                        <div class="item">
+                                                            <div class="inner-carousel">
+                                                                <div class="main-img">
+                                                                    <img src="{{asset('images/similar.svg')}}">
+                                                                    <img class="star-white" src="{{asset('images/star-white.svg')}}">
                                                                 </div>
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                    <p class="recommended-hotels-price">$863</p>
-                                                                    <p class="recommended-hotels-night">a Night</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> 
-                                                <div class="item">
-                                                    <div class="inner-carousel">
-                                                        <div class="main-img">
-                                                            <img src="{{asset('images/similar.svg')}}">
-                                                            <img class="star-white" src="{{asset('images/star-white.svg')}}">
-                                                        </div>
-                                                        <div class="star-per">
-                                                            <div class="mb-1">                                                               
-                                                                <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
-                                                                <div class="loc-left d-block">                                                                    
-                                                                    <div class="d-flex m-0">
-                                                                        <img src="{{asset('images/location.svg')}}">
-                                                                        <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
+                                                                <div class="star-per">
+                                                                    <div class="mb-1">                                                               
+                                                                        <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
+                                                                        <div class="loc-left d-block">                                                                    
+                                                                            <div class="d-flex m-0">
+                                                                                <img src="{{asset('images/location.svg')}}">
+                                                                                <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                        <div class="rating-review">
+                                                                            <button>4.0</button>   
+                                                                            <div class="reviews-hotal">
+                                                                                <img src="{{asset('images/eye-green.svg')}}">
+                                                                                <p>2611 reviews</p>
+                                                                            </div>                                                                
+                                                                        </div>
+                                                                        </div>
+                                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                            <p class="recommended-hotels-price">$863</p>
+                                                                            <p class="recommended-hotels-night">a Night</p>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                   <div class="rating-review">
-                                                                    <button>4.0</button>   
-                                                                    <div class="reviews-hotal">
-                                                                        <img src="{{asset('images/eye-green.svg')}}">
-                                                                        <p>2611 reviews</p>
-                                                                    </div>                                                                
-                                                                   </div>
-                                                                </div>
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                    <p class="recommended-hotels-price">$863</p>
-                                                                    <p class="recommended-hotels-night">a Night</p>
-                                                                </div>
-                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="item">
-                                                    <div class="inner-carousel">
-                                                        <div class="main-img">
-                                                            <img src="{{asset('images/similar.svg')}}">
-                                                            <img class="star-white" src="{{asset('images/star-white.svg')}}">
-                                                        </div>
-                                                        <div class="star-per">
-                                                            <div class="mb-1">                                                               
-                                                                <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
-                                                                <div class="loc-left d-block">                                                                    
-                                                                    <div class="d-flex m-0">
-                                                                        <img src="{{asset('images/location.svg')}}">
-                                                                        <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
+                                                        <div class="item">
+                                                            <div class="inner-carousel">
+                                                                <div class="main-img">
+                                                                    <img src="{{asset('images/similar.svg')}}">
+                                                                    <img class="star-white" src="{{asset('images/star-white.svg')}}">
+                                                                </div>
+                                                                <div class="star-per">
+                                                                    <div class="mb-1">                                                               
+                                                                        <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
+                                                                        <div class="loc-left d-block">                                                                    
+                                                                            <div class="d-flex m-0">
+                                                                                <img src="{{asset('images/location.svg')}}">
+                                                                                <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                        <div class="rating-review">
+                                                                            <button>4.0</button>   
+                                                                            <div class="reviews-hotal">
+                                                                                <img src="{{asset('images/eye-green.svg')}}">
+                                                                                <p>2611 reviews</p>
+                                                                            </div>                                                                
+                                                                        </div>
+                                                                        </div>
+                                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                            <p class="recommended-hotels-price">$863</p>
+                                                                            <p class="recommended-hotels-night">a Night</p>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                   <div class="rating-review">
-                                                                    <button>4.0</button>   
-                                                                    <div class="reviews-hotal">
-                                                                        <img src="{{asset('images/eye-green.svg')}}">
-                                                                        <p>2611 reviews</p>
-                                                                    </div>                                                                
-                                                                   </div>
-                                                                </div>
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                    <p class="recommended-hotels-price">$863</p>
-                                                                    <p class="recommended-hotels-night">a Night</p>
-                                                                </div>
-                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="item">
-                                                    <div class="inner-carousel">
-                                                        <div class="main-img">
-                                                            <img src="{{asset('images/similar.svg')}}">
-                                                            <img class="star-white" src="{{asset('images/star-white.svg')}}">
-                                                        </div>
-                                                        <div class="star-per">
-                                                            <div class="mb-1">                                                               
-                                                                <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
-                                                                <div class="loc-left d-block">                                                                    
-                                                                    <div class="d-flex m-0">
-                                                                        <img src="{{asset('images/location.svg')}}">
-                                                                        <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
+                                                        <div class="item">
+                                                            <div class="inner-carousel">
+                                                                <div class="main-img">
+                                                                    <img src="{{asset('images/similar.svg')}}">
+                                                                    <img class="star-white" src="{{asset('images/star-white.svg')}}">
+                                                                </div>
+                                                                <div class="star-per">
+                                                                    <div class="mb-1">                                                               
+                                                                        <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
+                                                                        <div class="loc-left d-block">                                                                    
+                                                                            <div class="d-flex m-0">
+                                                                                <img src="{{asset('images/location.svg')}}">
+                                                                                <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                        <div class="rating-review">
+                                                                            <button>4.0</button>   
+                                                                            <div class="reviews-hotal">
+                                                                                <img src="{{asset('images/eye-green.svg')}}">
+                                                                                <p>2611 reviews</p>
+                                                                            </div>                                                                
+                                                                        </div>
+                                                                        </div>
+                                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                            <p class="recommended-hotels-price">$863</p>
+                                                                            <p class="recommended-hotels-night">a Night</p>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                   <div class="rating-review">
-                                                                    <button>4.0</button>   
-                                                                    <div class="reviews-hotal">
-                                                                        <img src="{{asset('images/eye-green.svg')}}">
-                                                                        <p>2611 reviews</p>
-                                                                    </div>                                                                
-                                                                   </div>
-                                                                </div>
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                    <p class="recommended-hotels-price">$863</p>
-                                                                    <p class="recommended-hotels-night">a Night</p>
-                                                                </div>
-                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="item">
-                                                    <div class="inner-carousel">
-                                                        <div class="main-img">
-                                                            <img src="{{asset('images/similar.svg')}}">
-                                                            <img class="star-white" src="{{asset('images/star-white.svg')}}">
-                                                        </div>
-                                                        <div class="star-per">
-                                                            <div class="mb-1">                                                               
-                                                                <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
-                                                                <div class="loc-left d-block">                                                                    
-                                                                    <div class="d-flex m-0">
-                                                                        <img src="{{asset('images/location.svg')}}">
-                                                                        <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
+                                                        <div class="item">
+                                                            <div class="inner-carousel">
+                                                                <div class="main-img">
+                                                                    <img src="{{asset('images/similar.svg')}}">
+                                                                    <img class="star-white" src="{{asset('images/star-white.svg')}}">
+                                                                </div>
+                                                                <div class="star-per">
+                                                                    <div class="mb-1">                                                               
+                                                                        <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
+                                                                        <div class="loc-left d-block">                                                                    
+                                                                            <div class="d-flex m-0">
+                                                                                <img src="{{asset('images/location.svg')}}">
+                                                                                <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                        <div class="rating-review">
+                                                                            <button>4.0</button>   
+                                                                            <div class="reviews-hotal">
+                                                                                <img src="{{asset('images/eye-green.svg')}}">
+                                                                                <p>2611 reviews</p>
+                                                                            </div>                                                                
+                                                                        </div>
+                                                                        </div>
+                                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                            <p class="recommended-hotels-price">$863</p>
+                                                                            <p class="recommended-hotels-night">a Night</p>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                   <div class="rating-review">
-                                                                    <button>4.0</button>   
-                                                                    <div class="reviews-hotal">
-                                                                        <img src="{{asset('images/eye-green.svg')}}">
-                                                                        <p>2611 reviews</p>
-                                                                    </div>                                                                
-                                                                   </div>
-                                                                </div>
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                    <p class="recommended-hotels-price">$863</p>
-                                                                    <p class="recommended-hotels-night">a Night</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>                                              
+                                                            </div> -->
+
+                                                 </div>                                              
                                             </div>
+
                                         </div>
+
                                     </div>
+
                                     <div id="Recommended" class="container tab-pane fade">
                                         <div>
+
                                             <div class="owl-carousel owl-theme" id="Hotels1">
+                                               
                                                 <div class="item">
                                                     <div class="inner-carousel">
                                                         <div class="main-img">
@@ -604,8 +616,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    
                                                 </div> 
-                                                <div class="item">
+
+
+                                                <!-- <div class="item">
                                                     <div class="inner-carousel">
                                                         <div class="main-img">
                                                             <img src="{{asset('images/similar.svg')}}">
@@ -741,12 +756,156 @@
                                                         </div>
                                                     </div>
                                                 </div>                                              
-                                            </div>
+                                            </div> -->
+
                                         </div>
+
                                     </div>
+
+
+
                                     <div id="Popular" class="container tab-pane fade">
                                         <div>
-                                            <div class="owl-carousel owl-theme" id="Hotels2">
+                                            <div class="owl-carousel owl-theme" id="Hotels">
+                                                
+                                            
+                                               <div class="item">
+                                                    <div class="inner-carousel">
+                                                        <div class="main-img">
+                                                            <img src="{{asset('images/similar.svg')}}">
+                                                            <img class="star-white" src="{{asset('images/star-white.svg')}}">
+                                                        </div>
+                                                        <div class="star-per">
+                                                            <div class="mb-1">                                                               
+                                                                <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
+                                                                <div class="loc-left d-block">                                                                    
+                                                                    <div class="d-flex m-0">
+                                                                        <img src="{{asset('images/location.svg')}}">
+                                                                        <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                   <div class="rating-review">
+                                                                    <button>4.0</button>   
+                                                                    <div class="reviews-hotal">
+                                                                        <img src="{{asset('images/eye-green.svg')}}">
+                                                                        <p>2611 reviews</p>
+                                                                    </div>                                                                
+                                                                   </div>
+                                                                </div>
+                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                    <p class="recommended-hotels-price">$863</p>
+                                                                    <p class="recommended-hotels-night">a Night</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>  
+
+                                                 <div class="item">
+                                                    <div class="inner-carousel">
+                                                        <div class="main-img">
+                                                            <img src="{{asset('images/similar.svg')}}">
+                                                            <img class="star-white" src="{{asset('images/star-white.svg')}}">
+                                                        </div>
+                                                        <div class="star-per">
+                                                            <div class="mb-1">                                                               
+                                                                <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
+                                                                <div class="loc-left d-block">                                                                    
+                                                                    <div class="d-flex m-0">
+                                                                        <img src="{{asset('images/location.svg')}}">
+                                                                        <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                   <div class="rating-review">
+                                                                    <button>4.0</button>   
+                                                                    <div class="reviews-hotal">
+                                                                        <img src="{{asset('images/eye-green.svg')}}">
+                                                                        <p>2611 reviews</p>
+                                                                    </div>                                                                
+                                                                   </div>
+                                                                </div>
+                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                    <p class="recommended-hotels-price">$863</p>
+                                                                    <p class="recommended-hotels-night">a Night</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+                                                    <div class="inner-carousel">
+                                                        <div class="main-img">
+                                                            <img src="{{asset('images/similar.svg')}}">
+                                                            <img class="star-white" src="{{asset('images/star-white.svg')}}">
+                                                        </div>
+                                                        <div class="star-per">
+                                                            <div class="mb-1">                                                               
+                                                                <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
+                                                                <div class="loc-left d-block">                                                                    
+                                                                    <div class="d-flex m-0">
+                                                                        <img src="{{asset('images/location.svg')}}">
+                                                                        <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                   <div class="rating-review">
+                                                                    <button>4.0</button>   
+                                                                    <div class="reviews-hotal">
+                                                                        <img src="{{asset('images/eye-green.svg')}}">
+                                                                        <p>2611 reviews</p>
+                                                                    </div>                                                                
+                                                                   </div>
+                                                                </div>
+                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                    <p class="recommended-hotels-price">$863</p>
+                                                                    <p class="recommended-hotels-night">a Night</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+                                                    <div class="inner-carousel">
+                                                        <div class="main-img">
+                                                            <img src="{{asset('images/similar.svg')}}">
+                                                            <img class="star-white" src="{{asset('images/star-white.svg')}}">
+                                                        </div>
+                                                        <div class="star-per">
+                                                            <div class="mb-1">                                                               
+                                                                <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
+                                                                <div class="loc-left d-block">                                                                    
+                                                                    <div class="d-flex m-0">
+                                                                        <img src="{{asset('images/location.svg')}}">
+                                                                        <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                   <div class="rating-review">
+                                                                    <button>4.0</button>   
+                                                                    <div class="reviews-hotal">
+                                                                        <img src="{{asset('images/eye-green.svg')}}">
+                                                                        <p>2611 reviews</p>
+                                                                    </div>                                                                
+                                                                   </div>
+                                                                </div>
+                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
+                                                                    <p class="recommended-hotels-price">$863</p>
+                                                                    <p class="recommended-hotels-night">a Night</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="item">
                                                     <div class="inner-carousel">
                                                         <div class="main-img">
@@ -781,143 +940,9 @@
                                                         </div>
                                                     </div>
                                                 </div> 
-                                                <div class="item">
-                                                    <div class="inner-carousel">
-                                                        <div class="main-img">
-                                                            <img src="{{asset('images/similar.svg')}}">
-                                                            <img class="star-white" src="{{asset('images/star-white.svg')}}">
-                                                        </div>
-                                                        <div class="star-per">
-                                                            <div class="mb-1">                                                               
-                                                                <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
-                                                                <div class="loc-left d-block">                                                                    
-                                                                    <div class="d-flex m-0">
-                                                                        <img src="{{asset('images/location.svg')}}">
-                                                                        <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                   <div class="rating-review">
-                                                                    <button>4.0</button>   
-                                                                    <div class="reviews-hotal">
-                                                                        <img src="{{asset('images/eye-green.svg')}}">
-                                                                        <p>2611 reviews</p>
-                                                                    </div>                                                                
-                                                                   </div>
-                                                                </div>
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                    <p class="recommended-hotels-price">$863</p>
-                                                                    <p class="recommended-hotels-night">a Night</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="item">
-                                                    <div class="inner-carousel">
-                                                        <div class="main-img">
-                                                            <img src="{{asset('images/similar.svg')}}">
-                                                            <img class="star-white" src="{{asset('images/star-white.svg')}}">
-                                                        </div>
-                                                        <div class="star-per">
-                                                            <div class="mb-1">                                                               
-                                                                <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
-                                                                <div class="loc-left d-block">                                                                    
-                                                                    <div class="d-flex m-0">
-                                                                        <img src="{{asset('images/location.svg')}}">
-                                                                        <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                   <div class="rating-review">
-                                                                    <button>4.0</button>   
-                                                                    <div class="reviews-hotal">
-                                                                        <img src="{{asset('images/eye-green.svg')}}">
-                                                                        <p>2611 reviews</p>
-                                                                    </div>                                                                
-                                                                   </div>
-                                                                </div>
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                    <p class="recommended-hotels-price">$863</p>
-                                                                    <p class="recommended-hotels-night">a Night</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="item">
-                                                    <div class="inner-carousel">
-                                                        <div class="main-img">
-                                                            <img src="{{asset('images/similar.svg')}}">
-                                                            <img class="star-white" src="{{asset('images/star-white.svg')}}">
-                                                        </div>
-                                                        <div class="star-per">
-                                                            <div class="mb-1">                                                               
-                                                                <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
-                                                                <div class="loc-left d-block">                                                                    
-                                                                    <div class="d-flex m-0">
-                                                                        <img src="{{asset('images/location.svg')}}">
-                                                                        <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                   <div class="rating-review">
-                                                                    <button>4.0</button>   
-                                                                    <div class="reviews-hotal">
-                                                                        <img src="{{asset('images/eye-green.svg')}}">
-                                                                        <p>2611 reviews</p>
-                                                                    </div>                                                                
-                                                                   </div>
-                                                                </div>
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                    <p class="recommended-hotels-price">$863</p>
-                                                                    <p class="recommended-hotels-night">a Night</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="item">
-                                                    <div class="inner-carousel">
-                                                        <div class="main-img">
-                                                            <img src="{{asset('images/similar.svg')}}">
-                                                            <img class="star-white" src="{{asset('images/star-white.svg')}}">
-                                                        </div>
-                                                        <div class="star-per">
-                                                            <div class="mb-1">                                                               
-                                                                <p class="address-text">Radisson Blu EdwardianRadisson Blu Edwardian</p>
-                                                                <div class="loc-left d-block">                                                                    
-                                                                    <div class="d-flex m-0">
-                                                                        <img src="{{asset('images/location.svg')}}">
-                                                                        <p class="ml-2 mb-0">350 Oxford Street, City of Westminster,</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                   <div class="rating-review">
-                                                                    <button>4.0</button>   
-                                                                    <div class="reviews-hotal">
-                                                                        <img src="{{asset('images/eye-green.svg')}}">
-                                                                        <p>2611 reviews</p>
-                                                                    </div>                                                                
-                                                                   </div>
-                                                                </div>
-                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-6">
-                                                                    <p class="recommended-hotels-price">$863</p>
-                                                                    <p class="recommended-hotels-night">a Night</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>                                              
+
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>                                    
@@ -1026,14 +1051,23 @@
                                             <img src="{{asset('images/Star.svg')}}">
                                         </div>
                                     </div>
-                                </div>                               
-                                <div class="address-way">1,271 reviews</div>   
+                                </div>                      
+                                <div class="address-way">
+                                <?php 
+                                if(!empty($search->guestRating_expedia))  
+                                {   
+                                $review = json_decode($search->guestRating_expedia);  
+                                $reviewCount = $review->reviewCount;
+                                echo $reviewCount;
+                                }
+                                ?>  
+                                 reviews</div>   
                                 <div class="mt-4">  
                                     <div class="progress">
                                         <div class="progress-bar blue" style="width:80%"></div>                                    
                                     </div>     
                                     <div class="progress-value">
-                                        <div>Cleaniliness</div>
+                                        <div>Cleanliness</div>
                                         <div>4.5</div>
                                     </div> 
                                 </div>   
@@ -1068,7 +1102,7 @@
                             <div class="mb-4">
                                 <div class="trip">
                                     <img src="{{asset('images/trip.svg')}}">
-                                    <div>369 reviews</div>
+                                    <div> {{ $reviewCount}} reviews</div>
                                 </div>
                             </div>
 
@@ -1284,17 +1318,17 @@
     </div>
     @include('layouts/footer')
 </div>
-
-
-
 <script>
 
 currencyConversion(localStorage.getItem('currency'),'<?php echo $_GET['price']?>')
 
+var currency_sym = localStorage.getItem('currency');
+var symbol = (currency_sym == 'EUR') ? ' € ' : (currency_sym == 'INR') ? ' ₹ ' : (currency_sym == 'GBP') ? '£' : (currency_sym == 'USD')  ? ' $ ' : '';
+
 function currencyConversion(curr,price)
 {
 //    console.log('local storage : ',curr);
-   var symbol = (curr == 'EUR') ? ' € ' : (curr == 'INR') ? ' ₹ ' : (curr == 'GBP') ? '£' : (curr == 'USD')  ? ' $ ' : '';
+   
 //    console.log('curr symbol ',symbol)
     $.ajax({
     type:'GET',
@@ -1318,18 +1352,23 @@ function currencyConversion(curr,price)
 
 setTimeout(() => {
     partnerLink()
+    similarHotelsnearBy()
 },4000);
 
 
 function partnerLink()
 {
+    $('.links_section').addClass('blur')
+
    var locale = (localStorage.getItem('locale') == 'frFR') ? ' FR ' : (localStorage.getItem('locale') == 'esES') ? ' UK ' : 'US';
+   
    $.ajax({
     type:'GET',
     url:"/partnerLink",
     data:{
         locale : locale,
-        propertyId : $('#propertyId').val()
+        propertyId : $('#propertyId').val(),
+        type: "partnerlink"
     },
     success:function(data){
         if($.isEmptyObject(data.error))
@@ -1338,6 +1377,7 @@ function partnerLink()
             $('#hcom_link').attr('href',data[1])
             console.log('expedia_link url : ',data[0]);
             console.log('hcom link url : ',data[1]);
+            $('.links_section').removeClass('blur')
         }
         else{
             printErrorMsg(data.error);
@@ -1348,11 +1388,92 @@ function partnerLink()
 }
 
 
+function similarHotelsnearBy()
+{
+    // var locale = (localStorage.getItem('locale') == 'frFR') ? ' FR ' : (localStorage.getItem('locale') == 'esES') ? ' UK ' : 'US';
+    // $('#Similar').html('');
+    // $('#loader').show();
+    $('#Similar').addClass('blur');
+   $.ajax({
+    type:'GET',
+    url:"/similarHotelsnearBy",
+    data:{
+        city : '<?php echo $search->city;?>'
+    },
+    success:function(data){
+        if($.isEmptyObject(data.error))
+        {   
+            let similar_hotels = '';
+
+            data.map(function(item){
+                let reviewCount_obj = JSON.parse(item.guestRating_expedia);
+                similar_hotels += '<div class="item"><div class="inner-carousel"> <div class="main-img"> <a href="/hotelDetails?expediaId='+item.propertyId_expedia+'&locale='+localStorage.getItem('locale')+'" target="_blank"> <img src="'+item.heroImage+'" alt="hotel_image"> </a><img class="star-white" src="{{asset('images/star-white.svg')}}"></div><div class="star-per"><div class="mb-1"><p class="address-text">'+item.propertyName+'</p><div class="loc-left d-block"><div class="d-flex m-0"><img src="{{asset('images/location.svg')}}"><p class="ml-2 mb-0">'+item.ExtendedName+'</p></div></div></div><div class="row"><div class="col-xl-6 col-lg-6 col-md-6 col-6"><div class="rating-review"><button>'+item.rating+'</button><div class="reviews-hotal"><img src="{{asset('images/eye-green.svg')}}"><p>'+reviewCount_obj.reviewCount+' reviews</p></div></div></div><div class="col-xl-6 col-lg-6 col-md-6 col-6"><p class="recommended-hotels-price">$'+item.referencePrice_value+'</p><p class="recommended-hotels-night">a Night</p></div></div></div></div></div>' 
+              
+                // console.log('rating count before parse : ',item.guestRating_expedia)  
+                // console.log('type : ',typeof(item.guestRating_expedia))
+                
+                // console.log('rating count after parse : ',par.reviewCount)
+                // console.log('type : ',typeof(par))
+                
+     })
+
+     let lll = "<div class='owl-carousel owl-theme' id='hotels'>"+similar_hotels+"</div>";
+     $('#Hotels').html('');
+     // console.log('hotels : ',lll)
+     $('#Similar').removeClass('blur');
+    //  $('#loader').hide();
+     $('#Similar').append(lll);
+     $('#hotels').owlCarousel({
+    loop:true,
+    margin:10,
+    nav:true,
+    dots:true,
+    responsive:{
+        280:{
+            items:1
+        },
+        500:{
+            items:2
+        },
+        768:{
+          items:2
+        },
+        992:{
+          items:3
+        },
+        1200:{
+            items:4
+        },
+        1900:{
+          items:5
+        }
+    }
+})
+
+            // $('#expedia_link').attr('href',data[0])
+            // $('#hcom_link').attr('href',data[1])
+            // console.log('expedia_link url : ',data[0]);
+            // console.log('hcom link url : ',data[1]);
+            
+            console.log('data : ',data)
+        }
+        else{
+            printErrorMsg(data.error);
+        }
+    }
+    });
+}
+
+
 </script>
 
 <style>
     a#expedia_link,a#hcom_link
     {
         color : #fff !important;
+    }
+    .blur
+    {
+        filter: blur(3px);
     }
 </style>

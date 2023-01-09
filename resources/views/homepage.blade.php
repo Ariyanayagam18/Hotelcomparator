@@ -18,14 +18,16 @@
                         <input type="text" placeholder="Enter Destination or Hotel Name"  name="country" class="search-stay search_field" onkeyup="filter()" oninput="suggestPlaces(this.value)" id="search_field" autocomplete="off">   
                         
                         <input type="hidden" placeholder="Enter Destination or Hotel Name" name="regionid" class="region-search-stay region-search_field" id="hidden_search_field" autocomplete="off">                   
-
+                   
                         <div class="auto_suggest">
 
                             <ul id="list_show">
                             <?php if(count($suggestCities) > 0) { ?>
                             @foreach ($suggestCities as $key=>$suggest_cities)       
-                            <li class="suggest_city" value ={{ $suggest_cities->CityName }} data-regionId={{ $suggest_cities->RegionID }}><div><img src="{{asset('images/places.svg')}}"></div><div class="city-place"><p class="city">{{
-                                $suggest_cities->CityName }}</p><p class="cityplace">{{ $suggest_cities->ProvinceName  }} , {{ $suggest_cities->CountryName }}</p></div></li>
+                            <li class="suggest_city" value ={{ $suggest_cities->CityName }} data-regionId={{ $suggest_cities->RegionID }}><div><img src="/images/{{ $suggest_cities->Type}}.svg"></div><div class="city-place"><p class="city">{{
+                                $suggest_cities->CityName }}</p>
+                                <p class="cityplace">{{ $suggest_cities->ExtendedName}} ({{ $suggest_cities->Type}})</p>
+                            </div></li>
                             @endforeach
                             <?php } ?>
                             </ul>
@@ -190,7 +192,9 @@
                 <?php if(count($staycation_cities) > 0) { ?>     
                 @foreach($staycation_cities as $key => $value)
                      <li class="nav-item " >
-                            <a class="nav-link <?php echo $count==0 ? 'active home' : '';?>" value="{{ $value->ProvinceName }}"  data-toggle="pill" href="#{{$value->ProvinceName}}" onclick="getHotels('{{$value->ProvinceName}}')">  {{ $value->ProvinceName }}</a>
+                            <!-- <a class="nav-link <//?php echo $count==0 ? 'active home' : '';?>" value="{{ $value->ProvinceName }}"  data-toggle="pill" href="#{{$value->ProvinceName}}" data-parantRegionId="{{ $value->ParentRegionId }}" data-regionID="{{ $value->RegionID }}" onclick="getHotels('{{$value->ProvinceName}}')" >  {{ $value->ProvinceName }}</a> -->
+
+                            <a class="nav-link <?php echo $count==0 ? 'active home' : '';?>" value="{{ $value->ProvinceName }}"  data-toggle="pill" href="#{{$value->ProvinceName}}" data-parantRegionId="{{ $value->ParentRegionId }}" data-regionID="{{ $value->RegionID }}" onclick="searchByRegionId('{{$value->ParentRegionId}}')" >  {{ $value->ProvinceName }}</a>
                             @php
                             $count++
                             @endphp
@@ -373,6 +377,8 @@
 
 getHotels($('a.nav-link.active')[0].outerText);
 
+
+
 function getHotels(city)
 {
 $('#append_hotel').html('');
@@ -380,23 +386,95 @@ $('#sec2-carousel').html('');
 $('#loader').attr("src","{{asset('images/building_loader.gif')}}")
 $('#loader').css('display','block');
 
-// if(ajax){ 
-//  ajax.abort();
-//  }
-
 $.ajax({
   type:'GET',
   url:"/getHotels",
   data:{
     city:city,
     locale : localStorage.getItem("locale"),
-    currency : localStorage.getItem("currency")
-
+    currency : localStorage.getItem("currency"),
 },
   success:function(data){
        if($.isEmptyObject(data.error)){
         console.log('hotels fetched!!!',data)
         let hotels = '';
+        data.map(function(item){
+            //  console.log('item : ',item)
+             hotels += `<div class="item"><div class="inner-carousel"><div class="main-img"><img src='${item.heroImage}' style="height:213px"></div><div class="star-per"><div class="place-star mb-3"><div class="place-left">${item.propertyName}</div><div class="star-right"><img src="{{asset('images/Star.svg')}}"><div>${item.rating}</div></div></div><div class="place-per"><div class="loc-left"><img src="{{asset('images/location.svg')}}"><div><p class="mb-1">${item.city}</p><p class="m-0">${item.country}</p></div></div><div class="per-right"><div class="currency_symbol"> <span class="currency_sym" > $ </span> <span class="exchange_price">${item.referencePrice_value}</span></div><p>Per Night</p></div></div></div></div></div>`
+     })
+        
+        let lll = "<div class='owl-carousel owl-theme city-1' id='sec2-carousel'>"+hotels+"</div>";
+        $('#sec2-carousel').remove();
+        if(data.length == 0)
+        {
+            $('#loader').attr("src","{{asset("images/notfound.gif")}}")
+            $('#loader').css('display','block')
+        }else{
+            $('#loader').css('display','none')
+            $('#loader').attr("src","{{asset('images/building_loader.gif')}}")
+        }
+        $('#append_hotel').append(lll)
+        currencySymbol();
+        $('#sec2-carousel').owlCarousel({
+    loop:true,
+    margin:10,
+    nav:true,
+    dots:false,
+    responsive:{
+        280:{
+            items:1
+        },
+        500:{
+            items:2
+        },
+        768:{
+          items:2
+        },
+        992:{
+          items:3
+        },
+        1200:{
+            items:4
+        },
+        1900:{
+          items:5
+        }
+    }
+})
+
+       }else{
+           printErrorMsg(data.error);
+       }
+  }
+});
+
+}
+
+
+function searchByRegionId(id)
+{
+$('#append_hotel').html('');
+$('#sec2-carousel').html('');
+$('#loader').attr("src","{{asset('images/building_loader.gif')}}")
+$('#loader').css('display','block');
+
+var locale = (localStorage.getItem('locale') == 'frFR') ? ' FR ' : (localStorage.getItem('locale') == 'esES') ? ' UK ' : 'US';
+
+$.ajax({
+  type:'GET',
+  url:"/searchByRegionId",
+  data:{
+    regionId : id,
+    locale : locale,
+    currency : localStorage.getItem("currency"),
+    type : 'getHotels'
+},
+  success:function(data){
+       debugger;
+       if($.isEmptyObject(data.error)){
+        console.log('searchByRegionId data : ',data)
+        let hotels = '';
+
         data.map(function(item){
             //  console.log('item : ',item)
              hotels += `<div class="item"><div class="inner-carousel"><div class="main-img"><img src='${item.heroImage}' style="height:213px"></div><div class="star-per"><div class="place-star mb-3"><div class="place-left">${item.propertyName}</div><div class="star-right"><img src="{{asset('images/Star.svg')}}"><div>${item.rating}</div></div></div><div class="place-per"><div class="loc-left"><img src="{{asset('images/location.svg')}}"><div><p class="mb-1">${item.city}</p><p class="m-0">${item.country}</p></div></div><div class="per-right"><div class="currency_symbol"> <span class="currency_sym" > $ </span> <span class="exchange_price">${item.referencePrice_value}</span></div><p>Per Night</p></div></div></div></div></div>`
@@ -527,11 +605,11 @@ console.log(a);               // here the clicked value is showing in the consol
 });
 
 
+document.cookie =  "locale = "+ localStorage.getItem("locale")
 
+console.log('document.cookie : ',document.cookie)
 
 </script>
-
-
 
 
 

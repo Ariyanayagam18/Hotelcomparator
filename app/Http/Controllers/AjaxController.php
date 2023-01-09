@@ -11,49 +11,93 @@ use Illuminate\Support\Facades\Session;
 
 use GuzzleHttp\Client;
 
+use Cookie;
+
 use View;
 
 class AjaxController extends Controller
 {
 
-    // $location = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.$_SERVER['REMOTE_ADDR']));
-
-    // $user_country = $location['geoplugin_countryName'];
-
 public function defaultDatas()
 {
+
+    
  
     // $location = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.$_SERVER['REMOTE_ADDR']));
 
     // $user_country = $location['geoplugin_countryName'];
         
+        //      echo '<script>
+        //      function setCookie(name,value,days) {
+        //        var expires = "";
+        //        if (days) {
+        //            var date = new Date();
+        //            date.setTime(date.getTime() + (days*24*60*60*1000));
+        //            expires = "; expires=" + date.toUTCString();
+        //        }
+        //        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+        //     }
+        //     //get your item from the localStorage
+        //     setCookie("locale", localStorage.getItem("locale"), 2);
+        //     </script>';
+        //     // $variableName = session('arya');
+        //     $locale = '';
 
+        // if(isset($_COOKIE['locale'])) {
+        //     $locale = $_COOKIE['locale'];
+        // }
+
+        // echo "locale : ".$locale;
+        //     die;
+
+        // echo json_encode('<script>
+        //localStorage.getItem("locale")</script>');
+        // if(isset($_COOKIE['locale'])) {
+        //     $locale = $_COOKIE['locale'];
+        // }
         $user_country = 'India';
+        
+      $locale = isset($_COOKIE['locale']) ? $_COOKIE['locale'] : 'enUS';
+  
+      if("T_idsRegions_$locale" == 'T_idsRegions_null')
+      {
+        setcookie("locale", "enUS", time() + 2 * 24 * 60 * 60);
+        $locale = 'enUS'; 
+      }
 
-        $staycation_cities = DB::table("T_idsRegions_enUS")
-        ->select('ProvinceName')
+        $user_country = ($locale != 'enUS') ? $this->userCountry($locale,$user_country) : $user_country;
+     
+        
+        // dd($user_country);
+
+        $staycation_cities = DB::table("T_idsRegions_$locale")
+        ->select('ProvinceName','ParentRegionId','RegionID')
         ->where('ProvinceName','!=','')
         ->where('CountryName',"$user_country")
         ->limit(5)
-        // ->distinct('ProvinceName')
         ->inRandomOrder()
         ->get()
         ->toArray();
 
-    $suggestCities = DB::table("T_idsRegions_enUS")
-    ->select('RegionID','CityName','ProvinceName','CountryName')
+        // dd($staycation_cities);
+        
+    $suggestCities = DB::table("T_idsRegions_$locale")
+    ->select('RegionID','CityName','ExtendedName','Type')
     ->where('CityName','!=','')
     ->whereOr('CountryName','=',"$user_country")
     ->where('CountryName','like',"$user_country")
     ->distinct('CityName')
+    // ->toSql();
     ->get()
     ->toArray();
-// dd($staycation_cities);
+
+    // dd($suggestCities);
+
 
     $hotels =  array();
 
     if(!empty($staycation_cities)){
-    $hotels = DB::table("T_summary_data_enUS")
+    $hotels = DB::table("T_summary_data_$locale")
     ->select('heroImage','propertyName','city','country','rating','referencePrice_value')
     ->where('province',$staycation_cities["0"]->ProvinceName)
     ->where('rating','!=','')
@@ -65,19 +109,26 @@ public function defaultDatas()
 
     $login = 1; 
 
-    echo '<script>
-    localStorage.setItem("locale","enUS")
-    localStorage.setItem("currency","USD")
-    </script>';
-
     return view('welcome',compact('staycation_cities','hotels','login','suggestCities'));
 }
 
-
 public function getHotels(Request $request)
 {
+
     $locale =  isset($request->locale)? $request->locale : 'enUS';
-    $request->currency = isset($request->currency)? $request->currency : 'EUR';
+    $request->currency = isset($request->currency)? $request->currency : 'USD';
+
+   // original hide jan 5
+
+    // $hotels= DB::table("T_summary_data_$locale")
+    // ->select('heroImage','propertyName','city','country','rating','referencePrice_value')
+    // ->whereNotNull('rating')
+    // ->where('referencePrice_value','!=','0')
+    // ->where('province',$request->city)
+    // ->limit(12)
+    // ->orderBy('rating','desc')
+    // ->get()
+    // ->toArray();
 
     $hotels= DB::table("T_summary_data_$locale")
     ->select('heroImage','propertyName','city','country','rating','referencePrice_value')
@@ -88,6 +139,38 @@ public function getHotels(Request $request)
     ->orderBy('rating','desc')
     ->get()
     ->toArray();
+
+    if(empty($hotels))
+    {
+        if($locale == 'frFR')
+        {
+            $res = $this->translate($request->city,'fr','en');
+        }
+        elseif($locale == 'esES')
+        {
+            $res = $this->translate($request->city,'es','en');
+        }
+        else
+        {
+            $res = $this->translate($request->city,'en','en');
+        }
+
+//   echo "res :  ".$res;exit;
+
+        $hotels= DB::table("T_summary_data_enUS")
+        ->select('heroImage','propertyName','city','country','rating','referencePrice_value')
+        ->whereNotNull('rating')
+        ->where('referencePrice_value','!=','0')
+        ->where('province','like',"%$res%")
+        ->where('city','like',"%$res%")
+        ->limit(12)
+        ->orderBy('rating','desc')
+        ->get()
+        ->toArray();
+
+        return $hotels;
+
+    }
 
     if($request->currency == 'USD')
     {
@@ -110,22 +193,33 @@ public function getHotels(Request $request)
 public function suggestPlaces(Request $request)
 {
 
+    // $suggestion = DB::table('T_idsRegions_enUS')
+    // ->select('CityName','RegionID','CountryName','ProvinceName')
+    // ->whereNotNull('CityName')
+    // ->whereNotNull('ProvinceName')
+    // ->where('CityName','ilike',"$request->search_word%")
+    // // ->orWhere('CityName', 'like', "%$request->search_word%")
+    // ->distinct('CityName','CountryName')
+    // ->get()
+    // ->toArray();
+
     $suggestion = DB::table('T_idsRegions_enUS')
-    ->select('CityName','RegionID','CountryName','ProvinceName')
-    ->whereNotNull('CityName')
-    ->whereNotNull('ProvinceName')
-    ->where('CityName','ilike',"$request->search_word%")
-    // ->orWhere('CityName', 'like', "%$request->search_word%")
-    ->distinct('CityName','CountryName')
+    ->select('RegionID','CityName','ExtendedName','Type')
+    ->whereIn('Type',['city', "airport","point_of_interest","country"])
+    ->where('CityName','ilike',"%$request->search_word%")
+    ->orWhere('ExtendedName', 'like', "%$request->search_word%")
+    ->distinct('CityName')
+    // ->limit('1000')
     ->get()
     ->toArray();
     
+    // dd($suggestion);
+
     return $suggestion;
 }
 
 public function locale(Request $request)
 {
-        // dd($request->locale);
 
         $user_country = 'India';
 
@@ -134,7 +228,7 @@ public function locale(Request $request)
         $user_country = $this->userCountry($locale,$user_country); 
 
         $staycation_cities = DB::table("T_idsRegions_$locale")
-        ->select('ProvinceName')
+        ->select('ProvinceName','ParentRegionId')
         // ->distinct('ProvinceName') 
         ->where('ProvinceName','!=','')
         ->where('CountryName',"$user_country")
@@ -142,11 +236,8 @@ public function locale(Request $request)
         ->inRandomOrder()
         ->get();
     
-        // dd($staycation_cities);
-
-
         $suggestCities = DB::table("T_idsRegions_$locale")
-        ->select('RegionID','CityName','ProvinceName','CountryName')
+        ->select('RegionID','CityName','ExtendedName','Type')
         ->where('CityName','!=','')
         ->whereOr('CountryName','=',"$user_country")
         ->where('CountryName','like',"$user_country")
@@ -160,6 +251,9 @@ public function locale(Request $request)
         ->limit(12)
         ->orderBy('rating','desc')
         ->get();
+
+        // dd($hotels);
+        //   echo "<script> localStorage.setItem('locale',$locale) </script>";
 
         $login = 1; 
 
@@ -244,10 +338,14 @@ $search = DB::table("T_summary_data_$request->locale as Summ")
 ->get();
 
 // $this->cURL(10001);
-// dd($search[0]);
+// dd($search->items);
+// echo "<pre>";print_r($search);exit;
+// var_dump($search);
+// exit;
 
 $search = (isset($search[0]) && !empty($search[0])) ? $search[0] : [];
 
+empty($search) ? dd("This hotel details doesn't available in all the required tables!!") : '';
 
 $images = array();
 
@@ -260,6 +358,8 @@ if(isset($search->images))
 
 $login = 1;
 
+
+// dd($search);
 // return view('viewmore',compact('login','search','images'));
 
 
@@ -277,50 +377,130 @@ public function getExchangedCurrency(Request $request)
 public function apiAccess(Request $request)
 {
     // dd($request);
-   $API_details = DB::table("T_ApiAccess as API")
-                  ->where('Local',$request->locale)
-                  ->whereIn('agency',["expedia","Hcom"])
-                  ->get();
-
-// dd($API_details);
-
-    if(!empty($API_details))
+    if($request->type == 'partnerlink')
     {
-        return $this->cURL($API_details,$request->propertyId);
+        $API_details = DB::table("T_ApiAccess as API")
+        ->where('Local',$request->locale)
+        ->whereIn('agency',["expedia","Hcom"])
+        ->get();
+    }
+    else{
+        $API_details = DB::table("T_ApiAccess as API")
+        ->where('Local',$request->locale)
+        ->where('agency',"expedia")
+        ->get();
+    }
+
+    // dd($API_details);
+
+    if(!empty($API_details) && isset($API_details))
+    {
+        if($request->type == 'partnerlink')
+        {
+            return $this->cURL($API_details,$request->propertyId,$request->type);
+        }
+        else{
+            return $this->cURL($API_details[0],$request->regionId,$request->type);
+        }
     }
     else{
         dd("no details found!!!");
     }
 }
 
-public function cURL($API,$propertyId)
+public function cURL($Request_data,$propertyId,$type)
 {
 
 $links = array();
 $client = new Client();
-
-for($inc=0;$inc < count($API);$inc++)
+if($type == "partnerlink")
 {
-    $uri = $API[$inc]->EndPoint."?&ecomHotelIds=$propertyId";
-
-    $params['headers'] = [
-        'Authorization' => "Basic ".$API[$inc]->auth_token,
-        'Accept' => $API[$inc]->accept,
-        'Partner-Transaction-Id'=> $API[$inc]->partner_id,
-        'Key' =>$API[$inc]->f_key
-    ];
-    
-    $response = $client->request('get', $uri, $params);
-    $data = json_decode($response->getBody(), true);
-
-    $link = isset($data['Hotels'][0]['RoomTypes']) ? $data['Hotels'][0]['RoomTypes'][0]["Links"]["WebDetails"]["Href"]  : $data['Hotels'][0]['Links']['WebSearchResult']['Href'];
-
-    array_push($links,$link);
+    foreach ($Request_data as $API_Request_data => $header_value) {
+        $uri = $header_value->EndPoint."?&ecomHotelIds=$propertyId";
+        $params['headers'] = [
+            'Authorization' => "Basic ".$header_value->auth_token,
+            'Accept' => $header_value->accept,
+            'Partner-Transaction-Id'=> $header_value->partner_id,
+            'Key' =>$header_value->f_key
+        ];
+        $response = $client->request('get', $uri, $params);
+        $data = json_decode($response->getBody(), true);
+        $link = isset($data['Hotels'][0]['RoomTypes']) ? $data['Hotels'][0]['RoomTypes'][0]["Links"]["WebDetails"]["Href"]  : $data['Hotels'][0]['Links']['WebSearchResult']['Href'];
+        array_push($links,$link);
 }
 
 return $links;
 
 }
+else
+{
+    // dd($Request_data);
+    $uri = $Request_data->EndPoint."?&regionIds=$propertyId";
+    $params['headers'] = [
+        'Authorization' => "Basic ".$Request_data->auth_token,
+        'Accept' => $Request_data->accept,
+        'Partner-Transaction-Id'=> $Request_data->partner_id,
+        'Key' =>$Request_data->f_key
+    ];
+    $response = $client->request('get', $uri, $params);
+
+    $data = json_decode($response->getBody(), true);
+    // dd($data);
+    $result = array_splice($data['Hotels'],0,12);
+
+    // echo "<pre>";print_r($result);exit;
+    $property_IDs = array();
+    foreach($result as $result_filter){
+        array_push($property_IDs,$result_filter["Id"]);
+    }
+    //   echo "<pre>";print_r($property_IDs);
+
+$result_filter = DB::table("T_summary_data_enUS as Summ")
+->whereIn('Summ.propertyId_expedia',$property_IDs)
+->get();
+
+// return $
+
+// dd($search);exit;
+
+    return $result_filter;
+}
+
+
+}
+
+
+public function similarHotelsnearBy(Request $request)
+{
+// dd($request->);
+// $similar_hotels  = DB::table("T_summary_data_$request->locale as Summ")
+// ->join("T_property_description_$request->locale as Desc",'T_idsRegions_enUS.RegionID', '=', 'Summ.RegionID')
+// ->where('Summ.city','Libreville')
+// ->limit(5)
+// ->get();
+
+$similar_hotels  = DB::table("T_summary_data_enUS as Summ")
+->select('Summ.heroImage','Regions.ExtendedName','Regions.RegionID','Summ.rating','Summ.propertyName','Summ.propertyId_expedia','Summ.propertyId_hcom','Summ.referencePrice_value','Reviews.guestRating_expedia','Reviews.guestRating_hcom')
+->join("T_idsRegions_enUS as Regions",'Regions.CityName', '=', 'Summ.city')
+->join("T_guestRatings_reviews_enUS as Reviews",'Reviews.propertyId_expedia', '=', 'Summ.propertyId_expedia')
+->where('Summ.referencePrice_value','!=','0')
+->where('Summ.rating','!=','')
+->where('Summ.city',$request->city)
+->orWhere('Summ.province',$request->city)
+->distinct('Summ.propertyName')
+->limit(10)
+->get();
+
+// dd($similar_hotels);
+
+return $similar_hotels;
+}
+
+public function searchByRegionId(Request $request)
+{
+       return $this->apiAccess($request);     
+}
+
 
 }
 ?>

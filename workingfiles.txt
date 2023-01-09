@@ -6,8 +6,13 @@
 
     Password : Xvvbfg#WEsdf@526
 
+    AWS Account ID : 998461569100
+
+    Folder path : /var/www/html 
+
 chmod 400 hotel_comp.pem
 
+sudo apt install php-pgsql
 
 tar -zcvf  /var/www/html/backups/peertv-02-12-2022.tar.gz /var/www/html/peertv
 
@@ -29,6 +34,7 @@ $ puttygen hotelComp_keypair05.12.2022.pem -O private -o hotelComp_keypair05.12.
 
 ssh -i "hotel_comp.pem" ec2-user@ec2-18-135-144-242.eu-west-2.compute.amazonaws.com	
 
+account number : 
 
 user name : TwilightDev
 
@@ -113,4 +119,43 @@ sudo nano /etc/nginx/sites-available/default
 
 
 sudo yum install software-properties-common
+
+
+
+
+Libreville
+
+SELECT * FROM public."T_idsRegions_enUS"
+where "provinceName"="Libreville"
+
+
+SELECT * FROM public."T_idsRegions_frFR"
+where "provinceName"="Libreville"
+
+
+
+Query lists : 
+
+different Types
+
+SELECT DISTINCT "Type" FROM public."T_idsRegions_enUS" group by "RegionID" LIMIT 100
+
+select * from "T_idsRegions_enUS" where "CityName" != '' and "CountryName"='India'
+
+search city new 
+ 
+select * from "T_idsRegions_enUS" where "ParentRegionId" = '1658'
+
+httpd -v
+httpd -h
+httpd -k restart
+
+check apache :
+
+sudo service httpd status 
+
+sudo systemctl restart httpd
+
+
+jan 9 
 

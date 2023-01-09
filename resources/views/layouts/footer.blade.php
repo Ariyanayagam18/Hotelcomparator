@@ -72,11 +72,9 @@
   console.log("currentPageUrl : ",currentPageUrl);
 
   $('#id_select2_example').on('change',function(){
-   
     console.log('this : ',$(this))
-    localStorage.setItem("locale",$(this).find('.selected').data('locale'))
-    
     location.href = `language?locale=${$(this).find('.selected').data('locale')}`
+    localStorage.setItem("locale",$(this).find('.selected').data('locale'))
     // location.href = `${currentPageUrl}&locale=${$(this).find('.selected').data('locale')}`
   })
 
@@ -113,10 +111,11 @@ currentRequest = jQuery.ajax({
             if($.isEmptyObject(data.error)){
         $('#list_show').html('');
         console.log('suggested cities count : ',data.length)
+        console.log('suggested data : ',data)
         let suggest = '';
-            data.map(function(item) {
-            suggest += '<li class="suggest_city" value ='+item.CityName+' data-regionId='+item.RegionID+'><div><img src="{{asset('images/places.svg')}}"></div><div class="city-place"><p class="city">'+item.CityName+'</p><p class="cityplace">'+item.ProvinceName+','+item.CountryName+'</p></div></li>'
-        })
+    data.map(function(item) {
+    suggest += `<li class="suggest_city" value =${item.CityName} data-regionId=${item.RegionID}><div><img src="/images/${item.Type}.svg"></div><div class="city-place"><p class="city">${item.CityName}</p><p class="cityplace">${item.ExtendedName}</p></div>  (${item.Type}) </li>`
+    })
         $('#list_show').append(suggest);
     }
     },
@@ -157,7 +156,6 @@ currentRequest = jQuery.ajax({
 // });
 }
 
-
 $('.locale').each(function(){
   if(localStorage.getItem("locale") == $(this).data('locale'))
   {
@@ -174,8 +172,6 @@ $('.currency').each(function(){
       $(this).attr('selected','true')
   }
 })
-
-
 
 </script>
 

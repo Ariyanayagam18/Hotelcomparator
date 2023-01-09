@@ -67,6 +67,7 @@ Route::get('/hotels', function () {
 // });
 
 //Facebook
+
 Route::controller(FacebookController::class)->group(function(){
     Route::get('auth/facebook', 'redirectToFacebook')->name('auth.facebook');
     Route::get('auth/facebook/callback', 'handleFacebookCallback');
@@ -97,12 +98,14 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::controller(AjaxController::class)->group(function(){
     Route::get('cities', 'cities')->name('cities');
-    Route::get('getHotels', 'getHotels')->name('getHotels');
+    Route::get('getHotels', 'getHotels')->name('getHotels');   // search by hotel word 
     Route::get('suggestPlaces','suggestPlaces')->name('suggestPlaces');
     Route::get('currency','currency')->name('currency');
     Route::get('getExchangedCurrency','getExchangedCurrency')->name('getExchangedCurrency');
     Route::get('partnerLink','apiAccess')->name('apiAccess');
+    Route::get('similarHotelsnearBy','similarHotelsnearBy')->name('similarHotelsnearBy');
     // Route::get('locale','locale')->name('locale');
+    Route::get('searchByRegionId', 'searchByRegionId')->name('searchByRegionId');   // search by RegionID
 });
 
 
